@@ -20,9 +20,14 @@ The market tracker is the default landing experience. It brings together:
 - current-period transaction value and volume;
 - leading communities by investment value;
 - cited market signals covering sales, off-plan share, prices, rents and long-term demand;
+- an interactive history chart that switches between value, transactions and investors, with period-level inspection;
+- a persistent light/dark theme switch;
+- a four-stage market-signal SOP that tracks validation, materiality, response and decision-record gates;
 - optional deal-level analysis from a DLD Transactions CSV, including monthly flow, median AED/m², off-plan share, price momentum and top projects.
 
 Every published headline links to its source. The snapshot date is visible in the product, and partial-period figures are labelled.
+
+![Dark market tracker with interactive chart controls](docs/screenshot-dark.png)
 
 ## From market signal to value scenario
 

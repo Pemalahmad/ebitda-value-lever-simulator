@@ -39,6 +39,9 @@ await shot('screenshot-scorecard', { hash: scenario, tab: 'Balanced Scorecard' }
 await shot('screenshot-business-case', { hash: scenario, tab: 'Business Case' });
 await shot('screenshot-memo', { hash: scenario, tab: 'Board Memo', height: 1300 });
 await shot('screenshot-mobile', { width: 390, height: 844, hash: '#s=hospitality&occupancy=79&labourPOR=152' });
+await shot('screenshot-dark', { height: 1400, action: async (page) => {
+  await page.getByRole('button', { name: 'Switch to dark mode' }).click();
+} });
 
 if (process.argv.includes('--gif')) {
   const frames = '/tmp/evls-frames';
