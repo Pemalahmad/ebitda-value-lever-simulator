@@ -1,4 +1,4 @@
-# EBITDA Value Lever Simulator: Dubai Holding edition
+# Value Lever Simulator
 
 **A working model of a Group Strategy & Value Creation mandate: operating levers across Dubai Holding's verticals, the corporate-finance plays the Gulf's largest investors use, cited benchmarks, and an official-data Dubai real-estate market tracker.**
 
