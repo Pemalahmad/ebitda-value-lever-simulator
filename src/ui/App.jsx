@@ -5,19 +5,21 @@ import { SimulatorView, ScorecardView, BusinessCaseView, MemoView } from './comp
 import { PortfolioView } from './components/PortfolioView.jsx';
 import { MarketView } from './components/MarketView.jsx';
 import { PulseView } from './components/PulseView.jsx';
+import { EntryView } from './components/EntryView.jsx';
 import { Icon } from './components/Icons.jsx';
 import { readHash, writeHash } from './state.js';
 
 const TABS = [
   { id: 'pulse', label: 'Live Market' },
   { id: 'market', label: 'Market Tracker' },
+  { id: 'entry', label: 'Market Entry' },
   { id: 'simulator', label: 'Value Simulator' },
   { id: 'scorecard', label: 'Balanced Scorecard' },
   { id: 'case', label: 'Business Case' },
   { id: 'memo', label: 'Board Memo' },
   { id: 'portfolio', label: 'Portfolio Lab' },
 ];
-const WIDE = ['pulse', 'market', 'portfolio'];
+const WIDE = ['pulse', 'market', 'entry', 'portfolio'];
 const THEME_KEY = 'market-tracker-theme';
 
 function initialTheme() {
@@ -135,6 +137,7 @@ export default function App() {
           {tab === 'portfolio' && <PortfolioView bySector={bySector} plays={plays} setPlays={setPlays} onOpenSector={(id) => { pickSector(id); setTab('simulator'); }} />}
           {tab === 'pulse' && <PulseView />}
           {tab === 'market' && <MarketView />}
+          {tab === 'entry' && <EntryView />}
           {tab === 'simulator' && <SimulatorView sector={sector} levers={levers} e={e} onNudge={nudge} />}
           {tab === 'scorecard' && <ScorecardView e={e} />}
           {tab === 'case' && <BusinessCaseView sector={sector} e={e} />}

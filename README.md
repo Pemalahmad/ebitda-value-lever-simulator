@@ -3,7 +3,7 @@
 **Independent Dubai market intelligence built from cited public sources and open transaction data, with scenario tools that connect market movement to operating and portfolio value.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-49%20passing-2dd4bf)
+![Tests](https://img.shields.io/badge/tests-53%20passing-2dd4bf)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Dependencies](https://img.shields.io/badge/engine-zero%20dependencies-e5b95c)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -24,6 +24,21 @@ The **Live Market** workspace adds a six-hour market and news pulse without tyin
 - explicit source-health and fallback-data status.
 
 ![Live market monitoring workspace](docs/screenshot-pulse.png)
+
+## Market Entry — UAE regulatory roadmap
+
+The **Market Entry** tab is a step-by-step guide to entering the UAE for any business, with a full track for virtual-asset (crypto) firms benchmarked on Dubai's VARA and its ADGM and DIFC equivalents:
+
+- an entry profile that routes a business model and zone to the right regulator (VARA, DFSA, FSRA or SCA) and flags structural traps;
+- company setup in order: structure and zone, approvals, UBO register, banking, corporate tax and VAT, visas and Emiratisation, data protection and consumer law;
+- a product track for devices sold into the UAE (customs, TDRA type approval, conformity, Arabic labelling, channels) and a feature-by-feature licence map for self-custody wallets;
+- VARA's two licensing stages with what to file, what is and is not allowed, and when fees fall due;
+- a capital and fee calculator across the eight VARA activities;
+- AML/CFT, marketing, governance and technology requirements, pitfalls and cited sources.
+
+![UAE market entry roadmap](docs/screenshot-entry.png)
+
+See [docs/market-entry.md](docs/market-entry.md). A planning aid, not legal advice.
 
 ## What it tracks
 
@@ -143,6 +158,7 @@ After `npm run build && npm start`, the local API provides:
 ```text
 src/engine/             deterministic calculation engine
 src/engine/sectors/     six illustrative operating models
+src/engine/entry.js     UAE market-entry rules, VARA fees and capital
 src/ui/                 React tracker and scenario workspace
 data/market/            cited market snapshot and optional generated aggregate
 scripts/ingest-dld.mjs  local DLD CSV ingestion

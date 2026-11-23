@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.6.0 (2026-11-24): UAE Market Entry
+
+- **New tab, Market Entry:** a step-by-step UAE entry roadmap for any business, with a full virtual-asset track benchmarked on VARA.
+  - **Entry profile:** business model and zone route to the right regulator (VARA, DFSA, FSRA, SCA) and flag traps such as custody needing its own entity.
+  - **Company setup, product import and a self-custody licence map,** each step with a checklist saved in the browser.
+  - **VARA licensing:** the two stages, what to file, what is allowed before the licence, and when fees fall due.
+  - **Capital and fee calculator** across the eight VARA activities, with the licensed-custodian discount.
+  - **Compliance, pitfalls and cited sources,** including the 2024 marketing rules and the Central Bank law of 2025.
+- 53 tests (new: capital and fee maths, regulator routing, source integrity).
+
 ## 1.5.0 (2026-11-24): Integrated market decision workspace
 
 - Integrated the live Market Pulse, source-health monitoring and browser-local decision journal into the market-first dashboard.
