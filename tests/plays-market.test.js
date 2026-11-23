@@ -72,3 +72,68 @@ test('DLD ingest: synthetic fixture aggregates and reconciles', () => {
 test('DLD ingest rejects files without valid transactions', () => {
   assert.throws(() => aggregate(parseCsv('x,y\n1,2').map(normalise)), /No valid transactions/);
 });
+
+import { CRITERIA, DEFAULT_WEIGHTS, score, rank, tier, normaliseWeights } from '../src/engine/index.js';
+
+test('opportunity scoring: bounds, weights and ranking', () => {
+  const all5 = { scores: Object.fromEntries(CRITERIA.map((c) => [c.id, 5])) };
+  const all1 = { scores: Object.fromEntries(CRITERIA.map((c) => [c.id, 1])) };
+  assert.equal(score(all5), 100);
+  assert.equal(score(all1), 0);
+  const w = normaliseWeights(DEFAULT_WEIGHTS);
+  close(Object.values(w).reduce((a, b) => a + b, 0), 1);
+  const a = { id: 'a', scores: { growth: 5, fit: 1, value: 3, feasibility: 3, risk: 3 } };
+  const b = { id: 'b', scores: { growth: 1, fit: 5, value: 3, feasibility: 3, risk: 3 } };
+  assert.equal(rank([a, b], { growth: 50, fit: 0, value: 0, feasibility: 0, risk: 0 })[0].id, 'a');
+  assert.equal(rank([a, b], { growth: 0, fit: 50, value: 0, feasibility: 0, risk: 0 })[0].id, 'b');
+  assert.equal(tier(75), 'Pursue');
+  assert.equal(tier(30), 'Deprioritise');
+});
+
+test('DLD aggregate exposes the tracker views (bedrooms, bands, trend, records)', () => {
+  const txns = parseCsv(readFileSync(new URL('./fixtures/dld-synthetic.csv', import.meta.url), 'utf8')).map(normalise);
+  const agg = aggregate(txns);
+  assert.equal(agg.priceBands.reduce((s, b) => s + b.deals, 0), agg.totals.sales);
+  assert.ok(agg.trend.length > 90 && agg.trend.every((t) => Number.isFinite(t.rollingPpsm)));
+  assert.equal(agg.records.length, 540);
+  assert.ok(agg.topDeals[0].a >= agg.topDeals[9].a);
+  assert.ok(Number.isFinite(agg.registration.offPlanPremium));
+});
+
+test('opportunity data: plays exist, presets run, every figure is sourced', async () => {
+  const data = JSON.parse(readFileSync(new URL('../data/opportunities/analysis.json', import.meta.url), 'utf8'));
+  const { PLAYS: P, runPlay: run } = await import('../src/engine/index.js');
+  const ids = new Set(P.map((p) => p.id));
+  const scoreOk = (s) => CRITERIA.every((c) => Number.isInteger(s[c.id]) && s[c.id] >= 1 && s[c.id] <= 5);
+  for (const s of data.sectors) { assert.ok(scoreOk(s.scores), s.id); for (const f of s.facts) assert.match(f.source.url, /^https:\/\//, s.id); }
+  for (const t of data.themes) {
+    assert.ok(scoreOk(t.scores), t.id);
+    for (const p of t.plays) assert.ok(ids.has(p), `${t.id} → ${p}`);
+    for (const f of t.facts) assert.match(f.source.url, /^https:\/\//, t.id);
+    for (const [p, preset] of Object.entries(t.presets ?? {})) assert.ok(Number.isFinite(run(P.find((x) => x.id === p), preset).value));
+  }
+  for (const t of data.targets) {
+    assert.ok(scoreOk(t.scores), t.id);
+    if (t.play) assert.ok(ids.has(t.play), t.id);
+    if (t.preset) {
+      const play = P.find((x) => x.id === t.play);
+      for (const [k, v] of Object.entries(t.preset)) { const prm = play.params.find((x) => x.id === k); assert.ok(prm && v >= prm.min && v <= prm.max, `${t.id}.${k}`); }
+    }
+    for (const m of t.metrics) assert.match(m.source.url, /^https:\/\//, t.id);
+  }
+});
+
+test('Dubai Holding and fund data: every move maps to a known play or archetype and is sourced', async () => {
+  const dh = JSON.parse(readFileSync(new URL('../data/benchmarks/dubai-holding.json', import.meta.url), 'utf8'));
+  const funds = JSON.parse(readFileSync(new URL('../data/benchmarks/funds.json', import.meta.url), 'utf8'));
+  const ids = new Set(PLAYS.map((p) => p.id));
+  for (const m of [...dh.moves, ...funds.funds.flatMap((f) => f.moves)]) {
+    assert.ok(m.play === null || ids.has(m.play), m.title);
+    assert.match(m.source.url, /^https:\/\//, m.title);
+    if (m.preset) assert.ok(Number.isFinite(runPlay(getPlay(m.play), m.preset).value));
+  }
+  // The REIT preset should reproduce the ~AED 2.1bn the Dubai Residential REIT IPO raised.
+  const reit = dh.moves.find((m) => m.play === 'reit');
+  const r = runPlay(getPlay('reit'), reit.preset);
+  assert.ok(Math.abs(r.cash + r.lines.find((l) => /fees/i.test(l.label)).value * -1 - 2145) < 60, `REIT gross proceeds ${r.cash}`);
+});

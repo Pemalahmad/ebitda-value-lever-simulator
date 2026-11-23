@@ -8,4 +8,5 @@ export { buildMemo } from './memo.js';
 export { renderMarkdown } from './markdown.js';
 export { PLAYS, runPlay, getPlay, playDefaults } from './plays.js';
 export { parseCsv, normalise, aggregate, DLD_COLUMNS } from './market.js';
+export { CRITERIA, DEFAULT_WEIGHTS, score, rank, tier, normaliseWeights } from './opportunities.js';
 export * as fmt from './format.js';

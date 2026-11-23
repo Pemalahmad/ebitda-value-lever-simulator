@@ -5,6 +5,7 @@ import { GamePanel, Toasts } from './components/GamePanel.jsx';
 import { SimulatorView, ScorecardView, BusinessCaseView, MemoView } from './components/Views.jsx';
 import { GroupView } from './components/GroupView.jsx';
 import { MarketView } from './components/MarketView.jsx';
+import { OpportunitiesView } from './components/OpportunitiesView.jsx';
 import { Icon } from './components/Icons.jsx';
 import { readHash, writeHash, loadProgress, saveProgress } from './state.js';
 
@@ -15,8 +16,9 @@ const TABS = [
   { id: 'case', label: 'Business Case' },
   { id: 'memo', label: 'Board Memo' },
   { id: 'market', label: 'Market Tracker' },
+  { id: 'opps', label: 'Opportunities' },
 ];
-const WIDE = ['market'];
+const WIDE = ['market', 'opps'];
 const XP_PER_LEVEL = 400;
 
 export default function App() {
@@ -151,6 +153,7 @@ export default function App() {
           </div>
           {tab === 'group' && <GroupView bySector={bySector} plays={plays} setPlays={setPlays} onOpenSector={(id) => { pickSector(id); setTab('simulator'); }} />}
           {tab === 'market' && <MarketView />}
+          {tab === 'opps' && <OpportunitiesView onModel={(play, preset) => { setPlays((p) => ({ ...p, [play]: { on: true, params: { ...(p[play]?.params ?? {}), ...(preset ?? {}) } } })); setTab('group'); window.scrollTo(0, 0); }} />}
           {tab === 'simulator' && <SimulatorView sector={sector} levers={levers} e={e} onNudge={nudge} />}
           {tab === 'scorecard' && <ScorecardView e={e} />}
           {tab === 'case' && <BusinessCaseView sector={sector} e={e} />}

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0 (2026-11-23): Market analysis and opportunity screen
+
+- **Opportunities tab**: cited market analysis (2026 downturn, supply wave, 2027 rebound); 10 sectors, 13 themes and 19 target companies scored on five criteria with live, adjustable committee weights; Model it loads each target into its value play
+- **Written analysis**: `docs/market-opportunity-analysis.md`
+- **Market Tracker**:
+  - currency switch (AED/USD at the peg; EUR/GBP live), price-per-m² trend 2021–2025, market splits by type and category, investor origin regions, top rental communities, and a fair-value check against official benchmarks
+  - with an ingested DLD CSV: transaction records with filters, top deals, price by bedrooms, price bands, a 7-day rolling trend and the off-plan premium
+- 45 tests (new: opportunity scoring, data-integrity checks that every figure is sourced and every preset runs, extended DLD aggregation)
+
 ## 1.1.0 (2026-11-23): Dubai Holding edition
 
 - **Group & Funds tab**: cited Dubai Holding profile and strategic pillars; group sum-of-the-parts and value bridge; seven value-creation plays (REIT carve-out, subsidiary IPO, land-bank JV, asset-light hospitality, platform consolidation, bolt-on M&A, master-planned launch); 12 cited Dubai Holding moves from 2024–2026 with "Model it" presets (the REIT IPO preset reproduces the AED 2.1bn raised); a benchmark of PIF, ADIA, ICD, Mubadala, QIA and L'imad/ADQ with a playbook matrix

@@ -3,7 +3,7 @@
 **A working model of a Group Strategy & Value Creation mandate: operating levers across Dubai Holding's verticals, the corporate-finance plays the Gulf's largest investors use, cited benchmarks, and an official-data Dubai real-estate market tracker.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-41%20passing-2dd4bf)
+![Tests](https://img.shields.io/badge/tests-45%20passing-2dd4bf)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Dependencies](https://img.shields.io/badge/engine-zero%20dependencies-e5b95c)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -12,7 +12,31 @@
 
 ![Demo: moving levers in Integrated Urban Services, completing missions, then the scorecard, business case and board memo](docs/demo.gif)
 
-## What's new: Group & Funds and Market Tracker
+## New: market analysis and opportunity screen
+
+**[Read the analysis →](docs/market-opportunity-analysis.md)**
+
+> **Use the 2026 downturn to buy and build recurring-income platforms, services and the Dubai South corridor, not more build-to-sell launches.**
+
+The **Opportunities** tab:
+- ranks **10 sectors**, **13 themes for 2026–2030** and **19 companies** (listed and private) on growth, strategic fit, upside, feasibility and risk;
+- lets you set the investment committee's weights with sliders, and re-ranks live;
+- links every market figure to its source;
+- offers **Model it** on each target, which loads the matching value play (acquisition, land JV, platform, asset-light).
+
+![Opportunities](docs/screenshot-opportunities.png)
+
+The **Market Tracker** now covers what the popular DLD dashboards show, from official data:
+- AED/USD/EUR/GBP switching;
+- a 2021–2025 price-per-m² trend;
+- splits by transaction type and by ready/off-plan/land;
+- investor origin by region;
+- the top rental communities;
+- a **fair-value check** ("is this asking price above market?"), built on transacted prices rather than scraped listings.
+
+With an ingested DLD CSV it adds filterable transaction records, top deals, price by bedrooms, price bands, a 7-day trend, the off-plan premium, and area price drops and increases.
+
+## Group & Funds and Market Tracker
 
 - **Group & Funds tab**: Dubai Holding's public profile (AED 500bn+ assets, 13.5% of Dubai GDP, its seven operating businesses and stated strategic pillars), every figure linked to its source. A **sum-of-the-parts** of the six modelled verticals feeds a **group value bridge**.
 - **Seven value-creation plays**, each a transparent mini-model you can switch on and tune: REIT carve-out and capital recycling, subsidiary IPO, land-bank JV, asset-light hospitality expansion, platform consolidation, bolt-on M&A, and master-planned destination launch.
@@ -94,7 +118,7 @@ git clone https://github.com/Pemalahmad/ebitda-value-lever-simulator.git
 cd ebitda-value-lever-simulator
 npm install
 npm run dev          # dashboard at http://localhost:5173
-npm test             # 41 tests: engine, plays, DLD ingest, API, CLI
+npm test             # 45 tests: engine, plays, DLD ingest, opportunity data, API, CLI
 ```
 
 Serve the built dashboard and the JSON API from Node:
@@ -136,9 +160,11 @@ src/engine/            pure JavaScript, zero dependencies; runs in the browser a
   game.js              board confidence, ranks, missions, achievements
   memo.js              Executive Co-Pilot board memo (Markdown)
   plays.js             seven group-level value-creation plays (REIT, IPO, JV, asset-light, platform, M&A, master plan)
-  market.js            DLD transactions CSV parser + market aggregation (momentum, projects, monthly flow)
+  market.js            DLD transactions CSV parser + market aggregation (momentum, bedrooms, bands, trend, records)
+  opportunities.js     weighted multi-criteria scoring for sectors, themes and targets
 data/benchmarks/       Dubai Holding facts and moves, regional fund benchmark (every figure sourced)
 data/market/           official DLD aggregates (+ optional ingested deal-level aggregate)
+data/opportunities/    cited market analysis, themes and target screen
 src/ui/                React dashboard with hand-built SVG charts and no chart library
 server/index.js        zero-dependency Node HTTP server: static app + JSON API
 bin/value-memo.js      CLI memo generator

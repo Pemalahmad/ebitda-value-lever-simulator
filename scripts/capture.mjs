@@ -34,6 +34,7 @@ await shot('screenshot-group', { hash: '#s=hospitality&occupancy=78&labourPOR=15
   for (const name of ['Include REIT carve-out & capital recycling', 'Include Platform consolidation', 'Include Asset-light hospitality expansion']) await page.getByRole('button', { name }).click();
 } });
 await shot('screenshot-market', { hash: '#tab=market', height: 1400 });
+await shot('screenshot-opportunities', { hash: '#tab=opps', height: 1600 });
 await shot('screenshot-simulator', { hash: scenario });
 await shot('screenshot-scorecard', { hash: scenario, tab: 'Balanced Scorecard' });
 await shot('screenshot-business-case', { hash: scenario, tab: 'Business Case' });
@@ -95,7 +96,12 @@ if (process.argv.includes('--gif')) {
   await page.waitForTimeout(300);
   await page.evaluate(() => window.scrollTo(0, 0));
   await frame(8);
-  for (let y = 0; y < 3; y++) { await page.mouse.wheel(0, 300); await page.waitForTimeout(80); await frame(2); }
+  for (let y = 0; y < 4; y++) { await page.mouse.wheel(0, 320); await page.waitForTimeout(80); await frame(2); }
+  await page.getByRole('tab', { name: 'Opportunities' }).click();
+  await page.waitForTimeout(300);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await frame(8);
+  for (let y = 0; y < 4; y++) { await page.mouse.wheel(0, 340); await page.waitForTimeout(80); await frame(2); }
   await frame(6);
   await page.close();
   const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', '6', '-i', `${frames}/f%04d.png`,

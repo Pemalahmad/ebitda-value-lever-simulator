@@ -1,0 +1,375 @@
+{
+  "asOf": "2026-11-23",
+  "summary": {
+    "headline": "Use the 2026 downturn to buy and build recurring-income platforms, services and the Dubai South corridor, not more build-to-sell launches",
+    "points": [
+      { "text": "The cycle turned in 2026. Dubai's real GDP fell 2.3% in H1 2026 as the regional war hit trade, transport and tourism; hotel occupancy dropped to 36% in March before recovering to 66% in August.", "source": { "title": "Khaleej Times (Dubai Data and Statistics Establishment)", "date": "2026-10-19", "url": "https://www.khaleejtimes.com/business/dubais-gdp-reaches-dh473-billion-in-first-half-of-2026", "quote": "reached approximately Dh473 billion in the first half of 2026 ... down 2.3 per cent compared to the same period last year" } },
+      { "text": "Housing is now a supply story: apartment prices fell 4.8% quarter on quarter in Q3 2026, prime-area rents fell 10–13% year on year, and 525,000+ units are scheduled for 2027–2030. Adding build-to-sell volume now carries the most risk.", "source": { "title": "Khaleej Times (Savills Q3 2026)", "date": "2026-10-13", "url": "https://www.khaleejtimes.com/business/rents-in-dubai-fall-over-12-dubai-marina-business-bay-and-jvc-lead", "quote": "More than 525,000 units are scheduled for delivery between 2027 and 2030" } },
+      { "text": "Underlying demand still compounds: population reached 4.81m (+226,885 in 2026 so far) and forecasters expect a sharp 2027 rebound (IMF +7.7% for UAE GDP; S&P 'V-shaped recovery' for Dubai).", "source": { "title": "Gulf News (DDSE)", "date": "2026-09-29", "url": "https://gulfnews.com/uae/dubai-population-rises-by-226885-since-start-of-2026-1.500692623", "quote": "Dubai's population has increased by 226,885 people since the start of 2026, reaching 4,807,185" } },
+      { "text": "The highest-scoring moves are recurring income and services, which the Group can buy or build cheaply mid-cycle: an integrated-FM platform, a parking and mobility JV, a REIT roll-up, the Dubai South/DWC corridor, and school and healthcare partnerships on Group land." },
+      { "text": "Capital markets reopen into 2027. DIP Holding's AED 1.9bn IPO in November 2026 reopened the window after Dubai Holding paused its retail listing, and the AED 5.18bn Empower exit already funds the next round of platforms.", "source": { "title": "EnterpriseAM", "date": "2026-11-12", "url": "https://enterpriseam.com/uae/2026/11/12/uaes-first-ipo-of-the-year-passes-its-first-test-with-a-5-4-pop/", "quote": "More than 40 companies remain on the sidelines in the region" } }
+    ]
+  },
+  "sectors": [
+    {
+      "id": "fm", "name": "Facilities management & integrated services", "headline": "Fragmented, growing services market; the Group is a captive anchor customer",
+      "scores": { "growth": 4, "fit": 5, "value": 4, "feasibility": 4, "risk": 4 },
+      "rationale": "Dubai Holding manages communities for 1.3m people, plus malls and hotels, so it is one of the largest FM buyers in Dubai. Consolidating that spend onto an owned platform, then selling to third parties, converts a cost centre into a valued business. Growth estimates vary widely by vendor, so the case rests on the captive volume rather than the market CAGR.",
+      "facts": [
+        { "text": "UAE FM market estimated at USD 23.6bn in 2026, rising to USD 43.5bn by 2031 (Mordor, 13% CAGR).", "source": { "title": "Mordor Intelligence", "date": "2026-06-08", "url": "https://www.mordorintelligence.com/industry-reports/uae-facility-management-market" } },
+        { "text": "A more conservative estimate: USD 20.4bn (2025) to USD 29.4bn by 2032, a 4.6% CAGR (MarkNtel).", "source": { "title": "MarkNtel Advisors", "date": "2026-07-16", "url": "https://www.marknteladvisors.com/press-release/uae-facility-management-market-share" } }
+      ],
+      "risks": ["Low-margin, labour-heavy work", "Market-size estimates disagree widely"]
+    },
+    {
+      "id": "btr", "name": "Residential leasing / build-to-rent", "headline": "Proven REIT route; rents softening as supply lands",
+      "scores": { "growth": 3, "fit": 5, "value": 4, "feasibility": 4, "risk": 3 },
+      "rationale": "The Dubai Residential REIT IPO (26x oversubscribed) proved institutional appetite. Population growth supports occupancy, but 2026–2030 supply is pushing rents down, so new BTR should be seeded on Group land at low land cost and phased.",
+      "facts": [
+        { "text": "Dubai Residential REIT: AED 14.3bn listing value, 7.7% gross yield, over 26x oversubscribed.", "source": { "title": "Dubai Media Office", "date": "2025-05-21", "url": "https://mediaoffice.ae/en/news/2025/may/21-05/dubai-holding-sets-ipo-price-for-dubai-residential-reit" } },
+        { "text": "Q3 2026 apartment rents: Dubai Marina −12.8%, Business Bay −12.2%, JVC −10.4% year on year.", "source": { "title": "Khaleej Times (Savills)", "date": "2026-10-13", "url": "https://www.khaleejtimes.com/business/rents-in-dubai-fall-over-12-dubai-marina-business-bay-and-jvc-lead" } }
+      ],
+      "risks": ["Rent declines compress yields and NAV", "Large supply wave to 2030"]
+    },
+    {
+      "id": "offices", "name": "Offices & business districts", "headline": "Near-full occupancy; rent growth has paused ahead of a 2028 supply wave",
+      "scores": { "growth": 4, "fit": 4, "value": 3, "feasibility": 4, "risk": 3 },
+      "rationale": "Through TECOM the Group owns business districts in a market at about 95% occupancy. Rents have flattened, and 20.4m sq ft of supply arrives from 2028, so the play is to lock in tenants and add Grade A selectively rather than build speculatively.",
+      "facts": [
+        { "text": "Dubai office occupancy about 95% (CBRE, Q3 2026).", "source": { "title": "CBRE", "date": "2026-11-03", "url": "https://www.cbre.com/insights/figures/uae-real-estate-market-review-q3-2026" } },
+        { "text": "Rents stable at about AED 241/sq ft in Q3 2026; 20.4m sq ft of office GLA in the 2026–2030 pipeline.", "source": { "title": "Savills", "date": "2026-10-15", "url": "https://www.savills.co.uk/insight-and-opinion/savills-news/396703/dubai-office-leasing-remains-resilient-in-q3-2026-as-occupiers-prioritise-quality" } }
+      ],
+      "risks": ["Supply wave from 2028", "Rent growth has stalled"]
+    },
+    {
+      "id": "leisure", "name": "Leisure & entertainment", "headline": "Resident-driven demand held up through the shock",
+      "scores": { "growth": 4, "fit": 5, "value": 3, "feasibility": 4, "risk": 3 },
+      "rationale": "Global Village set a record in 2025, and resident visits carried the parks through the war. That makes the Group's destinations more resilient than tourist-only hospitality. Pipeline additions (a new park, Therme) deepen the cluster.",
+      "facts": [
+        { "text": "Global Village drew a record 10.5m visitors in 2025; Aquaventure World 2m.", "source": { "title": "The National", "date": "2026-10-29", "url": "https://www.thenationalnews.com/lifestyle/things-to-do/2026/10/29/dubais-aquaventure-world-named-worlds-second-most-visited-water-park-with-two-million-guests/" } },
+        { "text": "Dubai Holding Entertainment says resident visits rose during the war, with a new park and hotels in the Dubai Parks and Resorts pipeline.", "source": { "title": "Khaleej Times", "date": "2026-10-10", "url": "https://www.khaleejtimes.com/uae/dubai-theme-parks-resident-visitors-rise-domestic-tourism-boost" } }
+      ],
+      "risks": ["Closures during conflict", "Wynn Al Marjan (RAK) competes for leisure spend from 2027"]
+    },
+    {
+      "id": "corridor", "name": "Dubai South / airport corridor & logistics", "headline": "AED 128bn airport anchors a decade of land and housing demand",
+      "scores": { "growth": 5, "fit": 3, "value": 4, "feasibility": 3, "risk": 3 },
+      "rationale": "DWC is Dubai's biggest demand shift for a generation, and Dubai South home sales already beat 2025 while the rest of the market cooled. The Group's land exposure there is not verified, so the route in is partnership (DIP Holding, Dubai South) rather than land it already owns.",
+      "facts": [
+        { "text": "DWC terminal AED 128bn; 260m passenger end-state; Phase 1 (150m) targeted for 2032; AED 55bn of contracts awarded in 2026.", "source": { "title": "The National", "date": "2026-06-15", "url": "https://www.thenationalnews.com/news/uae/2026/06/15/dubais-al-maktoum-airport-expansion-on-track-for-2032-launch-with-dh55bn-of-contracts-to-be-awarded-this-year/" } },
+        { "text": "Dubai South: 12,428 home sales in Jan–Aug 2026, 27% more than all of 2025.", "source": { "title": "Khaleej Times (Anarock)", "date": "2026-10-26", "url": "https://www.khaleejtimes.com/business/dubai-south-home-sales-surpass-full-year-2025-by-27-reaching-12428-transactions-in-just-eight-months" } },
+        { "text": "Dubai South × Majid Al Futtaim: an AED 62bn, 22m sq ft mixed-use community.", "source": { "title": "Dubai Media Office", "date": "2026-05-19", "url": "https://mediaoffice.ae/en/news/2026/may/19-05/dubai-south-and-majid-al-futtaim" } }
+      ],
+      "risks": ["38k-unit local pipeline 2027–29 ahead of the 2032 opening", "Aviation exposed to regional conflict"]
+    },
+    {
+      "id": "social", "name": "Education & healthcare (social infrastructure)", "headline": "Population growth outruns school seats and clinics in new communities",
+      "scores": { "growth": 4, "fit": 4, "value": 3, "feasibility": 3, "risk": 3 },
+      "rationale": "Schools and clinics drive where families buy and rent, so they lift the value of the Group's communities. The Group lacks operating capability, so the play is land-for-equity JVs with operators rather than running schools.",
+      "facts": [
+        { "text": "Private-school enrolment 406,563 (+4.6%); about 18,000 affordable seats due over two academic years.", "source": { "title": "Khaleej Times (KHDA)", "date": "2026-10-01", "url": "https://www.khaleejtimes.com/uae/education/dubai-private-schools-nearly-18000-seats-next-two-academic-years-khda" } },
+        { "text": "Dubai population 4.58m at end-2025, +7.5% year on year.", "source": { "title": "The National", "date": "2026-08-04", "url": "https://thenationalnews.com/news/2026/08/04/dubai-population-rebounds-after-dropping-by-61000-at-height-of-iran-war" } }
+      ],
+      "risks": ["Fee caps", "Operator execution"]
+    },
+    {
+      "id": "hospitality", "name": "Hospitality", "headline": "Record 2025, deep 2026 shock; counter-cyclical entry window",
+      "scores": { "growth": 3, "fit": 5, "value": 4, "feasibility": 3, "risk": 2 },
+      "rationale": "Jumeirah gives the Group a global brand, and 2026 valuations reflect a trough in occupancy. Buying stabilisable assets and signing management contracts now positions it for recovery. More than 80% of 2027 deliveries are luxury, which is the main risk.",
+      "facts": [
+        { "text": "2025: 19.59m international overnight visitors, 80.7% occupancy, RevPAR AED 467 (+11%).", "source": { "title": "Dubai Media Office (DET)", "date": "2026-02-09", "url": "https://mediaoffice.ae/en/news/2026/february/09-02/dubais-tourism-industry-achieves-third-successive-record-breaking-year" } },
+        { "text": "Occupancy fell to 36% in March 2026 and recovered to 66% in August (89% of August 2025).", "source": { "title": "Gulf News (DET)", "date": "2026-09-14", "url": "https://gulfnews.com/business/tourism/dubai-visitor-numbers-hit-highest-level-since-february-with-869000-arrivals-1.500673641" } },
+        { "text": "More than 80% of rooms due in 2027 are luxury.", "source": { "title": "EnterpriseAM (Cavendish Maxwell)", "date": "2026-08-19", "url": "https://enterpriseam.com/uae/2026/08/19/dubai-hotel-market-set-to-rebound-from-4q-just-as-a-wave-of-luxury-supply-hits-the-segment-that-struggled-most-this-year/" } }
+      ],
+      "risks": ["Renewed conflict", "Luxury supply wave in 2027"]
+    },
+    {
+      "id": "retail", "name": "Retail & malls", "headline": "Tight vacancy but weaker footfall; IPO paused",
+      "scores": { "growth": 2, "fit": 4, "value": 3, "feasibility": 3, "risk": 3 },
+      "rationale": "Super-regional malls stay nearly full, but footfall and trade fell in 2026 and e-commerce keeps taking share. Dubai Holding paused its retail listing, so the value lever is repositioning towards experience and F&B, then listing in the 2027 window.",
+      "facts": [
+        { "text": "Dubai retail vacancy 4.8% on 56m sq ft of stock (JLL).", "source": { "title": "Zawya (JLL)", "url": "https://www.zawya.com/en/press-release/research-and-studies/uae-real-estate-sees-double-digit-office-rent-growth-while-retail-vacancy-tightens-jll-rimesjwj" } },
+        { "text": "Emaar's mall traffic is down about 10% because of the war.", "source": { "title": "The National", "date": "2026-11-12", "url": "https://thenationalnews.com/business/property/2026/11/12/emaars-mall-footfall-down-10-per-cent-due-to-iran-war-says-alabbar" } },
+        { "text": "UAE e-commerce AED 42.2bn in 2025, about 15.7% of retail sales.", "source": { "title": "Zawya (ezdubai)", "url": "https://www.zawya.com/en/press-release/research-studies/ezdubai-logistics-hub-uae-e-commerce-market-size-reaches-aed-42.2bln-in-2025-1286875" } }
+      ],
+      "risks": ["Tourist footfall", "E-commerce share gains"]
+    },
+    {
+      "id": "build-to-sell", "name": "Residential build-to-sell", "headline": "Core capability, but the supply cycle argues for land JVs over new volume",
+      "scores": { "growth": 2, "fit": 5, "value": 3, "feasibility": 4, "risk": 1 },
+      "rationale": "The Group's land bank is its biggest advantage, but Fitch, Moody's and S&P all flag oversupply and apartment price declines. Land JVs and phased, family-led launches (Palm Springs sold out) capture value without adding balance-sheet risk.",
+      "facts": [
+        { "text": "Moody's: about 180,000 completions in 2026–2028; modest apartment price declines probable.", "source": { "title": "The National (Moody's)", "date": "2026-02-10", "url": "https://www.thenationalnews.com/business/property/2026/02/10/dubai-property-market-set-to-cool-after-five-years-of-extraordinary-growth-says-moodys/" } },
+        { "text": "Fitch: oversupply risk now exacerbated by weaker demand; UAE residential transactions −19% quarter on quarter in Q2 2026.", "source": { "title": "Khaleej Times (Fitch)", "date": "2026-08-19", "url": "https://www.khaleejtimes.com/business/uae-developers-shift-focus-to-funded-projects-nearing-completion-says-report" } }
+      ],
+      "risks": ["Price correction in investor-driven apartments", "Off-plan resales trading 10–15% below original prices"]
+    },
+    {
+      "id": "datacentres", "name": "Data centres & digital infrastructure", "headline": "Fastest growth, weakest fit",
+      "scores": { "growth": 5, "fit": 2, "value": 3, "feasibility": 2, "risk": 2 },
+      "rationale": "Capacity is set to nearly triple by 2028, but gigawatt-scale campuses sit in Abu Dhabi and the Group has no stated capability. A powered-land JV is the only sensible entry.",
+      "facts": [
+        { "text": "UAE data-centre capacity forecast +165%, from 358MW to about 950MW by 2028; 18 of 35 UAE data centres are in Dubai.", "source": { "title": "EnterpriseAM (Emirates NBD research)", "date": "2025-10-15", "url": "https://enterpriseam.com/logistics/2025/10/15/data-center-capacity-to-nearly-triple-in-the-next-three-years-emirates-nbd/" } }
+      ],
+      "risks": ["Power constraints", "Chip-export licensing"]
+    }
+  ],
+  "themes": [
+    { "id": "T02", "title": "Transit-oriented development on Group land", "timeline": "Blue Line tunnelling from May 2026; RTA–Dubai Holding roads signed 2025", "evidence": "strong", "plays": ["landJv", "masterplan"],
+      "thesis": "The AED 20.5bn Metro Blue Line and AED 6bn of RTA access roads run through Dubai Holding communities such as Dubai Creek Harbour, International City, JVC and Business Bay. Densifying around new stations captures uplift the Group already owns.",
+      "scores": { "growth": 4, "fit": 5, "value": 4, "feasibility": 4, "risk": 4 },
+      "facts": [
+        { "text": "Blue Line: AED 20.5bn, 30km, 14 stations, a signature station at Dubai Creek Harbour; corridor of about 1m residents by 2040.", "source": { "title": "Dubai Media Office (RTA)", "date": "2024-12-19", "url": "https://mediaoffice.ae/en/news/2024/december/19-12/rta-awards-dubai-metro-blue-line-contract" } },
+        { "text": "AED 6bn RTA agreement improves access to 15 Dubai Holding developments, cutting travel times by 30–70%.", "source": { "title": "Dubai Media Office", "date": "2025-03-02", "url": "https://www.mediaoffice.ae/en/news/2025/march/02-03/rta-signs-aed-6-billion-agreement-with-dubai-holding" } }
+      ],
+      "risks": ["Construction delays", "Uplift already priced into land"] },
+    { "id": "T03", "title": "Build-to-rent seeding and REIT sell-downs", "timeline": "2027 window, after the rent reset", "evidence": "strong", "plays": ["reit"],
+      "thesis": "The Dubai Residential REIT precedent shows deep demand. Seed new BTR on low-cost Group land through the soft rent cycle, then sell down to the REIT or the market in 2027–2028.",
+      "scores": { "growth": 3, "fit": 5, "value": 4, "feasibility": 4, "risk": 3 },
+      "facts": [
+        { "text": "REIT IPO over 26x oversubscribed, raising AED 2.145bn at a 7.7% gross yield.", "source": { "title": "Dubai Media Office", "date": "2025-05-21", "url": "https://mediaoffice.ae/en/news/2025/may/21-05/dubai-holding-sets-ipo-price-for-dubai-residential-reit" } },
+        { "text": "Population rebounded to 4.74m by end-June 2026 after a 61k dip in March.", "source": { "title": "The National", "date": "2026-08-04", "url": "https://thenationalnews.com/news/2026/08/04/dubai-population-rebounds-after-dropping-by-61000-at-height-of-iran-war" } }
+      ],
+      "risks": ["Rents falling 10–13% in prime areas", "525k units due 2027–2030"] },
+    { "id": "T12", "title": "Capital-markets window 2027: retail and property floats", "timeline": "Window reopened Nov 2026; floats likely 2027", "evidence": "strong", "plays": ["ipo", "reit"],
+      "thesis": "Dubai's privatisation track record (six IPOs raising AED 33.2bn, Salik up 214%) and DIP's November debut point to a 2027 window for the paused Dubai Retail listing and property units.",
+      "scores": { "growth": 3, "fit": 5, "value": 4, "feasibility": 3, "risk": 3 },
+      "facts": [
+        { "text": "Six Dubai government-backed IPOs raised AED 33.2bn; Salik is up 214% and Parkin 180.5% since listing.", "source": { "title": "Gulf News", "date": "2025-09-16", "url": "https://gulfnews.com/business/markets/dubais-ipo-stars-deliver-triple-digit-gains-as-investors-eye-new-listings-1.500271615" } },
+        { "text": "The war pushed Dubai Holding's property-unit listings back; DIP's AED 1.9bn IPO rose 5.4% on day one in November 2026.", "source": { "title": "EnterpriseAM", "date": "2026-11-12", "url": "https://enterpriseam.com/uae/2026/11/12/uaes-first-ipo-of-the-year-passes-its-first-test-with-a-5-4-pop/" } }
+      ],
+      "risks": ["Renewed conflict", "Weak tourism hits retail valuations"] },
+    { "id": "T04", "title": "Jumeirah-branded residences", "timeline": "Pipeline to 2030", "evidence": "strong", "plays": ["assetLight", "landJv"],
+      "thesis": "Dubai is the world's largest branded-residence market. Pairing the Jumeirah brand with Group and partner land earns branding fees plus a price premium, with little capital.",
+      "scores": { "growth": 4, "fit": 5, "value": 4, "feasibility": 4, "risk": 2 },
+      "facts": [
+        { "text": "Dubai has 64 completed branded schemes and 87 in the pipeline, the most of any city (Savills).", "source": { "title": "Khaleej Times (Savills)", "date": "2026-01-28", "url": "https://www.khaleejtimes.com/business/property/dubai-extends-lead-global-capital-branded-residences-2026" } },
+        { "text": "Dubai led the world in $10m+ home sales by count (Knight Frank, Q2 2025).", "source": { "title": "Khaleej Times (Knight Frank)", "date": "2025-10-06", "url": "https://www.khaleejtimes.com/business/property/dubai-holds-global-crown-in-ultra-luxury-home-sales" } }
+      ],
+      "risks": ["Crowded field of branded launches", "Post-war ultra-prime demand unverified"] },
+    { "id": "T01", "title": "Dubai South / DWC airport city", "timeline": "Contracts 2026–27; Phase 1 opens 2032", "evidence": "strong", "plays": ["masterplan", "landJv"],
+      "thesis": "Moving DXB to DWC drives a decade of housing and logistics demand. Dubai South sales are already above 2025 levels while the rest of the city cools.",
+      "scores": { "growth": 5, "fit": 3, "value": 4, "feasibility": 3, "risk": 3 },
+      "presets": { "masterplan": { "units": 5000, "price": 1.3, "margin": 25, "years": 6 } },
+      "facts": [
+        { "text": "AED 128bn terminal; Phase 1 capacity 150m passengers, against DXB's record 95.2m in 2025.", "source": { "title": "Gulf News", "date": "2026-08-27", "url": "https://gulfnews.com/business/aviation/al-maktoum-airport-10-key-numbers-uae-travellers-need-to-know-about-dubais-new-airport-1.500654003" } },
+        { "text": "Dubai South rents rose from AED 34.5k (2020) to AED 82.1k (2026 YTD); 38,116 units due 2027–2029.", "source": { "title": "Khaleej Times (Anarock)", "date": "2026-10-26", "url": "https://www.khaleejtimes.com/business/dubai-south-home-sales-surpass-full-year-2025-by-27-reaching-12428-transactions-in-just-eight-months" } }
+      ],
+      "risks": ["Local supply ahead of the 2032 opening", "Group land exposure not verified"] },
+    { "id": "T05", "title": "Tourism recovery, MICE and counter-cyclical hotel buys", "timeline": "Recovery Q4 2026–2027; DEC phases to 2031", "evidence": "strong", "plays": ["acquisition", "assetLight"],
+      "thesis": "2025 was a record year and 2026 a shock. Buying stabilisable hotels at trough valuations, while expanding Jumeirah management contracts, positions the Group for the recovery and the MICE build-out.",
+      "scores": { "growth": 3, "fit": 5, "value": 4, "feasibility": 3, "risk": 2 },
+      "facts": [
+        { "text": "DXB passengers fell 31.3% in H1 2026, recovering from 3.5m a month in April to 5m in June.", "source": { "title": "Dubai Media Office (Dubai Airports)", "date": "2026-08-26", "url": "https://mediaoffice.ae/en/news/2026/august/26-08/dxb-enters-stronger-second-half-as-capacity-returns-and-investment-continues" } },
+        { "text": "Dubai Exhibition Centre expansion: AED 10bn, from 58k to 180k sqm by 2031; events from about 300 to 600+ by 2033.", "source": { "title": "Dubai Media Office", "date": "2024-09-23", "url": "https://www.mediaoffice.ae/en/news/2024/september/23-09/dubai-exhibition-centre" } }
+      ],
+      "risks": ["Renewed conflict", "2027 luxury supply"] },
+    { "id": "T07", "title": "Schools and healthcare on Group land", "timeline": "Seat additions to ~2028", "evidence": "moderate", "plays": ["landJv", "acquisition"],
+      "thesis": "Land-for-equity JVs with school and hospital operators lift community values and earn a share of operating returns. Two listed and two private operators are on the target screen.",
+      "scores": { "growth": 4, "fit": 4, "value": 3, "feasibility": 3, "risk": 3 },
+      "facts": [
+        { "text": "About 18,000 affordable school seats are expected over the next two academic years.", "source": { "title": "Khaleej Times (KHDA)", "date": "2026-10-01", "url": "https://www.khaleejtimes.com/uae/education/dubai-private-schools-nearly-18000-seats-next-two-academic-years-khda" } }
+      ],
+      "risks": ["Fee regulation", "Operator capacity"] },
+    { "id": "T13", "title": "Rotating the portfolio towards core champions", "timeline": "Emaar stake May 2026; Empower exit Feb 2026", "evidence": "moderate", "plays": ["platform"],
+      "thesis": "Exiting non-core utilities (Empower, AED 5.18bn) and consolidating real estate (29.73% of Emaar) points to a platform strategy: shared land, procurement and customer data across the Group's real-estate champions.",
+      "scores": { "growth": 2, "fit": 5, "value": 3, "feasibility": 4, "risk": 3 },
+      "facts": [
+        { "text": "Dubai Holding took ICD's 22.27% of Emaar, reaching 29.73% and becoming its largest shareholder.", "source": { "title": "Dubai Media Office", "date": "2026-05-12", "url": "https://www.mediaoffice.ae/en/news/2026/may/12-05/dubai-holding-and-icd-announce-completion-of-strategic-transaction-in-emaar-properties" } }
+      ],
+      "risks": ["Concentration in Dubai real estate", "Minority-stake governance"] },
+    { "id": "T09", "title": "Energy retrofits across the portfolio", "timeline": "Retrofit target end-2030", "evidence": "moderate", "plays": ["platform"],
+      "thesis": "After the Empower exit, the energy lever is efficiency: retrofitting the Group's own malls, hotels and communities cuts opex and supports green-certified REIT valuations.",
+      "scores": { "growth": 3, "fit": 3, "value": 3, "feasibility": 4, "risk": 4 },
+      "facts": [
+        { "text": "MBR Solar Park at 3,860MW, heading for 7,260MW by 2030.", "source": { "title": "Dubai Media Office (DEWA)", "date": "2025-09-01", "url": "https://www.mediaoffice.ae/en/news/2025/september/01-09/he-saeed-mohammed-al-tayer-reviews-progress" } },
+        { "text": "Dubai targets 30,000 retrofitted buildings by end-2030.", "source": { "title": "Dubai Media Office (DSCE)", "date": "2023-06-26", "url": "https://mediaoffice.ae/en/news/2023/June/26-06/Dubai-Supreme-Council-of-Energy-reviews-performance-of-the-Building-Retrofit-programme-in-Dubai" } }
+      ],
+      "risks": ["Retrofit payback", "Retrofit data dated 2023"] },
+    { "id": "T10", "title": "Proptech: tokenisation and digital distribution", "timeline": "DLD pilot since 2025; 2033 horizon", "evidence": "moderate", "plays": ["platform"],
+      "thesis": "DLD's tokenisation pilot opens fractional distribution of Group assets to retail investors. A small stake in a regulated platform buys an option on that channel.",
+      "scores": { "growth": 4, "fit": 3, "value": 3, "feasibility": 3, "risk": 2 },
+      "facts": [
+        { "text": "DLD projects tokenised real estate at AED 60bn by 2033, or 7% of transactions.", "source": { "title": "Dubai Land Department", "date": "2025-03-19", "url": "https://dubailand.gov.ae/en/news-media/dubai-land-department-launches-pilot-phase-of-the-real-estate-tokenisation-project" } }
+      ],
+      "risks": ["Evolving regulation", "Token liquidity"] },
+    { "id": "T06", "title": "Data centres on powered land", "timeline": "To ~2028", "evidence": "moderate", "plays": ["landJv"],
+      "thesis": "UAE capacity nearly triples by 2028. The Group's only credible entry is contributing powered land to a specialist operator.",
+      "scores": { "growth": 5, "fit": 2, "value": 3, "feasibility": 2, "risk": 2 },
+      "facts": [
+        { "text": "Microsoft: $15.2bn UAE investment over 2023–2029, including $5.5bn+ of AI and cloud capex in 2026–2029.", "source": { "title": "Microsoft", "date": "2025-11-03", "url": "https://blogs.microsoft.com/on-the-issues/2025/11/03/microsofts-15-2-billion-usd-investment-in-the-uae/" } }
+      ],
+      "risks": ["Power availability in Dubai", "No in-house capability"] },
+    { "id": "T08", "title": "Affordable, key-worker and later-living housing", "timeline": "Early-stage", "evidence": "weak", "plays": ["landJv"],
+      "thesis": "Government land release for affordable rentals and an undersupplied senior-living segment are partnership opportunities, but the evidence on demand is thin.",
+      "scores": { "growth": 3, "fit": 3, "value": 2, "feasibility": 3, "risk": 3 },
+      "facts": [
+        { "text": "1.46m sqm of land approved for 17,080 affordable homes for skilled professionals.", "source": { "title": "Dubai Media Office", "date": "2025-03-12", "url": "https://mediaoffice.ae/en/news/2025/march/12-03/hamdan-bin-mohammed-approves-the-development-of-17080-new-affordable-homes" } }
+      ],
+      "risks": ["Low yields", "Rent caps"] },
+    { "id": "T11", "title": "Sports, events and the leisure economy", "timeline": "Wynn Al Marjan opens Sept 2027", "evidence": "weak", "plays": ["assetLight"],
+      "thesis": "Ras Al Khaimah's integrated resort will compete for regional leisure spend. Dubai's answer is arenas, stadiums and events, which suits the Group's entertainment operators.",
+      "scores": { "growth": 3, "fit": 3, "value": 2, "feasibility": 2, "risk": 2 },
+      "facts": [
+        { "text": "Wynn Al Marjan: about $5.7bn budget, 1,530 rooms, opening delayed to September 2027.", "source": { "title": "Skift", "date": "2026-08-05", "url": "https://skift.com/2026/08/05/wynns-uae-casino-is-delayed-and-costlier-ceo-calls-it-a-monopoly-worth-the-spend/" } }
+      ],
+      "risks": ["No Dubai gaming licence", "Event-calendar volatility"] }
+  ],
+  "targets": [
+    { "id": "parkin", "name": "Parkin", "ticker": "PARKIN", "listed": true, "sector": "Mobility infrastructure", "description": "Dubai's largest paid-parking operator, growing fastest in developer parking.",
+      "scores": { "growth": 4, "fit": 5, "value": 4, "feasibility": 4, "risk": 4 }, "play": null,
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 19.9bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/dfm/PARKIN/market-cap/" } },
+        { "label": "FY2025 revenue (+43%)", "value": "AED 1.33bn", "source": { "title": "The National", "date": "2026-02-26", "url": "https://www.thenationalnews.com/news/uae/2026/02/26/dubais-parkin-profits-surge-on-wider-rollout-of-paid-for-parking" } },
+        { "label": "developer parking revenue guide 2026", "value": "AED 110–130m", "source": { "title": "Zawya (Parkin)", "date": "2026-02-25", "url": "https://www.zawya.com/en/press-release/companies-news/parkin-delivers-record-annual-and-quarterly-revenues-ama0gbri" } }
+      ],
+      "fit": "Dubai Holding controls large community and mall parking stock, and developer parking is Parkin's fastest-growing line. A parking-concession JV or revenue-share outsourcing earns fees and an upfront concession value without buying equity at about 30x earnings.",
+      "risks": ["Public backlash over tariffs", "Concession terms with the RTA"],
+      "catalyst": { "text": "Up to 7,500 new bays planned in 2026", "source": { "title": "The National", "date": "2026-02-26", "url": "https://www.thenationalnews.com/news/uae/2026/02/26/dubais-parkin-profits-surge-on-wider-rollout-of-paid-for-parking" } } },
+    { "id": "imdaad", "name": "Imdaad", "ticker": null, "listed": false, "sector": "Facilities management", "description": "UAE integrated FM and environmental-services provider.",
+      "scores": { "growth": 4, "fit": 5, "value": 4, "feasibility": 3, "risk": 3 }, "play": "platform",
+      "metrics": [
+        { "label": "2024 revenue (+20.8%; 19% CAGR since 2021)", "value": "AED 1bn+", "source": { "title": "Waste & Recycling Middle East", "date": "2025", "url": "https://www.wasterecyclingmag.com/news/waste-management/imdaad-achieves-record-breaking-revenue-milestone-surpassing-aed-1-billion-in-2024-1" } }
+      ],
+      "fit": "An owned FM platform would internalise the margin on the Group's own communities, malls and hotels, then sell services to third parties. That is the 'platform consolidation' play applied to a cost centre.",
+      "risks": ["Ownership and price not public", "Integration with existing in-house FM", "Thin margins"] },
+    { "id": "eREIT", "name": "Emirates REIT", "ticker": "REIT (Nasdaq Dubai)", "listed": true, "sector": "REIT: office, retail, schools", "description": "Sharia-compliant Dubai REIT managed by Equitativa.",
+      "scores": { "growth": 3, "fit": 5, "value": 4, "feasibility": 3, "risk": 3 }, "play": "acquisition", "preset": { "ebitda": 260, "buyMultiple": 17.5, "synergy": 8, "groupMultiple": 16 },
+      "metrics": [
+        { "label": "FY2025 net property income", "value": "USD 71m", "source": { "title": "Khaleej Times", "date": "2026", "url": "https://www.khaleejtimes.com/business/emirates-reit-posts-strong-fy2025-results-as-income-rises-and-leverage-drops" } },
+        { "label": "total assets", "value": "USD 1.25bn", "source": { "title": "Khaleej Times", "date": "2026", "url": "https://www.khaleejtimes.com/business/emirates-reit-posts-strong-fy2025-results-as-income-rises-and-leverage-drops" } },
+        { "label": "occupancy", "value": "96%", "source": { "title": "Khaleej Times", "date": "2026", "url": "https://www.khaleejtimes.com/business/emirates-reit-posts-strong-fy2025-results-as-income-rises-and-leverage-drops" } }
+      ],
+      "fit": "A roll-up into Dubai Holding Asset Management's REIT platform. Its office and school assets complement Dubai Residential REIT and TECOM, and scale lowers management cost. The preset uses NPI of about AED 260m and total assets as an EV proxy (about 17.5x).",
+      "risks": ["Sukuk holders and the external-manager contract", "Market cap not verified"] },
+    { "id": "dip", "name": "DIP Holding", "ticker": "DIP", "listed": true, "sector": "Industrial & mixed-use landlord", "description": "Owner of Dubai Investments Park in the Jebel Ali / Dubai South corridor; 1,000 tenants, 150,000+ residents.",
+      "scores": { "growth": 4, "fit": 4, "value": 3, "feasibility": 3, "risk": 4 }, "play": "acquisition", "preset": { "ebitda": 680, "buyMultiple": 14.5, "synergy": 5, "groupMultiple": 14 },
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 9.98bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/dfm/DIP/market-cap/" } },
+        { "label": "2025 adjusted EBITDA (72% margin)", "value": "AED 678m", "source": { "title": "Khaleej Times", "date": "2026-10-20", "url": "https://www.khaleejtimes.com/business/dip-holding-ipo-dubai-investments-to-list-20-on-dfm" } },
+        { "label": "IPO implied dividend yield", "value": "~7.5%", "source": { "title": "The National", "date": "2026-11-04", "url": "https://www.thenationalnews.com/business/markets/2026/11/04/dubai-investments-raises-529m-from-first-ipo-in-uae-this-year" } }
+      ],
+      "fit": "Infrastructure-like recurring income in the corridor where the Group is lightest (industrial and logistics). Buying a block of the 20% free float, or a JV on residential infill and community management, gives exposure to the airport-city theme. At about 14.5x EBITDA, full control does not create value without synergies, and the play shows that.",
+      "risks": ["80% parent control", "Re-rated after the IPO"],
+      "catalyst": { "text": "UAE's first IPO of 2026 (AED 1.9bn raised)", "source": { "title": "The National", "date": "2026-11-04", "url": "https://www.thenationalnews.com/business/markets/2026/11/04/dubai-investments-raises-529m-from-first-ipo-in-uae-this-year" } } },
+    { "id": "taaleem", "name": "Taaleem Holdings", "ticker": "TAALEEM", "listed": true, "sector": "Education (K-12)", "description": "Premium and government-partnership schools; opened Harrow International School Dubai in August 2026.",
+      "scores": { "growth": 4, "fit": 4, "value": 4, "feasibility": 4, "risk": 3 }, "play": "acquisition", "preset": { "ebitda": 334, "buyMultiple": 9.5, "synergy": 10, "groupMultiple": 11 },
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 3.16bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/dfm/TAALEEM/market-cap/" } },
+        { "label": "FY Aug-2026 revenue (+15.6%)", "value": "AED 1.31bn", "source": { "title": "Khaleej Times", "date": "2026-10-09", "url": "https://www.khaleejtimes.com/business/taaleem-profit-drops-22-on-higher-financing-and-depreciation-costs" } },
+        { "label": "FY Aug-2026 EBITDA", "value": "AED 334m", "source": { "title": "Khaleej Times", "date": "2026-10-09", "url": "https://www.khaleejtimes.com/business/taaleem-profit-drops-22-on-higher-financing-and-depreciation-costs" } }
+      ],
+      "fit": "Education is a Group gap and schools drive community demand. Profit fell 22% on expansion costs, which may offer a cheaper entry. A block stake plus a land-for-schools pipeline in Group communities is the play. The preset uses market cap over EBITDA (about 9.5x, excluding net debt).",
+      "risks": ["Fee caps", "Expansion is weighing on margins"],
+      "catalyst": { "text": "Harrow Dubai opened 31 Aug 2026", "source": { "title": "Khaleej Times", "date": "2026-10-09", "url": "https://www.khaleejtimes.com/business/taaleem-profit-drops-22-on-higher-financing-and-depreciation-costs" } } },
+    { "id": "aster", "name": "Aster DM Healthcare GCC", "ticker": null, "listed": false, "sector": "Healthcare", "description": "GCC hospitals, clinics and pharmacies; Fajr Capital-led consortium 65%, Moopen family 35%.",
+      "scores": { "growth": 4, "fit": 3, "value": 4, "feasibility": 3, "risk": 3 }, "play": "acquisition",
+      "metrics": [
+        { "label": "equity value at 2024 separation", "value": "~USD 1bn", "source": { "title": "Khaleej Times", "date": "2024-04", "url": "https://www.khaleejtimes.com/business/aster-completes-separation-of-gcc-and-india-businesses" } }
+      ],
+      "fit": "The most actionable Dubai healthcare platform. Private-equity ownership implies an eventual exit, where the Group could anchor a pre-IPO stake or buy a Dubai hospital carve-out to serve its communities.",
+      "risks": ["No standalone financials published", "Healthcare is outside the Group's operating capability"] },
+    { "id": "aldar", "name": "Aldar Properties", "ticker": "ALDAR", "listed": true, "sector": "Developer & recurring income", "description": "Abu Dhabi's largest developer and asset manager; already Dubai Holding's JV partner.",
+      "scores": { "growth": 3, "fit": 4, "value": 3, "feasibility": 4, "risk": 3 }, "play": "landJv",
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 68.7bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/adx/ALDAR/market-cap/" } },
+        { "label": "FY2025 net profit (+36%)", "value": "AED 8.8bn", "source": { "title": "Zawya (Aldar)", "date": "2026-02-09", "url": "https://www.zawya.com/en/press-release/companies-news/aldars-net-profit-climbs-36-to-a-record-aed-88bln-in-2025-as-group-sales-reach-aed-406bln-opsq7yy3" } }
+      ],
+      "fit": "Too large to buy. The value is in scaling the existing AED 38bn JV: Aldar funds development on Group land, which de-risks the supply cycle for Dubai Holding.",
+      "risks": ["Competes for the same Dubai buyers"] },
+    { "id": "deyaar", "name": "Deyaar Development", "ticker": "DEYAAR", "listed": true, "sector": "Developer & property management", "description": "Dubai developer with property and facilities management; bank-controlled.",
+      "scores": { "growth": 2, "fit": 3, "value": 4, "feasibility": 3, "risk": 2 }, "play": "acquisition", "preset": { "ebitda": 640, "buyMultiple": 5.5, "synergy": 8, "groupMultiple": 8 },
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 3.5bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/dfm/DEYAAR/market-cap/" } },
+        { "label": "FY2025 profit before tax (+26%)", "value": "AED 638m", "source": { "title": "Zawya (Deyaar)", "date": "2026-02", "url": "https://www.zawya.com/en/press-release/companies-news/deyaar-achieves-strong-fy-2025-results-driving-transformational-growth-for-2026-k62lic2q" } }
+      ],
+      "fit": "Cheap at about 5.5x pre-tax profit, which the preset uses as an EBITDA proxy, with a property-management arm that overlaps Community Management. A block from a non-core holder would be a value buy, but it adds build-to-sell exposure at the wrong point in the cycle.",
+      "risks": ["Ownership not verified", "Adds residential cycle risk"] },
+    { "id": "burjeel", "name": "Burjeel Holdings", "ticker": "BURJEEL", "listed": true, "sector": "Healthcare", "description": "Hospital and clinic network in the UAE and Oman.",
+      "scores": { "growth": 4, "fit": 3, "value": 3, "feasibility": 2, "risk": 3 }, "play": "landJv",
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 7.29bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/adx/BURJEEL/market-cap/" } },
+        { "label": "FY2025 EBITDA (+19.9%)", "value": "AED 1.09bn", "source": { "title": "Gulf News", "date": "2026-02-10", "url": "https://gulfnews.com/business/markets/burjeel-profit-jumps-nearly-40-in-2025-on-higher-volumes-and-margins-1.500438438" } }
+      ],
+      "fit": "Founder-controlled and Abu Dhabi-centric, so a Dubai expansion JV (land in Group communities, Burjeel operating) fits better than equity.",
+      "risks": ["Founder control", "Payer mix"] },
+    { "id": "gems", "name": "GEMS Education", "ticker": null, "listed": false, "sector": "Education (K-12)", "description": "UAE's largest private school operator; majority owned by a Brookfield-led consortium.",
+      "scores": { "growth": 4, "fit": 4, "value": 3, "feasibility": 2, "risk": 2 }, "play": "landJv",
+      "metrics": [
+        { "label": "new seats Sept 2026", "value": "5,000", "source": { "title": "EnterpriseAM", "date": "2026-08-25", "url": "https://enterpriseam.com/uae/2026/08/25/gems-education-is-opening-5k-new-school-seats-this-september-despite-conflict-driven-construction-delays/" } },
+        { "label": "acquisition financing (2024)", "value": "USD 3.25bn", "source": { "title": "EnterpriseAM", "date": "2026-08-25", "url": "https://enterpriseam.com/uae/2026/08/25/gems-education-is-opening-5k-new-school-seats-this-september-despite-conflict-driven-construction-delays/" } }
+      ],
+      "fit": "Its pivot to affordable schools matches the Group's family-community launches (Palm Springs). A land-for-schools partnership is available now; equity comes only through a Brookfield sell-down.",
+      "risks": ["High leverage", "Fee regulation"] },
+    { "id": "propertyfinder", "name": "Property Finder", "ticker": null, "listed": false, "sector": "Proptech", "description": "MENA's leading property portal.",
+      "scores": { "growth": 4, "fit": 4, "value": 3, "feasibility": 2, "risk": 3 }, "play": null,
+      "metrics": [
+        { "label": "Permira/Blackstone minority investment (2025)", "value": "USD 525m", "source": { "title": "The National", "date": "2025-09-09", "url": "https://www.thenationalnews.com/business/property/2025/09/09/dubais-property-finder-raises-525m-from-permira-and-blackstone/" } }
+      ],
+      "fit": "Demand-side data and leads would improve leasing velocity for the REIT and sales velocity for launches. A data partnership is realistic; a stake would come at a premium private-equity price.",
+      "risks": ["Premium valuation", "Channel conflict with other developers"] },
+    { "id": "union", "name": "Union Properties", "ticker": "UPP", "listed": true, "sector": "Developer (Motor City)", "description": "Recovered Dubai developer; first dividend in 11 years.",
+      "scores": { "growth": 2, "fit": 3, "value": 3, "feasibility": 4, "risk": 2 }, "play": "acquisition", "preset": { "ebitda": 240, "buyMultiple": 11, "synergy": 10, "groupMultiple": 9 },
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 2.66bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/dfm/UPP/market-cap/" } },
+        { "label": "FY2025 operating profit", "value": "AED 241m", "source": { "title": "Gulf News", "date": "2026-02-16", "url": "https://gulfnews.com/business/property/dubais-union-properties-set-to-pay-dividend-for-first-time-in-11-years-1.500445174" } }
+      ],
+      "fit": "Small and clean bolt-on: Motor City land and communities next to Group platforms. The preset uses operating profit as an EBITDA proxy (about 11x); the payoff is small.",
+      "risks": ["Thin pipeline", "Residential cycle"] },
+    { "id": "tabreed", "name": "Tabreed", "ticker": "TABREED", "listed": true, "sector": "District cooling", "description": "GCC district-cooling platform; holds Palm Jebel Ali and PAL Cooling concessions.",
+      "scores": { "growth": 3, "fit": 3, "value": 3, "feasibility": 4, "risk": 4 }, "play": null,
+      "metrics": [
+        { "label": "FY2025 EBITDA (51.6% margin)", "value": "AED 1.27bn", "source": { "title": "Zawya (Tabreed)", "date": "2026-02-12", "url": "https://www.zawya.com/en/press-release/companies-news/tabreed-reports-fy-2025-revenue-of-aed-246bln-as-capacity-growth-and-strategic-execution-drive-platform-resilience-lotmz2su" } }
+      ],
+      "fit": "Partner rather than target: concession out cooling for new Group master plans for an upfront payment instead of owning plants, which is consistent with the Empower exit.",
+      "risks": ["Re-entering utilities contradicts recent strategy"] },
+    { "id": "stake", "name": "Stake", "ticker": null, "listed": false, "sector": "Proptech: fractional investing", "description": "Regulated fractional real-estate platform; Series B led by Emirates NBD.",
+      "scores": { "growth": 4, "fit": 3, "value": 3, "feasibility": 4, "risk": 2 }, "play": null,
+      "metrics": [
+        { "label": "Series B (Feb 2026); total raised USD 58m", "value": "USD 31m", "source": { "title": "Zawya (Stake)", "date": "2026-02-17", "url": "https://www.zawya.com/en/press-release/companies-news/stake-raises-usd-31mln-in-an-oversubscribed-series-b-to-scale-regulated-global-real-estate-investing-ecmoyzue" } }
+      ],
+      "fit": "A venture-sized option on retail distribution of fractional or tokenised Group assets.",
+      "risks": ["Tokenisation regulation still evolving", "Sub-scale"] },
+    { "id": "salik", "name": "Salik", "ticker": "SALIK", "listed": true, "sector": "Road tolls & payments", "description": "Dubai's toll-gate concessionaire, expanding into parking and mall payments.",
+      "scores": { "growth": 3, "fit": 3, "value": 2, "feasibility": 3, "risk": 4 }, "play": null,
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 40.5bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/dfm/SALIK/market-cap/" } },
+        { "label": "FY2025 EBITDA (69% margin)", "value": "AED 2.14bn", "source": { "title": "Zawya (Salik)", "date": "2026-03-04", "url": "https://www.zawya.com/en/press-release/companies-news/salik-reports-fy-2025-revenue-of-aed-310bln-up-351-yoy-alongside-a-334-yoy-surge-in-net-profit-to-aed-155bln-xmccqeei" } }
+      ],
+      "fit": "Not acquirable at about 19x EBITDA. The angle is a payments partnership: Salik tags for parking, malls and leisure across Group destinations.",
+      "risks": ["High valuation", "Regulated pricing"] },
+    { "id": "adnh", "name": "Abu Dhabi National Hotels", "ticker": "ADNH", "listed": true, "sector": "Hospitality owner & catering", "description": "Owner of luxury hotels in Abu Dhabi and Dubai, with catering.",
+      "scores": { "growth": 2, "fit": 4, "value": 3, "feasibility": 3, "risk": 2 }, "play": "assetLight",
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 6.15bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/adx/ADNH/market-cap/" } },
+        { "label": "2025 revenue (+21%)", "value": "AED 3.48bn", "source": { "title": "Decypha", "date": "2026-02", "url": "https://www.decypha.com/en/news/details/Abu-Dhabi-National-Hotels--net-profits-retreat-to-AED-1-1bn-in-2025--dividends-proposed/21534290?L=EN" } }
+      ],
+      "fit": "Owned hotels need operators. Jumeirah management contracts on ADNH assets is the asset-light expansion play.",
+      "risks": ["State-linked owner", "Hotel downturn in 2026"] },
+    { "id": "emaardev", "name": "Emaar Development", "ticker": "EMAARDEV", "listed": true, "sector": "Developer (build-to-sell)", "description": "Dubai's largest residential developer; parent Emaar offered AED 15/share to take full control (Nov 2026).",
+      "scores": { "growth": 2, "fit": 5, "value": 3, "feasibility": 3, "risk": 2 }, "play": null,
+      "metrics": [
+        { "label": "FY2025 revenue (+44%)", "value": "AED 27.5bn", "source": { "title": "Emaar", "date": "2026-02-12", "url": "https://www.emaar.com/en/press-release-listing/emaar-achieves-another-record-year-with-highest-ever-sales-revenue-and-profit-in-2025" } },
+        { "label": "revenue backlog", "value": "AED 125.2bn", "source": { "title": "Khaleej Times", "date": "2026-02-12", "url": "https://www.khaleejtimes.com/business/property/emaar-posts-strongest-ever-results-as-revenues-climb-44" } }
+      ],
+      "fit": "Not a buy target. As Emaar's largest shareholder (29.73%), the Group's lever is governance: the buyout price, and land and JV arrangements between Emaar and Dubai Holding.",
+      "risks": ["Adds look-through residential cycle exposure"],
+      "catalyst": { "text": "AED 15/share cash offer from Emaar Properties to delist", "source": { "title": "Khaleej Times", "date": "2026-11-04", "url": "https://www.khaleejtimes.com/emaar-makes-dh15-a-share-cash-offer-to-take-full-control-of-emaar-development" } } },
+    { "id": "spinneys", "name": "Spinneys", "ticker": "SPINNEYS", "listed": true, "sector": "Premium grocery", "description": "Premium grocer expanding across the GCC.",
+      "scores": { "growth": 4, "fit": 3, "value": 2, "feasibility": 3, "risk": 4 }, "play": null,
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 4.6bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/dfm/SPINNEYS/market-cap/" } },
+        { "label": "FY2025 revenue (+13.1%)", "value": "AED 3.65bn", "source": { "title": "Zawya (Spinneys)", "date": "2026-02", "url": "https://www.zawya.com/en/press-release/companies-news/spinneys-delivers-its-largest-annual-store-network-growth-to-date-g5xxpxv8" } }
+      ],
+      "fit": "An anchor tenant for community retail centres. Anchor leases or a JV, not equity.",
+      "risks": ["Family control"] },
+    { "id": "rakprop", "name": "RAK Properties", "ticker": "RAKPROP", "listed": true, "sector": "Developer (Ras Al Khaimah)", "description": "RAK's leading listed developer, riding the integrated-resort boom.",
+      "scores": { "growth": 4, "fit": 3, "value": 3, "feasibility": 2, "risk": 2 }, "play": "assetLight",
+      "metrics": [
+        { "label": "market cap (20 Nov 2026)", "value": "AED 2.96bn", "source": { "title": "stockanalysis.com", "date": "2026-11-20", "url": "https://stockanalysis.com/quote/adx/RAKPROP/market-cap/" } },
+        { "label": "2025 sales (+142%)", "value": "AED 3.36bn", "source": { "title": "RAK Properties", "date": "2026-02-06", "url": "https://www.rakproperties.ae/news/rak-properties-crowns-20th-anniversary-year-with-impressive-2025-results-driven-by-robust-sales-strategic-partnerships-and-accelerated-project-development/" } }
+      ],
+      "fit": "A way into RAK's Wynn-driven leisure growth through Jumeirah hotel or branded-residence management, not control.",
+      "risks": ["Another emirate's champion", "Gaming-led demand is unproven"] }
+  ]
+}
