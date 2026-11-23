@@ -22,13 +22,18 @@ async function shot(name, { width = 1600, height = 1000, hash = '', tab, full = 
   await page.waitForTimeout(500);
   if (tab) await page.getByRole('tab', { name: tab }).click();
   if (action) await action(page);
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(400);
   await page.screenshot({ path: `${OUT}${name}.png`, fullPage: full });
   await page.close();
   console.log('wrote', name);
 }
 
-const scenario = '#s=urbanServices&utilisation=76&subShare=22&sla=1.8&dso=78&leadDays=32';
+const scenario = '#s=urbanServices&tab=simulator&utilisation=76&subShare=22&sla=1.8&dso=78&leadDays=32';
+await shot('screenshot-group', { hash: '#s=hospitality&occupancy=78&labourPOR=155', height: 1500, action: async (page) => {
+  for (const name of ['Include REIT carve-out & capital recycling', 'Include Platform consolidation', 'Include Asset-light hospitality expansion']) await page.getByRole('button', { name }).click();
+} });
+await shot('screenshot-market', { hash: '#tab=market', height: 1400 });
 await shot('screenshot-simulator', { hash: scenario });
 await shot('screenshot-scorecard', { hash: scenario, tab: 'Balanced Scorecard' });
 await shot('screenshot-business-case', { hash: scenario, tab: 'Business Case' });
@@ -59,8 +64,13 @@ if (process.argv.includes('--gif')) {
       await frame();
     }
   };
-  await frame(6);
+  await frame(8); // Group & Funds landing
+  await page.getByRole('button', { name: 'Model it' }).nth(2).click(); // Dubai Residential REIT IPO preset
+  await page.waitForTimeout(300);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await frame(8);
   await page.getByRole('button', { name: /Integrated Urban Services/ }).click();
+  await page.getByRole('tab', { name: 'Value Simulator' }).click();
   await page.waitForTimeout(300);
   await frame(5);
   await slide('utilisation', 76, 8);
@@ -80,7 +90,12 @@ if (process.argv.includes('--gif')) {
   await page.getByRole('tab', { name: 'Board Memo' }).click();
   await page.waitForTimeout(300);
   await frame(6);
-  for (let y = 0; y < 5; y++) { await page.mouse.wheel(0, 260); await page.waitForTimeout(80); await frame(2); }
+  for (let y = 0; y < 4; y++) { await page.mouse.wheel(0, 260); await page.waitForTimeout(80); await frame(2); }
+  await page.getByRole('tab', { name: 'Market Tracker' }).click();
+  await page.waitForTimeout(300);
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await frame(8);
+  for (let y = 0; y < 3; y++) { await page.mouse.wheel(0, 300); await page.waitForTimeout(80); await frame(2); }
   await frame(6);
   await page.close();
   const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', '6', '-i', `${frames}/f%04d.png`,

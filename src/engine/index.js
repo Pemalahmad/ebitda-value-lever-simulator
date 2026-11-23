@@ -6,4 +6,6 @@ export { scorecard, rag, PERSPECTIVES } from './scorecard.js';
 export { evaluate, boardConfidence, rankFor, RANKS, ACHIEVEMENTS, GLOBAL_MISSIONS, newAchievements, totalXp } from './game.js';
 export { buildMemo } from './memo.js';
 export { renderMarkdown } from './markdown.js';
+export { PLAYS, runPlay, getPlay, playDefaults } from './plays.js';
+export { parseCsv, normalise, aggregate, DLD_COLUMNS } from './market.js';
 export * as fmt from './format.js';

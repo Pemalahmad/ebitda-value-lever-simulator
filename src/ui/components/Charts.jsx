@@ -4,14 +4,14 @@ import { fmt } from '../../engine/index.js';
 const { money } = fmt;
 
 // Horizontal EBITDA bridge: baseline -> each lever -> scenario.
-export function Waterfall({ bridge }) {
-  const rows = [{ label: 'Baseline EBITDA', kind: 'total', from: 0, to: bridge.start }];
+export function Waterfall({ bridge, startLabel = 'Baseline EBITDA', endLabel = 'Scenario EBITDA' }) {
+  const rows = [{ label: startLabel, kind: 'total', from: 0, to: bridge.start }];
   let cum = bridge.start;
   for (const s of bridge.steps) {
     rows.push({ label: s.label, kind: s.delta >= 0 ? 'up' : 'down', from: cum, to: cum + s.delta, delta: s.delta });
     cum += s.delta;
   }
-  rows.push({ label: 'Scenario EBITDA', kind: 'total', from: 0, to: bridge.end });
+  rows.push({ label: endLabel, kind: 'total', from: 0, to: bridge.end });
   const vals = rows.flatMap((r) => [r.from, r.to]);
   const max = Math.max(...vals);
   const min = Math.min(0, ...vals);

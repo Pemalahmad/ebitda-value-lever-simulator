@@ -3,26 +3,32 @@ import { SECTORS, getSector, baseLevers, evaluate, investmentByLever, newAchieve
 import { LeverPanel } from './components/Levers.jsx';
 import { GamePanel, Toasts } from './components/GamePanel.jsx';
 import { SimulatorView, ScorecardView, BusinessCaseView, MemoView } from './components/Views.jsx';
+import { GroupView } from './components/GroupView.jsx';
+import { MarketView } from './components/MarketView.jsx';
 import { Icon } from './components/Icons.jsx';
 import { readHash, writeHash, loadProgress, saveProgress } from './state.js';
 
 const TABS = [
+  { id: 'group', label: 'Group & Funds' },
   { id: 'simulator', label: 'Value Simulator' },
   { id: 'scorecard', label: 'Balanced Scorecard' },
   { id: 'case', label: 'Business Case' },
   { id: 'memo', label: 'Board Memo' },
+  { id: 'market', label: 'Market Tracker' },
 ];
+const WIDE = ['market'];
 const XP_PER_LEVEL = 400;
 
 export default function App() {
   const initial = useMemo(readHash, []);
   const [sectorId, setSectorId] = useState(initial.sector);
-  const [tab, setTab] = useState(TABS.some((t) => t.id === initial.tab) ? initial.tab : 'simulator');
+  const [tab, setTab] = useState(TABS.some((t) => t.id === initial.tab) ? initial.tab : 'group');
   const [bySector, setBySector] = useState(() => ({ [initial.sector]: { ...baseLevers(getSector(initial.sector)), ...initial.levers } }));
   const [activeScenario, setActiveScenario] = useState(null);
   const [progress, setProgress] = useState(loadProgress);
   const [toasts, setToasts] = useState([]);
   const [shared, setShared] = useState(false);
+  const [plays, setPlays] = useState({});
 
   const sector = getSector(sectorId);
   const levers = bySector[sectorId] ?? baseLevers(sector);
@@ -130,12 +136,12 @@ export default function App() {
 
       <div className="context no-print">
         <div>
-          <b>{sector.company}</b> <span className="muted">· {sector.scale} · fictional company, illustrative numbers</span>
+          <b>{sector.company}</b> <span className="muted">· {sector.scale} · illustrative operating model; public facts are cited on the Group &amp; Funds tab</span>
         </div>
         <div className="muted">Baseline EBITDA {fmt.money(e.cmp.base.ebitda)} · EV {fmt.money(e.cmp.base.ev)}</div>
       </div>
 
-      <main className="layout">
+      <main className={`layout ${WIDE.includes(tab) ? 'wide' : ''}`}>
         <LeverPanel sector={sector} levers={levers} cost={cost} onChange={setLever} onReset={reset} onScenario={applyScenario} activeScenario={activeScenario} />
         <div className="center">
           <div className="tabs no-print" role="tablist">
@@ -143,6 +149,8 @@ export default function App() {
               <button key={t.id} role="tab" aria-selected={tab === t.id} className={`tab ${tab === t.id ? 'on' : ''}`} onClick={() => setTab(t.id)}>{t.label}</button>
             ))}
           </div>
+          {tab === 'group' && <GroupView bySector={bySector} plays={plays} setPlays={setPlays} onOpenSector={(id) => { pickSector(id); setTab('simulator'); }} />}
+          {tab === 'market' && <MarketView />}
           {tab === 'simulator' && <SimulatorView sector={sector} levers={levers} e={e} onNudge={nudge} />}
           {tab === 'scorecard' && <ScorecardView e={e} />}
           {tab === 'case' && <BusinessCaseView sector={sector} e={e} />}
@@ -152,7 +160,7 @@ export default function App() {
       </main>
 
       <footer className="foot no-print">
-        Fictional group and illustrative assumptions for demonstration only. Model logic in <code>src/engine</code>, documented in <code>docs/methodology.md</code>.
+        Independent analysis, not affiliated with or endorsed by Dubai Holding or any fund named. Public figures are cited; operating models are illustrative. Method: <code>docs/methodology.md</code>.
       </footer>
       <Toasts toasts={toasts} />
     </div>

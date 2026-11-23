@@ -108,7 +108,7 @@ input[type='range']:focus-visible { box-shadow: 0 0 0 2px var(--gold); }
 
 /* Tabs */
 .tabs { display: flex; gap: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 4px; overflow-x: auto; }
-.tab { flex: 1; background: transparent; border: 0; padding: 9px 12px; border-radius: 9px; color: var(--muted); font-weight: 600; white-space: nowrap; transition: background 0.15s, color 0.15s; }
+.tab { flex: 1 1 auto; background: transparent; border: 0; padding: 9px 8px; border-radius: 9px; color: var(--muted); font-weight: 600; white-space: nowrap; transition: background 0.15s, color 0.15s; }
 .tab:hover { color: var(--text); }
 .tab.on { background: var(--panel-2); color: var(--text); box-shadow: 0 0 0 1px var(--line-2) inset; }
 
@@ -290,3 +290,71 @@ table.data tr.dim td { opacity: 0.45; }
   .card { border: 0; padding: 0; background: #fff; }
   .memo { padding: 0; }
 }
+
+/* Group & Funds */
+.layout.wide { grid-template-columns: minmax(0, 1fr); }
+.layout.wide .levers, .layout.wide .game { display: none; }
+.hero { background: linear-gradient(135deg, rgba(229, 185, 92, 0.1), rgba(45, 212, 191, 0.04)), var(--panel); }
+.eyebrow { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 4px; }
+.hero h3 { font-size: 19px; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 6px; }
+.fact { border-left: 2px solid var(--gold); padding: 2px 10px; }
+.fact-v { font-family: var(--mono); font-weight: 700; font-size: 17px; }
+.fact-l { font-size: 11.5px; color: var(--muted); }
+.src { font-size: 10.5px; color: var(--gold-2); text-decoration: none; opacity: 0.8; white-space: nowrap; }
+.src:hover { opacity: 1; text-decoration: underline; }
+tr.clickable { cursor: pointer; }
+tr.clickable:hover td { background: var(--panel-2); }
+.plays { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.playcard { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px; background: var(--panel); transition: border-color 0.2s, box-shadow 0.2s; }
+.playcard.on { border-color: var(--gold); box-shadow: 0 0 0 1px rgba(229, 185, 92, 0.4) inset; }
+.play-head { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
+.tag-arch { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); }
+.play-title { font-weight: 700; }
+.play-sum { font-size: 12px; color: var(--muted); margin: 0; }
+.users { font-size: 11px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.chip.sm { font-size: 10.5px; padding: 1px 7px; }
+.switch { width: 38px; height: 22px; border-radius: 99px; border: 1px solid var(--line-2); background: var(--track); position: relative; flex: none; }
+.switch span { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--muted); transition: transform 0.2s, background 0.2s; }
+.switch.on { background: rgba(229, 185, 92, 0.3); border-color: var(--gold); }
+.switch.on span { transform: translateX(16px); background: var(--gold-2); }
+.play-params { display: flex; flex-direction: column; gap: 8px; padding: 8px 0; border-top: 1px dashed var(--line); }
+.pp { display: flex; flex-direction: column; gap: 5px; font-size: 12px; }
+.pp-top { display: flex; justify-content: space-between; gap: 6px; }
+.play-foot { margin-top: auto; border-top: 1px solid var(--line); padding-top: 8px; display: flex; flex-direction: column; gap: 4px; }
+.play-lines > div { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; }
+.play-total { display: flex; justify-content: space-between; font-size: 13px; padding-top: 4px; }
+.play-total b { font-family: var(--mono); font-size: 15px; }
+.risk-line { font-size: 11.5px; color: var(--amber); }
+.timeline { display: flex; flex-direction: column; gap: 8px; }
+.tl-item { display: grid; grid-template-columns: 90px 1fr auto; gap: 12px; align-items: start; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.tl-date { color: var(--gold-2); font-size: 12px; }
+.tl-title { font-weight: 600; }
+.tl-metrics { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.metric { font-size: 11.5px; border: 1px solid var(--line-2); border-radius: 7px; padding: 2px 8px; color: var(--muted); }
+.metric b { color: var(--text); font-family: var(--mono); }
+table.funds td { vertical-align: top; }
+.fmove { font-size: 12px; margin-bottom: 4px; }
+.matrix { border-collapse: separate; border-spacing: 3px; margin-top: 14px; font-size: 12px; width: 100%; }
+.matrix th { font-size: 11px; color: var(--muted); font-weight: 600; padding: 4px; }
+.matrix td { text-align: center; padding: 6px; background: rgba(255, 255, 255, 0.02); border-radius: 6px; color: var(--pos); }
+.matrix td:first-child { text-align: left; color: var(--text); background: none; white-space: nowrap; }
+.matrix td.hit { background: rgba(45, 212, 191, 0.14); }
+
+/* Market */
+.vbars { display: flex; gap: 10px; align-items: flex-end; height: 220px; }
+.vbars.months { height: 180px; gap: 4px; }
+.vb { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; min-width: 0; }
+.vb-wrap { flex: 1; width: 100%; display: flex; align-items: flex-end; justify-content: center; }
+.vb-bar { width: 70%; border-radius: 6px 6px 2px 2px; background: linear-gradient(180deg, var(--gold-2), rgba(229, 185, 92, 0.35)); transition: height 0.4s; }
+.vb-bar.partial { background: repeating-linear-gradient(135deg, rgba(45, 212, 191, 0.9) 0 6px, rgba(45, 212, 191, 0.55) 6px 12px); }
+.vb-val { font-size: 11.5px; margin-top: 5px; }
+.vb-lbl { font-size: 11px; color: var(--muted); text-align: center; }
+tr.dh td { background: rgba(229, 185, 92, 0.06); }
+.dh-chip { margin-left: 6px; color: var(--gold-2); border-color: rgba(229, 185, 92, 0.5); }
+.signals { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; }
+.signal { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 12.5px; }
+.steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.steps a { color: var(--gold-2); }
+@media (max-width: 900px) { .tl-item { grid-template-columns: 1fr; } }
+.pillars { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin: 12px 0 6px; }

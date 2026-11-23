@@ -95,6 +95,31 @@ The verdict is:
 
 Every number in the memo is read from the engine's output for the same scenario.
 
+## 8. Group plays (`src/engine/plays.js`)
+
+Each play returns value-bridge lines that sum to its value, the cash raised or deployed, and the change in run-rate EBITDA:
+
+| Play | Value lines |
+|---|---|
+| REIT carve-out | re-rating `NOI/listing yield − NOI/book yield` + development margin on redeployed cash `(cash × yield on cost)/listing yield − cash` − fees |
+| Subsidiary IPO | `EBITDA × (IPO multiple × (1 − discount) − book multiple)`; cash = priced EV × stake floated |
+| Land-bank JV | land revaluation `area × (market − book)` + group share of `area × (price − build − market land)` |
+| Asset-light hospitality | `fee EBITDA × fee multiple − key money`; fee EBITDA = (base fee × revenue + incentive fee × GOP) × 70% conversion |
+| Platform consolidation | `synergy × group multiple − one-off integration cost` |
+| Bolt-on M&A | `EBITDA × (group − purchase multiple) + synergies × group multiple − fees` |
+| Master-planned launch | NPV of development profit (`units × price × margin`) spread evenly over the delivery period |
+
+The group value bridge adds the operating value created in each vertical (ΔEV + cash released) and the value of each active play to the modelled baseline EV.
+
+## 9. Market tracker (`src/engine/market.js`)
+
+The official aggregates are hand-curated from DLD and Dubai Media Office publications in `data/market/dld-official.json`, each with its source. The deal-level tracker reads the DLD open-data Transactions CSV:
+
+- **Parser**: RFC 4180 CSV (quoted fields, BOM, CRLF); dates in `DD-MM-YYYY`.
+- **Price per m²** = `Amount / Transaction Size (sq.m)` (falls back to Property Size).
+- **Momentum** (the "drops and increases" view): median AED/m² of *sales* in the latest 90 days vs the 90 days before, per area, for areas with at least 20 sales in both windows.
+- **Off-plan share** = sales with registration type Off-Plan ÷ all sales.
+
 ## Limitations
 
 - The baselines and elasticities are illustrative, not fitted to data.

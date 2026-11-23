@@ -1,9 +1,9 @@
-# EBITDA Value Lever Simulator
+# EBITDA Value Lever Simulator: Dubai Holding edition
 
-**Move an operational lever and watch it reach EBITDA, enterprise value, the Balanced Scorecard and a board memo.**
+**A working model of a Group Strategy & Value Creation mandate: operating levers across Dubai Holding's verticals, the corporate-finance plays the Gulf's largest investors use, cited benchmarks, and an official-data Dubai real-estate market tracker.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-32%20passing-2dd4bf)
+![Tests](https://img.shields.io/badge/tests-41%20passing-2dd4bf)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Dependencies](https://img.shields.io/badge/engine-zero%20dependencies-e5b95c)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -11,6 +11,20 @@
 **[▶ Open the live simulator](https://pemalahmad.github.io/ebitda-value-lever-simulator/)**
 
 ![Demo: moving levers in Integrated Urban Services, completing missions, then the scorecard, business case and board memo](docs/demo.gif)
+
+## What's new: Group & Funds and Market Tracker
+
+- **Group & Funds tab**: Dubai Holding's public profile (AED 500bn+ assets, 13.5% of Dubai GDP, its seven operating businesses and stated strategic pillars), every figure linked to its source. A **sum-of-the-parts** of the six modelled verticals feeds a **group value bridge**.
+- **Seven value-creation plays**, each a transparent mini-model you can switch on and tune: REIT carve-out and capital recycling, subsidiary IPO, land-bank JV, asset-light hospitality expansion, platform consolidation, bolt-on M&A, and master-planned destination launch.
+- **What Dubai Holding is actually doing**: 12 cited moves from 2024–2026 (Nakheel/Meydan integration, Palm Jebel Ali, the Dubai Residential REIT IPO, the Aldar JV, the Empower divestment, the Emaar stake, Palm Springs and more). **Model it** loads the matching play; the REIT preset reproduces the AED 2.1bn the IPO raised.
+- **Regional fund benchmark**: PIF, ADIA, ICD, Mubadala, QIA and L'imad/ADQ, with AUM (and its basis), mandate and recent moves, plus a playbook matrix showing who uses which value lever.
+- **Market Tracker tab**: official DLD and Dubai Media Office figures (2023–2025 totals, Q1 2026, top communities by investment value, prices, rents, off-plan share, Strategy 2033 and Dubai 2040 targets), each with its source. It also includes a **DLD open-data ingest** (`scripts/ingest-dld.mjs`) that adds a deal-level tracker: monthly flow, top projects, and area **price drops and increases** (median AED/m², latest 90 days vs the 90 before).
+
+> **Independent analysis.** Not affiliated with or endorsed by Dubai Holding, DLD or any fund named. Public figures are cited; the vertical operating models are illustrative. AUM figures use different bases (self-reported, audited total assets, or Global SWF estimates), and each one is labelled.
+
+![Group & Funds](docs/screenshot-group.png)
+
+![Market Tracker](docs/screenshot-market.png)
 
 ## The problem
 
@@ -20,7 +34,7 @@ This simulator puts them in one place. Each slider is a real operating KPI. Ever
 
 ## What it covers
 
-It models a fictional diversified group with **six businesses**, each with its own driver tree:
+It models **six Dubai Holding verticals** with illustrative operating economics, each with its own driver tree:
 
 | Business | Example levers | Valuation |
 |---|---|---|
@@ -80,7 +94,7 @@ git clone https://github.com/Pemalahmad/ebitda-value-lever-simulator.git
 cd ebitda-value-lever-simulator
 npm install
 npm run dev          # dashboard at http://localhost:5173
-npm test             # 32 tests: engine, API, CLI
+npm test             # 41 tests: engine, plays, DLD ingest, API, CLI
 ```
 
 Serve the built dashboard and the JSON API from Node:
@@ -102,6 +116,14 @@ node bin/value-memo.js --sector retail --scenario "Destination upgrade" --summar
 node bin/value-memo.js --sector urbanServices --file data/scenarios/fm-utilisation-and-cash.json
 ```
 
+Turn a DLD open-data CSV into the deal-level market tracker:
+
+```bash
+# dubailand.gov.ae → Open Data → Real Estate Data → Transactions → Download as CSV
+node scripts/ingest-dld.mjs ~/Downloads/transactions.csv   # writes data/market/dld-aggregate.json
+npm run build
+```
+
 ## Architecture
 
 ```
@@ -113,6 +135,10 @@ src/engine/            pure JavaScript, zero dependencies; runs in the browser a
   scorecard.js         Balanced Scorecard RAG
   game.js              board confidence, ranks, missions, achievements
   memo.js              Executive Co-Pilot board memo (Markdown)
+  plays.js             seven group-level value-creation plays (REIT, IPO, JV, asset-light, platform, M&A, master plan)
+  market.js            DLD transactions CSV parser + market aggregation (momentum, projects, monthly flow)
+data/benchmarks/       Dubai Holding facts and moves, regional fund benchmark (every figure sourced)
+data/market/           official DLD aggregates (+ optional ingested deal-level aggregate)
 src/ui/                React dashboard with hand-built SVG charts and no chart library
 server/index.js        zero-dependency Node HTTP server: static app + JSON API
 bin/value-memo.js      CLI memo generator
@@ -131,6 +157,7 @@ The same engine powers the UI, the API and the CLI, so a number on screen, in th
 This repo is the first of a planned series of operations-strategy tools:
 
 - **Margin-leakage triage agent**: ingest messy refunds, tickets and invoices, classify failure modes, and output a Pareto action plan with ROI per fix
+- **Automated DLD refresh** through the data.dubai API once a key is registered
 - **Supply-chain war-gaming engine**: stress-test a bill of materials or vendor base for single points of failure and working-capital shocks
 - **SOP-to-workflow process mining kit**: compare SOPs with event logs and generate a to-be process map in Mermaid
 - **Ops-strategy skills library**: constraint auditor, make-vs-buy engine, PMI synergy tracker, 100-day plan generator
@@ -138,7 +165,7 @@ This repo is the first of a planned series of operations-strategy tools:
 
 ## Disclaimer
 
-The group, its companies and all numbers are **fictional and illustrative**. They are calibrated to be plausible for the GCC market, not to describe any real company. This is not investment advice.
+Public figures are taken from the sources linked next to them, as of November 2026. The **vertical operating models (levers, P&L lines, costs) are illustrative**: they are calibrated to be plausible, not taken from Dubai Holding's accounts, which are not public at the vertical level. Independent analysis; not affiliated with or endorsed by any organisation named; not investment advice.
 
 ## License
 

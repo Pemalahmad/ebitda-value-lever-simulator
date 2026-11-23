@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 (2026-11-23): Dubai Holding edition
+
+- **Group & Funds tab**: cited Dubai Holding profile and strategic pillars; group sum-of-the-parts and value bridge; seven value-creation plays (REIT carve-out, subsidiary IPO, land-bank JV, asset-light hospitality, platform consolidation, bolt-on M&A, master-planned launch); 12 cited Dubai Holding moves from 2024–2026 with "Model it" presets (the REIT IPO preset reproduces the AED 2.1bn raised); a benchmark of PIF, ADIA, ICD, Mubadala, QIA and L'imad/ADQ with a playbook matrix
+- **Market Tracker tab**: official DLD and Dubai Media Office aggregates (2023–2025, Q1 2026, 9M 2026 media tally flagged), top communities, prices, rents, Strategy 2033 and Dubai 2040 signals
+- **DLD ingest**: `scripts/ingest-dld.mjs` parses the DLD open-data Transactions CSV into a deal-level tracker (monthly flow, top projects, area price drops and increases)
+- Verticals renamed to Dubai Holding's businesses; operating models remain illustrative and are labelled as such
+- 41 tests (new: plays, CSV parser, DLD aggregation on a synthetic fixture)
+
 ## 1.0.0 (2026-11-23)
 
 First release.

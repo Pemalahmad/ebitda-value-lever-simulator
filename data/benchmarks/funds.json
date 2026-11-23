@@ -1,0 +1,74 @@
+{
+  "asOf": "2026-11-23",
+  "note": "AUM figures are not on one basis: some are self-reported, some audited total assets, some third-party estimates (Global SWF). The basis is stated for each.",
+  "funds": [
+    {
+      "id": "pif", "name": "Public Investment Fund", "short": "PIF", "country": "Saudi Arabia",
+      "aumUsdBn": 900, "aumAsOf": "end-2025, reported", "aumSource": { "title": "The National", "date": "2026-08-17", "url": "https://thenationalnews.com/business/economy/2026/08/17/saudi-wealth-fund-pifs-profit-doubles-on-higher-revenue", "quote": "Total revenue rose 9 per cent year-on-year to $120 billion, with assets under management retaining over $900 billion." },
+      "mandate": "2026–2030 strategy: ~80% of the portfolio directed domestically into 'ecosystems' incl. tourism, urban development, logistics, infrastructure and Neom.",
+      "mandateSource": { "title": "The National", "date": "2026-04-15", "url": "https://www.thenationalnews.com/business/economy/2026/04/15/saudi-arabias-pif-targets-80-domestic-allocation-cuts-overseas-share-to-20/", "quote": "Saudi Arabia's Public Investment Fund will direct about 80 per cent of its $925 billion portfolio into domestic investments under its new five-year strategy, scaling back international exposure to 20 per cent from a peak of 30 per cent." },
+      "moves": [
+        { "date": "2025-10", "title": "Red Sea Global: 8 resorts open; SAR 6.5bn senior debt raised for Amaala", "type": "giga-project", "play": "masterplan", "source": { "title": "The National", "date": "2025-10-26", "url": "https://www.thenationalnews.com/business/economy/2025/10/26/pif-commits-funding-for-red-sea-tourism-giga-project-despite-saudi-spending-cuts", "quote": "So far, it has opened eight resorts at the Red Sea, in addition to a golf course and an international airport." } },
+        { "date": "2026-08", "title": "PIF-led consortium completes $55bn Electronic Arts take-private", "type": "M&A", "play": "acquisition", "source": { "title": "The National", "date": "2026-08-17", "url": "https://thenationalnews.com/business/economy/2026/08/17/saudi-wealth-fund-pifs-profit-doubles-on-higher-revenue", "quote": "A PIF-led consortium completed a $55 billion acquisition of Electronic Arts, marking Saudi Arabia's largest push into the global gaming industry." } }
+      ],
+      "performance": [{ "text": "Annualised TSR since 2017: 5.8% at end-2025 (7.2% at end-2024)", "source": { "title": "The National", "date": "2026-08-17", "url": "https://thenationalnews.com/business/economy/2026/08/17/saudi-wealth-fund-pifs-profit-doubles-on-higher-revenue" } }]
+    },
+    {
+      "id": "adia", "name": "Abu Dhabi Investment Authority", "short": "ADIA", "country": "UAE · Abu Dhabi",
+      "aumUsdBn": 1130, "aumAsOf": "end-2025, Global SWF estimate", "aumSource": { "title": "Global SWF", "url": "https://globalswf.com/news/adia-faces-a-tougher-test-as-alternatives-expand", "quote": "Global SWF estimates that Abu Dhabi Investment Authority (ADIA) returned 8.9% in 2025, pushing assets under management to a record US$1.13 trillion" },
+      "mandate": "Long-horizon global diversified investor; mission enshrined in law since 1976. Real estate 2–7% of portfolio (2025).",
+      "mandateSource": { "title": "The National", "date": "2026-09-10", "url": "https://www.thenationalnews.com/business/markets/2026/09/10/abu-dhabi-wealth-fund-adia-says-tech-remains-major-investment-theme-this-year/", "quote": "The fund's real estate investments accounted for 2 per cent to 7 per cent of its portfolio" },
+      "moves": [
+        { "date": "2025-08", "title": "Up to $1.5bn into GLP to grow the logistics real-estate platform", "type": "platform", "play": "platform", "source": { "title": "The National", "date": "2026-09-10", "url": "https://www.thenationalnews.com/business/markets/2026/09/10/abu-dhabi-wealth-fund-adia-says-tech-remains-major-investment-theme-this-year/", "quote": "In August last year, the fund said it was investing up to $1.5 billion in Singapore-based GLP to help the logistics investment company grow across markets." } },
+        { "date": "2025-11", "title": "JV sells 8-property student-housing portfolio for >$1bn", "type": "asset recycling", "play": "reit", "source": { "title": "The National", "date": "2026-09-10", "url": "https://www.thenationalnews.com/business/markets/2026/09/10/abu-dhabi-wealth-fund-adia-says-tech-remains-major-investment-theme-this-year/", "quote": "a joint venture between an Adia subsidiary in Landmark Properties sold an eight-property student housing portfolio ... in a deal valued at more than $1 billion." } },
+        { "date": "2025-10", "title": "Minority co-investor in Froneri (€3.6bn equity transaction)", "type": "M&A", "play": "acquisition", "source": { "title": "The National", "date": "2026-09-10", "url": "https://www.thenationalnews.com/business/markets/2026/09/10/abu-dhabi-wealth-fund-adia-says-tech-remains-major-investment-theme-this-year/", "quote": "The €3.6 billion ($4.18 billion) equity transaction established a new ownership structure for PAI's approximately 50 per cent stake in Froneri." } }
+      ],
+      "performance": [{ "text": "20-year and 30-year annualised returns of 6.6% and 7.2% (2025)", "source": { "title": "The National", "date": "2026-09-10", "url": "https://www.thenationalnews.com/business/markets/2026/09/10/abu-dhabi-wealth-fund-adia-says-tech-remains-major-investment-theme-this-year/" } }]
+    },
+    {
+      "id": "icd", "name": "Investment Corporation of Dubai", "short": "ICD", "country": "UAE · Dubai",
+      "aumUsdBn": 429, "aumAsOf": "end-2025, Global SWF estimate", "aumSource": { "title": "Khaleej Times (Global SWF data)", "date": "2026-05-11", "url": "https://www.khaleejtimes.com/business/property/investment-corporation-of-dubai-transfers-emaars-entire-stake-to-dubai-holding-subsidiary", "quote": "According to Global SWF data, Investment Corporation of Dubai had $429 billion in assets under management at the end of 2025." },
+      "mandate": "Established 2006 to consolidate and manage the Government of Dubai's portfolio of commercial companies and investments.",
+      "mandateSource": { "title": "Zawya (ICD press release)", "date": "2024-05-29", "url": "https://www.zawya.com/en/press-release/companies-news/investment-corporation-of-dubai-announces-its-best-ever-performance-well-above-last-years-record-agczic83" },
+      "moves": [
+        { "date": "2026-05", "title": "Transfers its 22.27% Emaar stake to Dubai Holding, which becomes Emaar's largest shareholder", "type": "portfolio consolidation", "play": "platform", "source": { "title": "The National", "date": "2026-05-12", "url": "https://www.thenationalnews.com/business/2026/05/12/dubai-holding-becomes-largest-shareholder-in-emaar-after-buying-icds-stake/", "quote": "Investment company Dubai Holding has become the largest shareholder in Emaar Properties after acquiring a 22.27 per cent stake in the developer from the Investment Corporation of Dubai (ICD)." } }
+      ],
+      "performance": [{ "text": "FY2024 net profit attributable AED 53.2bn; total assets AED 1.47tn", "source": { "title": "Zawya", "date": "2025-05-20", "url": "https://www.zawya.com/en/special-coverage/corporate-earnings/dubais-state-investor-icd-posts-145bln-net-profit-for-fy2024-b0f1tqoj" } }]
+    },
+    {
+      "id": "mubadala", "name": "Mubadala Investment Company", "short": "Mubadala", "country": "UAE · Abu Dhabi",
+      "aumUsdBn": 385, "aumAsOf": "end-2025, self-reported", "aumSource": { "title": "Mubadala", "date": "2026-04-09", "url": "https://www.mubadala.com/en/news/strong-performance-by-uae-portfolio-drives-mubadalas-growth-in-2025", "quote": "Assets under management grew 17% in 2025 to AED 1.4 trillion (US$385 billion), with annualized five- and ten-year returns exceeding 10%." },
+      "mandate": "Builds sector champions in the UAE and globally; record 2025 deployment AED 143bn and proceeds AED 138bn.",
+      "mandateSource": { "title": "Mubadala", "date": "2026-04-09", "url": "https://www.mubadala.com/en/news/strong-performance-by-uae-portfolio-drives-mubadalas-growth-in-2025", "quote": "Capital deployed grew 20% to AED 143 billion (US$39 billion). Proceeds grew 27% to AED 138 billion (US$38 billion)." },
+      "moves": [
+        { "date": "2025", "title": "Record capital recycling: AED 138bn of proceeds against AED 143bn deployed", "type": "asset recycling", "play": "reit", "source": { "title": "Mubadala", "date": "2026-04-09", "url": "https://www.mubadala.com/en/news/strong-performance-by-uae-portfolio-drives-mubadalas-growth-in-2025" } },
+        { "date": "2026-07", "title": "$25bn credit portfolio moved to Mubadala Capital to raise third-party capital", "type": "platform", "play": "platform", "source": { "title": "Bloomberg Law", "date": "2026-07-06", "url": "https://news.bloomberglaw.com/capital-markets/mubadala-opens-25-billion-credit-business-to-outside-investors", "quote": "The wealth fund is transferring a $25 billion credit portfolio to its alternative asset manager Mubadala Capital under a long-term management agreement that will allow the platform to raise third-party capital for the first time." } }
+      ],
+      "performance": [{ "text": "5-year IRR 10.7%, 10-year IRR 10.3%", "source": { "title": "Mubadala", "date": "2026-04-09", "url": "https://www.mubadala.com/en/news/strong-performance-by-uae-portfolio-drives-mubadalas-growth-in-2025" } }]
+    },
+    {
+      "id": "qia", "name": "Qatar Investment Authority", "short": "QIA", "country": "Qatar",
+      "aumUsdBn": 524, "aumAsOf": "2025, as reported by Bloomberg (QIA does not publish AUM)", "aumSource": { "title": "Bloomberg", "date": "2025-05-15", "url": "https://www.bloomberg.com/news/articles/2025-05-15/qatar-s-wealth-fund-plans-500-billion-us-push-over-next-decade" },
+      "mandate": "Established 2005 to protect and grow Qatar's financial assets and diversify the economy.",
+      "mandateSource": { "title": "QIA", "url": "https://www.qia.qa/en/About/Pages/default.aspx", "quote": "QIA was established in 2005 to protect and grow Qatar's financial assets and to diversify the economy." },
+      "moves": [
+        { "date": "2026-01", "title": "$25bn commitment to Goldman Sachs Asset Management partnership", "type": "partnership", "play": "landJv", "source": { "title": "The National", "date": "2026-01-20", "url": "https://www.thenationalnews.com/business/economy/2026/01/20/qatars-qia-and-goldman-sachs-target-25bn-investment-goal", "quote": "the Gulf country's sovereign wealth fund will commit a total of $25 billion to the bank's asset management arm" } },
+        { "date": "2025-05", "title": "$500bn additional US investment over the next decade", "type": "international expansion", "play": "assetLight", "source": { "title": "Bloomberg", "date": "2025-05-15", "url": "https://www.bloomberg.com/news/articles/2025-05-15/qatar-s-wealth-fund-plans-500-billion-us-push-over-next-decade", "quote": "QIA plans to invest an additional $500 billion in the US over the next decade" } }
+      ],
+      "performance": []
+    },
+    {
+      "id": "limad", "name": "L'imad Holding (incl. ADQ)", "short": "L'imad/ADQ", "country": "UAE · Abu Dhabi",
+      "aumUsdBn": 300, "aumAsOf": "2026 after ADQ consolidation, Global SWF estimate", "aumSource": { "title": "Global Finance (Global SWF data)", "url": "https://gfmag.com/capital-raising-corporate-finance/abu-dhabi-power-play-limad-emerges-as-300-billion-sovereign-force/", "quote": "Following the transfer of ADQ's assets, L'Imad will have around $300 billion in assets under management, according to data from Global SWF" },
+      "mandate": "ADQ's assets consolidated into L'imad from January 2026 to create a diversified sovereign investment platform (energy, infrastructure, health care, logistics, real estate).",
+      "mandateSource": { "title": "The National", "date": "2026-01-30", "url": "https://www.thenationalnews.com/business/2026/01/30/abu-dhabi-to-consolidate-assets-of-adq-under-limad", "quote": "Abu Dhabi will consolidate the assets of sovereign wealth fund ADQ into its recently created investment vehicle , L'imad Holding, to create a \"sovereign investment powerhouse with a diversified asset base\"." },
+      "moves": [
+        { "date": "2025-07", "title": "ADQ takes majority control of Aramex (63.16% with AD Ports)", "type": "M&A", "play": "acquisition", "source": { "title": "The National", "date": "2025-07-22", "url": "https://www.thenationalnews.com/business/markets/2025/07/22/abu-dhabis-adq-completes-acquisition-of-majority-stake-in-aramex" } },
+        { "date": "2025-01", "title": "ADQ–Orion 50/50 critical-minerals JV, $1.2bn over four years", "type": "JV", "play": "landJv", "source": { "title": "Mining.com (Reuters)", "date": "2025-01-30", "url": "https://www.mining.com/web/abu-dhabi-wealth-fund-adq-orion-team-up-to-invest-1-2-billion-in-metals-mining/" } },
+        { "date": "2026-08", "title": "Offer for remaining 24.58% of AD Ports at AED 6.25/share (AED 31.8bn valuation)", "type": "take-private", "play": "acquisition", "source": { "title": "The National", "date": "2026-08-17", "url": "https://thenationalnews.com/business/2026/08/17/limad-announce-intention-to-acquire-100-shares-of-ad-ports-group" } },
+        { "date": "2025", "title": "$25bn power partnership with Energy Capital Partners (US data-centre power)", "type": "international expansion", "play": "assetLight", "source": { "title": "The National", "date": "2026-01-30", "url": "https://www.thenationalnews.com/business/2026/01/30/abu-dhabi-to-consolidate-assets-of-adq-under-limad" } }
+      ],
+      "performance": [{ "text": "ADQ 2025 net profit AED 43bn (+66%); total assets AED 996.8bn", "source": { "title": "Khaleej Times", "date": "2026-10-30", "url": "https://khaleejtimes.com/business/fitch-affirms-adqs-rating-as-net-profit-rises-66-to-dh43-billion" } }]
+    }
+  ]
+}
