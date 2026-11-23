@@ -149,7 +149,35 @@ export function aggregate(txns, { window = 90, minDeals = 20, top = 15 } = {}) {
     projects[k].valueAedBn += t.amount / 1e9;
   }
 
+  // Splits, bedroom pricing, price bands, rolling trend, top deals, recent records.
+  const groupBy = (xs, key) => xs.reduce((m, t) => ((m[key(t) || 'n/a'] ??= []).push(t), m), {});
+  const summarise = (xs) => ({ deals: xs.length, valueAedBn: xs.reduce((a, t) => a + t.amount, 0) / 1e9, medianPpsm: median(xs.map((t) => t.ppsm)), medianPrice: median(xs.map((t) => t.amount)) });
+  const byType = Object.entries(groupBy(valid, (t) => t.type)).map(([k, xs]) => ({ key: k, ...summarise(xs) })).sort((a, b) => b.deals - a.deals);
+  const offPlanSales = sales.filter(isOffPlan);
+  const readySales = sales.filter((t) => !isOffPlan(t));
+  const registration = { offPlan: summarise(offPlanSales), ready: summarise(readySales) };
+  registration.offPlanPremium = registration.offPlan.medianPpsm / registration.ready.medianPpsm - 1;
+  const byRooms = Object.entries(groupBy(sales, (t) => t.rooms)).map(([k, xs]) => ({ key: k, ...summarise(xs) })).filter((r) => r.deals >= 5).sort((a, b) => a.medianPrice - b.medianPrice);
+  const BANDS = [0, 1e6, 2e6, 3e6, 5e6, 10e6, 20e6, Infinity];
+  const priceBands = BANDS.slice(0, -1).map((lo, i) => ({ lo, hi: BANDS[i + 1], deals: sales.filter((t) => t.amount >= lo && t.amount < BANDS[i + 1]).length }));
+  const byDay = groupBy(sales, (t) => t.date.toISOString().slice(0, 10));
+  const days = Object.keys(byDay).sort();
+  const trend = days.map((d, i) => {
+    const win = days.slice(Math.max(0, i - 6), i + 1).flatMap((x) => byDay[x].map((t) => t.ppsm));
+    return { date: d, deals: byDay[d].length, rollingPpsm: median(win) };
+  });
+  const compact = (t) => ({ d: t.date.toISOString().slice(0, 10), ty: t.type, rg: isOffPlan(t) ? 'Off-Plan' : 'Ready', ar: t.area, pt: t.propertyType, rm: t.rooms, pj: t.project, a: Math.round(t.amount), s: Math.round(t.size * 10) / 10 });
+  const topDeals = [...sales].sort((a, b) => b.amount - a.amount).slice(0, 10).map(compact);
+  const records = [...valid].sort((a, b) => b.date - a.date).slice(0, 1500).map(compact);
+
   return {
+    byType,
+    registration,
+    byRooms,
+    priceBands,
+    trend,
+    topDeals,
+    records,
     period: { start: start.toISOString().slice(0, 10), end: end.toISOString().slice(0, 10) },
     totals: {
       deals: valid.length,

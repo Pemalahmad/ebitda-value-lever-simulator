@@ -89,7 +89,7 @@ export function Heatmap({ g }) {
               <th>{f(g.a, r)}</th>
               {g.cells[i].map((c, j) => {
                 const d = (c - g.current) / maxAbs;
-                const bg = d >= 0 ? `rgba(45,212,191,${0.08 + d * 0.55})` : `rgba(248,113,113,${0.08 + -d * 0.55})`;
+                const bg = d >= 0 ? `rgba(43,60,240,${0.04 + d * 0.32})` : `rgba(194,85,45,${0.04 + -d * 0.3})`;
                 const isCur = i === 2 && j === 2;
                 return <td key={j} style={{ background: bg }} className={isCur ? 'cur' : ''}>{money(c, { dp: 0 })}</td>;
               })}
@@ -101,16 +101,24 @@ export function Heatmap({ g }) {
   );
 }
 
-// Semicircle gauge for board confidence.
+// Tick-ring dial for board confidence: 60 ticks, filled up to the value.
 export function Gauge({ value }) {
-  const r = 52;
-  const c = Math.PI * r;
-  const color = value >= 75 ? 'var(--pos)' : value >= 50 ? 'var(--amber)' : 'var(--neg)';
+  const N = 60;
+  const lit = Math.round((value / 100) * N);
+  const color = value >= 75 ? 'var(--accent)' : value >= 50 ? 'var(--amber)' : 'var(--rust)';
   return (
-    <svg viewBox="0 0 120 70" className="gauge" role="img" aria-label={`Board confidence ${value} of 100`}>
-      <path d="M8 62 A52 52 0 0 1 112 62" fill="none" stroke="var(--track)" strokeWidth="10" strokeLinecap="round" />
-      <path d="M8 62 A52 52 0 0 1 112 62" fill="none" stroke={color} strokeWidth="10" strokeLinecap="round" strokeDasharray={`${(value / 100) * c} ${c}`} style={{ transition: 'stroke-dasharray .4s ease, stroke .4s' }} />
-      <text x="60" y="56" textAnchor="middle" className="gauge-num">{value}</text>
+    <svg viewBox="0 0 140 140" className="gauge" role="img" aria-label={`Board confidence ${value} of 100`}>
+      {Array.from({ length: N }, (_, i) => {
+        const a = (i / N) * Math.PI * 2 - Math.PI / 2;
+        const long = i % 5 === 0;
+        const r1 = long ? 52 : 55, r2 = 62;
+        return (
+          <line key={i} x1={70 + r1 * Math.cos(a)} y1={70 + r1 * Math.sin(a)} x2={70 + r2 * Math.cos(a)} y2={70 + r2 * Math.sin(a)}
+            stroke={i < lit ? color : 'var(--line-2)'} strokeWidth={long ? 2 : 1.4} strokeLinecap="round" style={{ transition: 'stroke .3s' }} />
+        );
+      })}
+      <text x="70" y="78" textAnchor="middle" className="gauge-num">{value}</text>
+      <text x="70" y="94" textAnchor="middle" className="gauge-sub">/ 100</text>
     </svg>
   );
 }

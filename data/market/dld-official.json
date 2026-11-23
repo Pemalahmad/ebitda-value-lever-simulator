@@ -1,38 +1,527 @@
 {
   "asOf": "2026-11-23",
   "annual": [
-    { "year": 2023, "transactions": 166400, "valueAedBn": 634, "investors": 113655, "newInvestors": 71002, "source": { "title": "Dubai Media Office", "date": "2024-02-07", "url": "https://mediaoffice.ae/en/news/2024/february/07-02/dubai-land-department-marks-strongest-performance", "quote": "The value of real estate transactions exceeded AED634 billion with the number of transactions reaching over 166,400 real estate transactions in 2023." } },
-    { "year": 2024, "transactions": 226000, "valueAedBn": 761, "investors": 156149, "newInvestors": 110000, "source": { "title": "Dubai Land Department", "date": "2025-01-26", "url": "https://dubailand.gov.ae/en/news-media/dubai-s-real-estate-sector-records-aed761-billion-in-transactions-in-2024", "quote": "Real estate transactions alone totalled 226,000, with a combined value of AED761 billion, a remarkable 36 percent growth in volume and 20 percent growth in value year-on-year." } },
-    { "year": 2025, "transactions": 270328, "valueAedBn": 917, "investors": 193100, "newInvestors": 129600, "source": { "title": "DLD Annual Data Review 2025", "date": "2026-10-12", "url": "https://dubailand.gov.ae/en/open-data/research/dubai-real-estate-market-annual-data-review-2025", "quote": "Dubai recorded 270,328 real estate transactions in 2025, up 20% from 2024, while total transaction value increased 20% to AED 917 billion." }, "investorsSource": { "title": "Dubai Media Office", "date": "2026-01-12", "url": "https://mediaoffice.ae/en/news/2026/january/12-01/dubais-real-estate-market-records-new-historic-milestone", "quote": "The investor base continued to expand, reaching around 193.1 thousand, an increase of 24%, including 129.6 thousand new investors" } }
+    {
+      "year": 2023,
+      "transactions": 166400,
+      "valueAedBn": 634,
+      "investors": 113655,
+      "newInvestors": 71002,
+      "source": {
+        "title": "Dubai Media Office",
+        "date": "2024-02-07",
+        "url": "https://mediaoffice.ae/en/news/2024/february/07-02/dubai-land-department-marks-strongest-performance",
+        "quote": "The value of real estate transactions exceeded AED634 billion with the number of transactions reaching over 166,400 real estate transactions in 2023."
+      }
+    },
+    {
+      "year": 2024,
+      "transactions": 226000,
+      "valueAedBn": 761,
+      "investors": 156149,
+      "newInvestors": 110000,
+      "source": {
+        "title": "Dubai Land Department",
+        "date": "2025-01-26",
+        "url": "https://dubailand.gov.ae/en/news-media/dubai-s-real-estate-sector-records-aed761-billion-in-transactions-in-2024",
+        "quote": "Real estate transactions alone totalled 226,000, with a combined value of AED761 billion, a remarkable 36 percent growth in volume and 20 percent growth in value year-on-year."
+      }
+    },
+    {
+      "year": 2025,
+      "transactions": 270328,
+      "valueAedBn": 917,
+      "investors": 193100,
+      "newInvestors": 129600,
+      "source": {
+        "title": "DLD Annual Data Review 2025",
+        "date": "2026-10-12",
+        "url": "https://dubailand.gov.ae/en/open-data/research/dubai-real-estate-market-annual-data-review-2025",
+        "quote": "Dubai recorded 270,328 real estate transactions in 2025, up 20% from 2024, while total transaction value increased 20% to AED 917 billion."
+      },
+      "investorsSource": {
+        "title": "Dubai Media Office",
+        "date": "2026-01-12",
+        "url": "https://mediaoffice.ae/en/news/2026/january/12-01/dubais-real-estate-market-records-new-historic-milestone",
+        "quote": "The investor base continued to expand, reaching around 193.1 thousand, an increase of 24%, including 129.6 thousand new investors"
+      }
+    }
   ],
   "periods": [
-    { "period": "Q1 2026", "valueAedBn": 252, "transactions": 60303, "source": { "title": "Dubai Media Office", "date": "2026-04-09", "url": "https://mediaoffice.ae/en/news/2026/april/09-04/dubai-real-estate-transactions-surge-31-to-reach-aed252-billion-in-q1-2026", "quote": "total transactions reaching AED252 billion, marking a 31% year-on-year increase in value and a 6% rise in volume" } },
-    { "period": "9M 2026*", "valueAedBn": 574.12, "transactions": 165018, "source": { "title": "Emirates 24|7 (DLD data; not an official release)", "date": "2026-10-01", "url": "https://www.emirates247.com/business/dubai-real-estate-transactions-hit-dh574-billion-in-nine-months-second-highest-sales-value-in-market-history/6205", "quote": "January to September 2026 saw 165,018 transactions worth Dh574.12 billion" } }
+    {
+      "period": "Q1 2026",
+      "valueAedBn": 252,
+      "transactions": 60303,
+      "source": {
+        "title": "Dubai Media Office",
+        "date": "2026-04-09",
+        "url": "https://mediaoffice.ae/en/news/2026/april/09-04/dubai-real-estate-transactions-surge-31-to-reach-aed252-billion-in-q1-2026",
+        "quote": "total transactions reaching AED252 billion, marking a 31% year-on-year increase in value and a 6% rise in volume"
+      }
+    },
+    {
+      "period": "9M 2026*",
+      "valueAedBn": 574.12,
+      "transactions": 165018,
+      "source": {
+        "title": "Emirates 24|7 (DLD data; not an official release)",
+        "date": "2026-10-01",
+        "url": "https://www.emirates247.com/business/dubai-real-estate-transactions-hit-dh574-billion-in-nine-months-second-highest-sales-value-in-market-history/6205",
+        "quote": "January to September 2026 saw 165,018 transactions worth Dh574.12 billion"
+      }
+    }
   ],
   "periodsNote": "* 9M 2026 is a media tally of DLD data, not an official DLD release.",
   "topAreasLabel": "Investors",
   "topAreasNote": "Top 10 communities by investment value, 2025 (DLD Annual Data Review). DLD community names: Marsa Dubai is Dubai Marina, Hadaeq Sheikh MBR is Mohammed Bin Rashid Gardens.",
   "topAreas": [
-    { "rank": 1, "area": "Business Bay", "transactions": 12627, "valueAedBn": 40 },
-    { "rank": 2, "area": "Marsa Dubai", "transactions": null, "valueAedBn": 30 },
-    { "rank": 3, "area": "Madinat Al Mataar", "transactions": null, "valueAedBn": 25 },
-    { "rank": 3, "area": "Dubai Investment Park Second", "transactions": null, "valueAedBn": 25 },
-    { "rank": 5, "area": "Al Barsha South Fourth", "transactions": 18176, "valueAedBn": 24 },
-    { "rank": 6, "area": "Palm Jumeirah", "transactions": null, "valueAedBn": 23 },
-    { "rank": 7, "area": "Wadi Al Safa 5", "transactions": 12834, "valueAedBn": 22 },
-    { "rank": 7, "area": "Wadi Al Safa 3", "transactions": null, "valueAedBn": 22 },
-    { "rank": 7, "area": "Hadaeq Sheikh MBR", "transactions": null, "valueAedBn": 22 },
-    { "rank": 7, "area": "Burj Khalifa", "transactions": null, "valueAedBn": 22 }
+    {
+      "rank": 1,
+      "area": "Business Bay",
+      "transactions": 12627,
+      "valueAedBn": 40
+    },
+    {
+      "rank": 2,
+      "area": "Marsa Dubai",
+      "transactions": null,
+      "valueAedBn": 30
+    },
+    {
+      "rank": 3,
+      "area": "Madinat Al Mataar",
+      "transactions": null,
+      "valueAedBn": 25
+    },
+    {
+      "rank": 3,
+      "area": "Dubai Investment Park Second",
+      "transactions": null,
+      "valueAedBn": 25
+    },
+    {
+      "rank": 5,
+      "area": "Al Barsha South Fourth",
+      "transactions": 18176,
+      "valueAedBn": 24
+    },
+    {
+      "rank": 6,
+      "area": "Palm Jumeirah",
+      "transactions": null,
+      "valueAedBn": 23
+    },
+    {
+      "rank": 7,
+      "area": "Wadi Al Safa 5",
+      "transactions": 12834,
+      "valueAedBn": 22
+    },
+    {
+      "rank": 7,
+      "area": "Wadi Al Safa 3",
+      "transactions": null,
+      "valueAedBn": 22
+    },
+    {
+      "rank": 7,
+      "area": "Hadaeq Sheikh MBR",
+      "transactions": null,
+      "valueAedBn": 22
+    },
+    {
+      "rank": 7,
+      "area": "Burj Khalifa",
+      "transactions": null,
+      "valueAedBn": 22
+    }
   ],
-  "topAreasSource": { "title": "DLD Annual Data Review 2025 (PDF)", "date": "2026-10-12", "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf", "quote": "Business Bay led all communities by investment value in 2025, generating AED 40 billion. Marsa Dubai followed at AED 30 billion, while Madinat Al Mataar and DIP Second each recorded AED 25 billion. Al Barsha South Fourth contributed a further AED 24 billion" },
+  "topAreasSource": {
+    "title": "DLD Annual Data Review 2025 (PDF)",
+    "date": "2026-10-12",
+    "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf",
+    "quote": "Business Bay led all communities by investment value in 2025, generating AED 40 billion. Marsa Dubai followed at AED 30 billion, while Madinat Al Mataar and DIP Second each recorded AED 25 billion. Al Barsha South Fourth contributed a further AED 24 billion"
+  },
   "signals": [
-    { "text": "Sales: 217,889 transactions worth AED 680bn in 2025, the largest category; mortgages AED 180bn, gifts AED 57bn.", "source": { "title": "DLD Annual Data Review 2025", "date": "2026-10-12", "url": "https://dubailand.gov.ae/en/open-data/research/dubai-real-estate-market-annual-data-review-2025" } },
-    { "text": "Off-plan was 63.3% of investment activity in 2025 (61.0% in 2024): 138K off-plan vs 102K ready vs 30K land transactions.", "source": { "title": "DLD Annual Data Review 2025", "date": "2026-10-12", "url": "https://dubailand.gov.ae/en/open-data/research/dubai-real-estate-market-annual-data-review-2025", "quote": "Off-plan activity accounted for 63.3% of total investment activity in 2025, compared with 61.0% in 2024" } },
-    { "text": "Average sale prices 2025: villas AED 16,791/m² (+15%), units AED 20,666/m² (+6%).", "source": { "title": "DLD Annual Data Review 2025 (PDF)", "date": "2026-10-12", "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf", "quote": "Average villa prices reached AED 16,791 per sq.m in 2025, increasing 15% from 2024. Average unit prices rose 6% to AED 20,666 per sq.m." } },
-    { "text": "Official residential price index +9.81% in 2025 (villas +14.83%, apartments +7.38%).", "source": { "title": "Gulf News (Dubai Real Estate Price Index)", "date": "2026-05-20", "url": "https://gulfnews.com/business/property/dubai-real-estate-price-index-records-981-growth-in-2025-1.500546058" } },
-    { "text": "Residential freehold unit rents +13.5% to AED 1,141/m² a year; rental contracts passed 1 million (AED 98.9bn of annual rent).", "source": { "title": "DLD Annual Data Review 2025", "date": "2026-10-12", "url": "https://dubailand.gov.ae/en/open-data/research/dubai-real-estate-market-annual-data-review-2025" } },
-    { "text": "Palm Jumeirah luxury units: 912 investments worth AED 9.8bn at AED 53,186/m², the highest-priced community in 2025.", "source": { "title": "DLD Annual Data Review 2025 (PDF)", "date": "2026-10-12", "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf" } },
-    { "text": "Dubai Real Estate Sector Strategy 2033 target: AED 1 trillion in transaction value (+70%).", "source": { "title": "Dubai Media Office", "date": "2026-01-12", "url": "https://mediaoffice.ae/en/news/2026/january/12-01/dubais-real-estate-market-records-new-historic-milestone", "quote": "the Dubai Real Estate Sector Strategy 2033, which seeks to raise transaction volume by 70% to reach AED 1 trillion." } },
-    { "text": "Dubai 2040: population from 3.3m (2020) to 5.8m; hotel and tourism land +134%; public beaches +400%.", "source": { "title": "Dubai Media Office", "date": "2021-03-13", "url": "https://mediaoffice.ae/en/news/2021/march/13-03/mohammed-bin-rashid", "quote": "the number of Dubai residents is expected to increase from 3.3 million in 2020 to 5.8 million by 2040" } }
-  ]
+    {
+      "text": "Sales: 217,889 transactions worth AED 680bn in 2025, the largest category; mortgages AED 180bn, gifts AED 57bn.",
+      "source": {
+        "title": "DLD Annual Data Review 2025",
+        "date": "2026-10-12",
+        "url": "https://dubailand.gov.ae/en/open-data/research/dubai-real-estate-market-annual-data-review-2025"
+      }
+    },
+    {
+      "text": "Off-plan was 63.3% of investment activity in 2025 (61.0% in 2024): 138K off-plan vs 102K ready vs 30K land transactions.",
+      "source": {
+        "title": "DLD Annual Data Review 2025",
+        "date": "2026-10-12",
+        "url": "https://dubailand.gov.ae/en/open-data/research/dubai-real-estate-market-annual-data-review-2025",
+        "quote": "Off-plan activity accounted for 63.3% of total investment activity in 2025, compared with 61.0% in 2024"
+      }
+    },
+    {
+      "text": "Average sale prices 2025: villas AED 16,791/m² (+15%), units AED 20,666/m² (+6%).",
+      "source": {
+        "title": "DLD Annual Data Review 2025 (PDF)",
+        "date": "2026-10-12",
+        "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf",
+        "quote": "Average villa prices reached AED 16,791 per sq.m in 2025, increasing 15% from 2024. Average unit prices rose 6% to AED 20,666 per sq.m."
+      }
+    },
+    {
+      "text": "Official residential price index +9.81% in 2025 (villas +14.83%, apartments +7.38%).",
+      "source": {
+        "title": "Gulf News (Dubai Real Estate Price Index)",
+        "date": "2026-05-20",
+        "url": "https://gulfnews.com/business/property/dubai-real-estate-price-index-records-981-growth-in-2025-1.500546058"
+      }
+    },
+    {
+      "text": "Residential freehold unit rents +13.5% to AED 1,141/m² a year; rental contracts passed 1 million (AED 98.9bn of annual rent).",
+      "source": {
+        "title": "DLD Annual Data Review 2025",
+        "date": "2026-10-12",
+        "url": "https://dubailand.gov.ae/en/open-data/research/dubai-real-estate-market-annual-data-review-2025"
+      }
+    },
+    {
+      "text": "Palm Jumeirah luxury units: 912 investments worth AED 9.8bn at AED 53,186/m², the highest-priced community in 2025.",
+      "source": {
+        "title": "DLD Annual Data Review 2025 (PDF)",
+        "date": "2026-10-12",
+        "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf"
+      }
+    },
+    {
+      "text": "Dubai Real Estate Sector Strategy 2033 target: AED 1 trillion in transaction value (+70%).",
+      "source": {
+        "title": "Dubai Media Office",
+        "date": "2026-01-12",
+        "url": "https://mediaoffice.ae/en/news/2026/january/12-01/dubais-real-estate-market-records-new-historic-milestone",
+        "quote": "the Dubai Real Estate Sector Strategy 2033, which seeks to raise transaction volume by 70% to reach AED 1 trillion."
+      }
+    },
+    {
+      "text": "Dubai 2040: population from 3.3m (2020) to 5.8m; hotel and tourism land +134%; public beaches +400%.",
+      "source": {
+        "title": "Dubai Media Office",
+        "date": "2021-03-13",
+        "url": "https://mediaoffice.ae/en/news/2021/march/13-03/mohammed-bin-rashid",
+        "quote": "the number of Dubai residents is expected to increase from 3.3 million in 2020 to 5.8 million by 2040"
+      }
+    }
+  ],
+  "review": {
+    "title": "DLD Annual Data Review 2025 (PDF)",
+    "date": "2026-10-12",
+    "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf"
+  },
+  "priceTrend": {
+    "note": "Average sale price, AED per m² (DLD Fig 4.1; 2021 and 2025 values stated in text, intermediate years from chart labels).",
+    "years": [
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "series": [
+      {
+        "name": "Units",
+        "values": [
+          14707,
+          17733,
+          18856,
+          19423,
+          20666
+        ]
+      },
+      {
+        "name": "Villas",
+        "values": [
+          9277,
+          9994,
+          12436,
+          14602,
+          16791
+        ]
+      }
+    ],
+    "source": {
+      "title": "DLD Annual Data Review 2025 (PDF)",
+      "date": "2026-10-12",
+      "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf",
+      "quote": "Between 2021 and 2025, average villa prices increased from AED 9,277 to AED 16,791 per sq.m, while average unit prices rose from AED 14,707 to AED 20,666 per sq.m."
+    }
+  },
+  "rentTrend": {
+    "note": "Average residential freehold rent, AED per m² per year (DLD Figs 4.3–4.4).",
+    "rows": [
+      {
+        "name": "Residential units",
+        "y2021": 698,
+        "y2024": 1005,
+        "y2025": 1141
+      },
+      {
+        "name": "Residential villas",
+        "y2021": 428,
+        "y2024": 726,
+        "y2025": 791
+      },
+      {
+        "name": "Commercial units",
+        "y2021": null,
+        "y2024": 1746,
+        "y2025": 1977
+      }
+    ],
+    "source": {
+      "title": "DLD Annual Data Review 2025 (PDF)",
+      "date": "2026-10-12",
+      "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf",
+      "quote": "residential freehold unit rents rose by 13.5% to AED 1,141 per sq.m per annum"
+    }
+  },
+  "luxury": {
+    "rows": [
+      {
+        "name": "Luxury units",
+        "y2021": 34771,
+        "y2025": 41739
+      },
+      {
+        "name": "Luxury villas",
+        "y2021": 17359,
+        "y2025": 31708
+      }
+    ],
+    "communities": [
+      {
+        "area": "Palm Jumeirah",
+        "type": "unit",
+        "ppsm": 53186
+      },
+      {
+        "area": "World Islands",
+        "type": "unit",
+        "ppsm": 50765
+      },
+      {
+        "area": "Marsa Dubai",
+        "type": "unit",
+        "ppsm": 46122
+      },
+      {
+        "area": "Palm Jumeirah",
+        "type": "villa",
+        "ppsm": 52330
+      }
+    ],
+    "source": {
+      "title": "DLD Annual Data Review 2025 (PDF)",
+      "date": "2026-10-12",
+      "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf",
+      "quote": "average luxury unit prices increased from AED 34,771 per sq.m to AED 41,739 per sq.m, while average luxury villa prices rose from AED 17,359 per sq.m to AED 31,708 per sq.m"
+    }
+  },
+  "splits": {
+    "byType": [
+      {
+        "name": "Sales",
+        "y2024": {
+          "deals": 180000,
+          "aedBn": 520
+        },
+        "y2025": {
+          "deals": 217889,
+          "aedBn": 680
+        }
+      },
+      {
+        "name": "Mortgages",
+        "y2024": {
+          "deals": 36000,
+          "aedBn": 186
+        },
+        "y2025": {
+          "deals": 42884,
+          "aedBn": 180
+        }
+      },
+      {
+        "name": "Gifts",
+        "y2024": {
+          "deals": 9400,
+          "aedBn": 51
+        },
+        "y2025": {
+          "deals": 9555,
+          "aedBn": 57
+        }
+      }
+    ],
+    "byCategory": [
+      {
+        "name": "Off-plan",
+        "y2024": {
+          "deals": 109000,
+          "aedBn": 232
+        },
+        "y2025": {
+          "deals": 138456,
+          "aedBn": 295
+        }
+      },
+      {
+        "name": "Ready",
+        "y2024": {
+          "deals": 95000,
+          "aedBn": 295
+        },
+        "y2025": {
+          "deals": 101908,
+          "aedBn": 312
+        }
+      },
+      {
+        "name": "Vacant land",
+        "y2024": {
+          "deals": 21000,
+          "aedBn": 234
+        },
+        "y2025": {
+          "deals": 29964,
+          "aedBn": 310
+        }
+      }
+    ],
+    "source": {
+      "title": "DLD Annual Data Review 2025 (PDF)",
+      "date": "2026-10-12",
+      "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf",
+      "quote": "Off-plan transactions remained the largest segment by transaction volume in 2025, accounting for 138K sales compared to 102K ready transactions and 30K vacant land transactions."
+    }
+  },
+  "investorRegions": {
+    "rows": [
+      [
+        "South Asia",
+        97,
+        123
+      ],
+      [
+        "Middle East",
+        75,
+        96
+      ],
+      [
+        "Northern Europe",
+        42,
+        56
+      ],
+      [
+        "Western Europe",
+        35,
+        46
+      ],
+      [
+        "Eastern Europe",
+        30,
+        40
+      ],
+      [
+        "North Africa",
+        23,
+        29
+      ],
+      [
+        "Southern Europe",
+        21,
+        28
+      ],
+      [
+        "East Asia",
+        21,
+        27
+      ],
+      [
+        "Western Asia",
+        20,
+        25
+      ],
+      [
+        "Central America",
+        9,
+        15
+      ]
+    ],
+    "source": {
+      "title": "DLD Annual Data Review 2025 (PDF)",
+      "date": "2026-10-12",
+      "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf",
+      "quote": "South Asia remained the leading source region with AED 123 billion in investment value, followed by the Middle East at AED 96 billion and Northern Europe at AED 56 billion."
+    }
+  },
+  "rentCommunities": {
+    "rows": [
+      [
+        "Business Bay",
+        4.45,
+        22.3
+      ],
+      [
+        "Marsa Dubai",
+        3.53,
+        3.5
+      ],
+      [
+        "Burj Khalifa",
+        3.52,
+        3.8
+      ],
+      [
+        "Al Barsha South Fourth",
+        2.61,
+        46.0
+      ],
+      [
+        "Al Thanyah Fifth",
+        2.56,
+        14.6
+      ],
+      [
+        "Jabal Ali First",
+        2.51,
+        24.3
+      ],
+      [
+        "Al Barsha First",
+        2.45,
+        15.7
+      ],
+      [
+        "Jabal Ali Industrial First",
+        2.05,
+        36.2
+      ],
+      [
+        "Palm Jumeirah",
+        1.78,
+        4.6
+      ],
+      [
+        "Hadaeq Sheikh MBR",
+        1.67,
+        32.4
+      ]
+    ],
+    "source": {
+      "title": "DLD Annual Data Review 2025 (PDF)",
+      "date": "2026-10-12",
+      "url": "https://dubailand.gov.ae/media/gpzjz0se/dubai-real-estate-market-annual-data-review-2025-english.pdf",
+      "quote": "Business Bay Generated AED 4.45 Bn in Annual Rent Value, Leading Dubai’s Rental Market"
+    }
+  }
 }

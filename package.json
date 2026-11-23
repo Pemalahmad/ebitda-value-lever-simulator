@@ -1,6 +1,6 @@
 {
   "name": "ebitda-value-lever-simulator",
-  "version": "1.2.0",
+  "version": "1.5.0",
   "description": "Dubai real-estate market tracker with official-data signals, deal-level momentum and illustrative value-scenario tools.",
   "type": "module",
   "license": "MIT",
@@ -17,7 +17,8 @@
     "start": "node server/index.js",
     "test": "node --test tests/*.test.js",
     "memo": "node bin/value-memo.js",
-    "check": "npm test && npm run build"
+    "check": "npm test && npm run build",
+    "pulse": "node scripts/fetch-pulse.mjs"
   },
   "dependencies": {
     "react": "^18.3.1",

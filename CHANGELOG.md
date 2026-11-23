@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5.0 (2026-11-24): Integrated market decision workspace
+
+- Integrated the live Market Pulse, source-health monitoring and browser-local decision journal into the market-first dashboard.
+- Removed company-specific branding, benchmark datasets, organisation profiles and the company-specific opportunity screen.
+- Removed XP, levels and mission counters from the visible product shell.
+- Preserved the dark theme, responsive market tracker, scenario deck, SOP, local DLD import lab and neutral Portfolio Lab.
+- Unified source-recency warnings, documentation and deployment assets around independent market analysis.
+
 ## 1.2.0 (2026-11-23): Market Tracker edition
 
 - Repositioned the product as the **Dubai Real Estate Market Tracker** and made the market view the default landing experience.

@@ -1,9 +1,9 @@
-# Dubai Real Estate Market Tracker
+# Dubai Market & Value Tracker
 
-**An independent market intelligence tracker built from cited Dubai Land Department publications and open transaction data, with scenario tools that connect market movement to operating and portfolio value.**
+**Independent Dubai market intelligence built from cited public sources and open transaction data, with scenario tools that connect market movement to operating and portfolio value.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-41%20passing-2dd4bf)
+![Tests](https://img.shields.io/badge/tests-49%20passing-2dd4bf)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Dependencies](https://img.shields.io/badge/engine-zero%20dependencies-e5b95c)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -11,6 +11,19 @@
 **[▶ Open the live tracker](https://pemalahmad.github.io/ebitda-value-lever-simulator/)**
 
 ![Dubai real-estate market tracker](docs/screenshot-market.png)
+
+## Live Market
+
+The **Live Market** workspace adds a six-hour market and news pulse without tying the analysis to a named organisation. It includes:
+
+- urgency-ranked market signals with their evidence;
+- Dubai, GCC and global market tables with source-recency warnings;
+- oil, rates, currencies, volatility, freight and maritime chokepoints;
+- country and theme filters for linked news headlines;
+- a browser-local decision journal with review dates and an evidence checklist;
+- explicit source-health and fallback-data status.
+
+![Live market monitoring workspace](docs/screenshot-pulse.png)
 
 ## What it tracks
 
@@ -67,6 +80,8 @@ npm run dev
 ```
 
 Open the local URL shown by Vite. The market tracker appears first; use the tabs to open the scenario tools.
+
+Refresh the committed Live Market snapshot with `npm run pulse`. The scheduled GitHub workflow refreshes it every six hours before deployment and retains the last good value when a source is temporarily unavailable.
 
 ### Production build
 

@@ -35,6 +35,7 @@ await shot('screenshot-portfolio', { hash: '#tab=portfolio&s=hospitality&occupan
   for (const name of ['Include REIT carve-out & capital recycling', 'Include Platform consolidation', 'Include Asset-light hospitality expansion']) await page.getByRole('button', { name }).click();
 } });
 await shot('screenshot-market', { height: 1400 });
+await shot('screenshot-pulse', { height: 1400, tab: 'Live Market' });
 await shot('screenshot-simulator', { hash: scenario });
 await shot('screenshot-scorecard', { hash: scenario, tab: 'Balanced Scorecard' });
 await shot('screenshot-business-case', { hash: scenario, tab: 'Business Case' });
@@ -90,7 +91,7 @@ if (process.argv.includes('--gif')) {
   await frame(4);
   await slide('subShare', 22, 6);
   await slide('dso', 76, 6);
-  await frame(10); // let the mission toast show
+  await frame(10); // let the updated scenario settle
   await page.getByRole('button', { name: 'Play' }).first().click();
   await page.waitForTimeout(250);
   await frame(6);

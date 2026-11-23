@@ -72,3 +72,13 @@ test('DLD ingest: synthetic fixture aggregates and reconciles', () => {
 test('DLD ingest rejects files without valid transactions', () => {
   assert.throws(() => aggregate(parseCsv('x,y\n1,2').map(normalise)), /No valid transactions/);
 });
+
+test('DLD aggregate exposes the tracker views (bedrooms, bands, trend, records)', () => {
+  const txns = parseCsv(readFileSync(new URL('./fixtures/dld-synthetic.csv', import.meta.url), 'utf8')).map(normalise);
+  const agg = aggregate(txns);
+  assert.equal(agg.priceBands.reduce((s, b) => s + b.deals, 0), agg.totals.sales);
+  assert.ok(agg.trend.length > 90 && agg.trend.every((t) => Number.isFinite(t.rollingPpsm)));
+  assert.equal(agg.records.length, 540);
+  assert.ok(agg.topDeals[0].a >= agg.topDeals[9].a);
+  assert.ok(Number.isFinite(agg.registration.offPlanPremium));
+});

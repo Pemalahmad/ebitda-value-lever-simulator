@@ -1,14 +1,15 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { SECTORS, getSector, baseLevers, evaluate, investmentByLever, newAchievements, totalXp, fmt } from '../engine/index.js';
+import React, { useEffect, useMemo, useState } from 'react';
+import { SECTORS, getSector, baseLevers, evaluate, investmentByLever, fmt } from '../engine/index.js';
 import { LeverPanel } from './components/Levers.jsx';
-import { GamePanel, Toasts } from './components/GamePanel.jsx';
 import { SimulatorView, ScorecardView, BusinessCaseView, MemoView } from './components/Views.jsx';
 import { PortfolioView } from './components/PortfolioView.jsx';
 import { MarketView } from './components/MarketView.jsx';
+import { PulseView } from './components/PulseView.jsx';
 import { Icon } from './components/Icons.jsx';
-import { readHash, writeHash, loadProgress, saveProgress } from './state.js';
+import { readHash, writeHash } from './state.js';
 
 const TABS = [
+  { id: 'pulse', label: 'Live Market' },
   { id: 'market', label: 'Market Tracker' },
   { id: 'simulator', label: 'Value Simulator' },
   { id: 'scorecard', label: 'Balanced Scorecard' },
@@ -16,8 +17,7 @@ const TABS = [
   { id: 'memo', label: 'Board Memo' },
   { id: 'portfolio', label: 'Portfolio Lab' },
 ];
-const WIDE = ['market', 'portfolio'];
-const XP_PER_LEVEL = 400;
+const WIDE = ['pulse', 'market', 'portfolio'];
 const THEME_KEY = 'market-tracker-theme';
 
 function initialTheme() {
@@ -37,8 +37,6 @@ export default function App() {
   const [tab, setTab] = useState(TABS.some((t) => t.id === initial.tab) ? initial.tab : 'market');
   const [bySector, setBySector] = useState(() => ({ [initial.sector]: { ...baseLevers(getSector(initial.sector)), ...initial.levers } }));
   const [activeScenario, setActiveScenario] = useState(null);
-  const [progress, setProgress] = useState(loadProgress);
-  const [toasts, setToasts] = useState([]);
   const [shared, setShared] = useState(false);
   const [plays, setPlays] = useState({});
   const [theme, setTheme] = useState(initialTheme);
@@ -53,33 +51,6 @@ export default function App() {
     document.documentElement.dataset.theme = theme;
     try { window.localStorage.setItem(THEME_KEY, theme); } catch { /* Keep the in-session preference. */ }
   }, [theme]);
-
-  // Award missions and achievements once, then keep them.
-  const progressRef = useRef(progress);
-  progressRef.current = progress;
-  useEffect(() => {
-    const p = progressRef.current;
-    const fresh = [];
-    const missions = { ...p.missions };
-    for (const m of e.missions) {
-      if (m.done && !missions[m.id]) {
-        missions[m.id] = m.xp;
-        fresh.push({ kind: 'mission', title: m.title, xp: m.xp });
-      }
-    }
-    const ach = newAchievements(e, p.achievements);
-    for (const a of ach) fresh.push({ kind: 'achievement', title: a.title, xp: a.xp });
-    if (!fresh.length) return;
-    const next = { achievements: [...p.achievements, ...ach.map((a) => a.id)], missions };
-    setProgress(next);
-    saveProgress(next);
-    const stamped = fresh.map((t, i) => ({ ...t, key: `${Date.now()}-${i}` }));
-    setToasts((ts) => [...ts, ...stamped].slice(-2));
-    setTimeout(() => setToasts((ts) => ts.filter((t) => !stamped.includes(t))), 4200);
-  }, [e]);
-
-  const xp = totalXp(Object.values(progress.missions).reduce((a, b) => a + b, 0), progress.achievements);
-  const level = Math.floor(xp / XP_PER_LEVEL) + 1;
 
   const setLever = (id, value) => {
     setActiveScenario(null);
@@ -123,16 +94,11 @@ export default function App() {
             <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="8" fill="var(--text)" /><path d="M7 23l6-7 5 4 7-10" stroke="var(--bg)" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </div>
           <div>
-            <h1>Dubai Real Estate Market Tracker</h1>
-            <div className="brand-sub">Official market data · momentum signals · value scenarios</div>
+            <h1>Dubai Market &amp; Value Tracker</h1>
+            <div className="brand-sub">Live signals · official real-estate evidence · value scenarios</div>
           </div>
         </div>
         <div className="player">
-          {!WIDE.includes(tab) && <><div className="lvl">LVL {level}</div>
-            <div className="xpbox">
-              <div className="xp-top"><span>{xp.toLocaleString('en-US')} XP</span><span className="muted">{XP_PER_LEVEL - (xp % XP_PER_LEVEL)} to LVL {level + 1}</span></div>
-              <div className="bar gold"><span style={{ width: `${((xp % XP_PER_LEVEL) / XP_PER_LEVEL) * 100}%` }} /></div>
-            </div></>}
           <button className="ghost sm theme-toggle" onClick={() => setTheme((value) => value === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
             <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={15} />
             <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
@@ -142,17 +108,13 @@ export default function App() {
       </header>
 
       {!WIDE.includes(tab) && <nav className="sectors no-print" aria-label="Operating model sectors">
-        {SECTORS.map((s) => {
-          const done = [...s.missions.map((m) => `${s.id}.${m.id}`), ...['selfFunding', 'cleanBoard', 'balanced'].map((m) => `${s.id}.${m}`)].filter((id) => progress.missions[id]).length;
-          return (
+        {SECTORS.map((s) => (
             <button key={s.id} className={`sector ${s.id === sectorId ? 'on' : ''}`} onClick={() => pickSector(s.id)} aria-pressed={s.id === sectorId}>
               <Icon name={s.id} size={22} />
               <span className="s-name">{s.name}</span>
               <span className="s-tag">{s.tagline}</span>
-              <span className="s-prog">{done}/{s.missions.length + 3} missions</span>
             </button>
-          );
-        })}
+        ))}
       </nav>}
 
       {!WIDE.includes(tab) && <div className="context no-print">
@@ -171,19 +133,18 @@ export default function App() {
             ))}
           </div>
           {tab === 'portfolio' && <PortfolioView bySector={bySector} plays={plays} setPlays={setPlays} onOpenSector={(id) => { pickSector(id); setTab('simulator'); }} />}
+          {tab === 'pulse' && <PulseView />}
           {tab === 'market' && <MarketView />}
           {tab === 'simulator' && <SimulatorView sector={sector} levers={levers} e={e} onNudge={nudge} />}
           {tab === 'scorecard' && <ScorecardView e={e} />}
           {tab === 'case' && <BusinessCaseView sector={sector} e={e} />}
           {tab === 'memo' && <MemoView sector={sector} levers={levers} />}
         </div>
-        <GamePanel e={e} sector={sector} unlocked={progress.achievements} missionLog={progress.missions} />
       </main>
 
       <footer className="foot no-print">
         Independent market analysis. Public figures link to their sources; operating models and scenarios are illustrative. Not affiliated with or endorsed by DLD. Method: <code>docs/methodology.md</code>.
       </footer>
-      <Toasts toasts={toasts} />
     </div>
   );
 }
