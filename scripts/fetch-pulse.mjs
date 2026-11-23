@@ -115,3 +115,4 @@ mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, JSON.stringify({ generatedAt: new Date(now).toISOString(), markets: markets.filter(Boolean), news: deduped, sources }, null, 1) + '\n');
 const ok = sources.filter((s) => s.ok).length;
 console.log(`pulse.json: ${markets.filter(Boolean).length} markets, ${deduped.length} headlines, ${ok}/${sources.length} sources live`);
+for (const s of sources.filter((x) => !x.ok)) console.log(`  kept last good data: ${s.name} (${s.error})`);
