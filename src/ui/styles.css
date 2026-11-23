@@ -461,3 +461,35 @@ tr.detail td { background: var(--card-2); }
 .tile-value { font-size: clamp(20px, 15cqi, 30px); text-overflow: clip; }
 .fact-v { font-size: clamp(20px, 17cqi, 30px); white-space: nowrap; }
 .game > *, .levers > * { flex-shrink: 0; }
+
+/* ---------- Market Pulse ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+ul.plain { list-style: none; margin: 8px 0 0; padding: 0; }
+.btn { display: inline-flex; align-items: center; min-height: 36px; padding: 0 14px; border: 1px solid var(--line-2); border-radius: var(--r-sm); background: var(--card); font-size: 13px; transition: transform .12s var(--ease), background .15s; }
+.btn:hover { background: var(--card-2); }
+.btn:active { transform: scale(.97); }
+.btn:focus-visible, .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+.btn:disabled { opacity: .45; }
+.pulse-head { padding-bottom: 4px; }
+.pulse-signals { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+.pulse-signal { border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px; background: var(--card); }
+.pulse-signal h4 { margin: 8px 0 6px; font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+.pulse-signal p { margin: 0 0 6px; font-size: 13px; color: var(--ink-2); }
+.pulse-markets { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 520px), 1fr)); gap: 18px 24px; }
+.pulse-markets td svg { vertical-align: middle; }
+.pulse-news { padding: 5px 0; border-bottom: 1px solid var(--line); font-size: 13px; line-height: 1.45; }
+.pulse-news:last-child { border-bottom: 0; }
+.pulse-news a { color: var(--ink); text-decoration: none; }
+.pulse-news a:hover { text-decoration: underline; }
+.pulse-list { columns: 2 420px; column-gap: 28px; }
+.pulse-list .pulse-news { break-inside: avoid; }
+.pulse-choke { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.pulse-choke p { margin: 0 0 4px; }
+.journal-form { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px 12px; }
+.journal-form label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--ink-2); }
+.journal-form label.wide { grid-column: 1 / -1; }
+.journal-form input, .journal-form select, .journal-form textarea { font: inherit; font-size: 13px; color: var(--ink); background: var(--card); border: 1px solid var(--line-2); border-radius: var(--r-sm); padding: 7px 10px; }
+.journal-form :focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.checklist { list-style: none; margin: 6px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 4px 16px; font-size: 13px; }
+.row-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 14px; }

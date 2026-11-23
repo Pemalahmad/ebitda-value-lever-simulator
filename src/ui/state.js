@@ -7,13 +7,13 @@ export function readHash() {
   const sector = SECTORS.find((x) => x.id === s) ? s : SECTORS[0].id;
   const levers = {};
   for (const [k, v] of params.entries()) if (k !== 's' && k !== 'tab' && Number.isFinite(Number(v))) levers[k] = Number(v);
-  return { sector, levers, tab: params.get('tab') || 'group' };
+  return { sector, levers, tab: params.get('tab') || 'pulse' };
 }
 
 export function writeHash(sectorId, levers, base, tab) {
   const params = new URLSearchParams();
   params.set('s', sectorId);
-  if (tab && tab !== 'group') params.set('tab', tab);
+  if (tab && tab !== 'pulse') params.set('tab', tab);
   for (const [k, v] of Object.entries(levers)) if (base[k] !== v) params.set(k, String(+v.toFixed(4)));
   const next = `#${params.toString()}`;
   if (window.location.hash !== next) window.history.replaceState(null, '', next);

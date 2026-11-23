@@ -3,7 +3,7 @@
 **A working model of a Group Strategy & Value Creation mandate: operating levers across Dubai Holding's verticals, the corporate-finance plays the Gulf's largest investors use, cited benchmarks, and an official-data Dubai real-estate market tracker.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-45%20passing-2dd4bf)
+![Tests](https://img.shields.io/badge/tests-52%20passing-2dd4bf)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Dependencies](https://img.shields.io/badge/engine-zero%20dependencies-e5b95c)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -12,7 +12,20 @@
 
 ![Demo: moving levers in Integrated Urban Services, completing missions, then the scorecard, business case and board memo](docs/demo.gif)
 
-## New: market analysis and opportunity screen
+## New: Market Pulse, the investment manager's morning read
+
+**[How it works →](docs/market-pulse.md)**
+
+The landing tab answers four questions before the investment committee: **what moved, what it means for a Dubai portfolio, what the local papers are saying, and was my last call right?**
+- **Top signals** ranked Act now / Watch / Tailwind: oil, US rates through the dirham peg, the dollar, volatility, UAE vs US equities, Emaar, freight, and news clusters on Hormuz, the Red Sea and Suez and on regional security.
+- **Markets:** DFM, Tadawul, MSCI UAE and Dubai bellwethers, global indices, commodities, FX, rates and freight.
+- **Trade, maritime and logistics**, **country movement**, and **news by theme** (resilience, security, economy, resources, infrastructure, society) from Gulf News, The National, Khaleej Times, WAM, Zawya, Arabian Business and the maritime press.
+- **Decision journal:** thesis, what would change your mind, linked signals, a pre-commitment checklist and a review date, with market levels saved so each review shows what has moved since.
+- Refreshed every 6 hours by CI from delayed prices and headlines. Not investment advice.
+
+![Market Pulse](docs/screenshot-pulse.png)
+
+## Market analysis and opportunity screen
 
 **[Read the analysis →](docs/market-opportunity-analysis.md)**
 

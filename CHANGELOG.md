@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.4.0 (2026-11-23): Market Pulse
+
+- **New landing tab, Market Pulse:** a decision dashboard for an investment manager in Dubai.
+  - **Top signals:** threshold moves in oil, US rates, the dollar, volatility, UAE vs US equities, Emaar and freight, plus shipping-chokepoint and regional-security news clusters, each with why it matters for a Dubai portfolio.
+  - **Markets:** DFM, Tadawul, MSCI UAE and Dubai bellwethers, global indices, commodities, FX and rates, volatility and freight, with 1D/1W/1M/3M changes and trend lines.
+  - **Trade, maritime and logistics:** Hormuz, the Red Sea and Bab el-Mandeb, and Suez.
+  - **Country movement** and **news by theme** (resilience, security, economy, resources, infrastructure, society) from Gulf News, The National, Khaleej Times, WAM, Zawya, Arabian Business and the maritime press.
+  - **Decision journal:** stance, conviction, thesis, what would change your mind, linked signals, a pre-commitment checklist and a review date, with market levels saved per note; export and import as JSON.
+- **Fresh data every 6 hours:** `npm run pulse` collects delayed prices and headlines; CI runs it on a schedule and before each build, keeping the last good data for any source that fails. Only headlines and links are stored.
+- **Honest numbers:** a change is never computed against history that is not really a month back (the DFM and Tadawul show level and daily move until their recent history is available).
+- See [docs/market-pulse.md](docs/market-pulse.md) for widgets, signal thresholds and sources.
+
 ## 1.3.0 (2026-11-23): Paper design system
 
 - **New visual system:**

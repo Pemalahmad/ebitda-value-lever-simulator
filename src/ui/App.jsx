@@ -6,10 +6,12 @@ import { SimulatorView, ScorecardView, BusinessCaseView, MemoView } from './comp
 import { GroupView } from './components/GroupView.jsx';
 import { MarketView } from './components/MarketView.jsx';
 import { OpportunitiesView } from './components/OpportunitiesView.jsx';
+import { PulseView } from './components/PulseView.jsx';
 import { Icon } from './components/Icons.jsx';
 import { readHash, writeHash, loadProgress, saveProgress } from './state.js';
 
 const TABS = [
+  { id: 'pulse', label: 'Market Pulse' },
   { id: 'group', label: 'Group & Funds' },
   { id: 'simulator', label: 'Value Simulator' },
   { id: 'scorecard', label: 'Balanced Scorecard' },
@@ -18,13 +20,13 @@ const TABS = [
   { id: 'market', label: 'Market Tracker' },
   { id: 'opps', label: 'Opportunities' },
 ];
-const WIDE = ['market', 'opps'];
+const WIDE = ['pulse', 'market', 'opps'];
 const XP_PER_LEVEL = 400;
 
 export default function App() {
   const initial = useMemo(readHash, []);
   const [sectorId, setSectorId] = useState(initial.sector);
-  const [tab, setTab] = useState(TABS.some((t) => t.id === initial.tab) ? initial.tab : 'group');
+  const [tab, setTab] = useState(TABS.some((t) => t.id === initial.tab) ? initial.tab : 'pulse');
   const [bySector, setBySector] = useState(() => ({ [initial.sector]: { ...baseLevers(getSector(initial.sector)), ...initial.levers } }));
   const [activeScenario, setActiveScenario] = useState(null);
   const [progress, setProgress] = useState(loadProgress);
@@ -152,6 +154,7 @@ export default function App() {
             ))}
           </div>
           {tab === 'group' && <GroupView bySector={bySector} plays={plays} setPlays={setPlays} onOpenSector={(id) => { pickSector(id); setTab('simulator'); }} />}
+          {tab === 'pulse' && <PulseView />}
           {tab === 'market' && <MarketView />}
           {tab === 'opps' && <OpportunitiesView onModel={(play, preset) => { setPlays((p) => ({ ...p, [play]: { on: true, params: { ...(p[play]?.params ?? {}), ...(preset ?? {}) } } })); setTab('group'); window.scrollTo(0, 0); }} />}
           {tab === 'simulator' && <SimulatorView sector={sector} levers={levers} e={e} onNudge={nudge} />}
