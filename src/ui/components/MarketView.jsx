@@ -196,7 +196,7 @@ function LineChart({ years, series, fmt }) {
   const max = Math.max(...all) * 1.08, min = Math.min(...all) * 0.85;
   const x = (i) => P + (i * (W - P * 2)) / (years.length - 1);
   const y = (v) => H - 24 - ((v - min) / (max - min)) * (H - 44);
-  const colors = ['var(--gold)', 'var(--pos)'];
+  const colors = ['var(--ink)', 'var(--accent)'];
   return (
     <svg viewBox={`0 0 ${W} ${H}`} className="linechart" role="img" aria-label="Average price per square metre, units and villas">
       {years.map((yr, i) => <text key={yr} x={x(i)} y={H - 6} textAnchor="middle" className="ax">{yr}</text>)}

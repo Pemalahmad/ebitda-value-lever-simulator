@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.3.0 (2026-11-23): Paper design system
+
+- **New visual system:**
+  - **Surfaces:** paper cards on a warm canvas, soft layered shadows instead of borders.
+  - **Colour:** a single ultramarine accent, with rust for negatives.
+  - **Type:** Geist and Geist Mono, large light-weight numerals, dot labels in place of uppercase labels.
+- **Redesigned widgets:**
+  - segmented pill tabs and a black active business card;
+  - ruler-tick lever sliders with a baseline marker;
+  - a tick-ring dial for board confidence and a dark glowing score card;
+  - pill KPI deltas, dark bars with an accent highlight, and black pill actions.
+- **States:** hover, press, focus-visible and reduced-motion states throughout. KPI numerals scale to their card width instead of truncating.
+- **Fix:** the score card was collapsing inside the height-capped game panel.
+
 ## 1.2.0 (2026-11-23): Market analysis and opportunity screen
 
 - **Opportunities tab**: cited market analysis (2026 downturn, supply wave, 2027 rebound); 10 sectors, 13 themes and 19 target companies scored on five criteria with live, adjustable committee weights; Model it loads each target into its value play

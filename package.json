@@ -1,6 +1,6 @@
 {
   "name": "ebitda-value-lever-simulator",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Dubai Holding value-creation model: operating levers -> EBITDA -> EV across six verticals, group value plays, regional fund benchmark and an official-data DLD market tracker.",
   "type": "module",
   "license": "MIT",
