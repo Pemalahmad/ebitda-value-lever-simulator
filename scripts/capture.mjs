@@ -15,7 +15,7 @@ await new Promise((ok) => server.listen(0, ok));
 const url = `http://127.0.0.1:${server.address().port}/`;
 const browser = await chromium.launch({ args: ['--use-angle=metal', '--force-color-profile=srgb'] });
 
-async function shot(name, { width = 1600, height = 1000, hash = '', tab, full = false, action } = {}) {
+async function shot(name, { width = 1600, height = 1000, hash = '', tab, full = false, action, selector } = {}) {
   const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 2 });
   await page.goto(url + hash);
   await page.addStyleTag({ content: '.toasts{display:none!important}' });
@@ -24,7 +24,8 @@ async function shot(name, { width = 1600, height = 1000, hash = '', tab, full = 
   if (action) await action(page);
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForTimeout(400);
-  await page.screenshot({ path: `${OUT}${name}.png`, fullPage: full });
+  if (selector) await page.locator(selector).screenshot({ path: `${OUT}${name}.png` });
+  else await page.screenshot({ path: `${OUT}${name}.png`, fullPage: full });
   await page.close();
   console.log('wrote', name);
 }
@@ -41,6 +42,19 @@ await shot('screenshot-memo', { hash: scenario, tab: 'Board Memo', height: 1300 
 await shot('screenshot-mobile', { width: 390, height: 844, hash: '#s=hospitality&occupancy=79&labourPOR=152' });
 await shot('screenshot-dark', { height: 1400, action: async (page) => {
   await page.getByRole('button', { name: 'Switch to dark mode' }).click();
+} });
+await shot('screenshot-scenarios', { selector: '.scenario-workspace', action: async (page) => {
+  const lightMode = page.getByRole('button', { name: 'Switch to light mode' });
+  if (await lightMode.isVisible()) await lightMode.click();
+  await page.getByRole('option', { name: /Growth/ }).click();
+  await page.getByRole('button', { name: /Open comparison Growth/ }).click();
+  await page.waitForTimeout(850);
+} });
+await shot('screenshot-import-lab', { selector: '.import-lab', action: async (page) => {
+  const lightMode = page.getByRole('button', { name: 'Switch to light mode' });
+  if (await lightMode.isVisible()) await lightMode.click();
+  await page.locator('#dld-import-file').setInputFiles('tests/fixtures/dld-synthetic.csv');
+  await page.getByText('Validation passed').waitFor({ state: 'visible' });
 } });
 
 if (process.argv.includes('--gif')) {
@@ -94,7 +108,19 @@ if (process.argv.includes('--gif')) {
   await page.waitForTimeout(300);
   await page.evaluate(() => window.scrollTo(0, 0));
   await frame(8);
+  await page.locator('.pulse-switch').getByRole('button', { name: 'Volume' }).click();
+  await frame(4);
   for (let y = 0; y < 3; y++) { await page.mouse.wheel(0, 300); await page.waitForTimeout(80); await frame(2); }
+  await page.locator('.scenario-deck').scrollIntoViewIfNeeded();
+  await page.getByRole('option', { name: /Growth/ }).click();
+  await frame(5);
+  await page.getByRole('button', { name: /Open comparison Growth/ }).click();
+  await page.waitForTimeout(700);
+  await frame(6);
+  await page.locator('.import-lab').scrollIntoViewIfNeeded();
+  await page.locator('#dld-import-file').setInputFiles('tests/fixtures/dld-synthetic.csv');
+  await page.getByText('Validation passed').waitFor({ state: 'visible' });
+  await frame(8);
   await frame(6);
   await page.close();
   const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', '6', '-i', `${frames}/f%04d.png`,

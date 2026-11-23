@@ -21,13 +21,22 @@ The market tracker is the default landing experience. It brings together:
 - leading communities by investment value;
 - cited market signals covering sales, off-plan share, prices, rents and long-term demand;
 - an interactive history chart that switches between value, transactions and investors, with period-level inspection;
+- a morphing headline instrument for value, volume and investor participation;
+- an evidence calendar for market releases, review dates and decision gates;
+- five illustrative working cases in an interactive scenario deck, linked to a folding before/after comparison;
 - a persistent light/dark theme switch;
 - a four-stage market-signal SOP that tracks validation, materiality, response and decision-record gates;
-- optional deal-level analysis from a DLD Transactions CSV, including monthly flow, median AED/m², off-plan share, price momentum and top projects.
+- a mobile command dock for jumping between market workspaces;
+- a browser-based DLD import lab that validates and aggregates a Transactions CSV locally, without uploading it;
+- deal-level analysis from the connected CSV, including monthly flow, median AED/m², off-plan share, price momentum and top projects.
 
 Every published headline links to its source. The snapshot date is visible in the product, and partial-period figures are labelled.
 
 ![Dark market tracker with interactive chart controls](docs/screenshot-dark.png)
+
+![Interactive scenario deck and before-after comparison](docs/screenshot-scenarios.png)
+
+![Local DLD transaction import lab](docs/screenshot-import-lab.png)
 
 ## From market signal to value scenario
 
@@ -85,7 +94,7 @@ The repository ships with cited published aggregates in `data/market/dld-officia
    npm run build
    ```
 
-The ingest script writes `data/market/dld-aggregate.json`. It does not upload the source CSV or require a third-party data service.
+The import lab can read the same file directly in the dashboard and keeps it in the browser session. For a repeatable bundled build, the ingest script writes `data/market/dld-aggregate.json`. Neither route uploads the source CSV or requires a third-party data service.
 
 ## Share a scenario
 
