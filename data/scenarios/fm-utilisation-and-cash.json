@@ -1,0 +1,12 @@
+{
+  "sector": "urbanServices",
+  "name": "Utilisation and cash programme",
+  "description": "Raise technician utilisation through CAFM scheduling, insource part of the subcontracted work, and cut DSO through e-invoicing.",
+  "levers": {
+    "utilisation": 76,
+    "subShare": 22,
+    "sla": 1.8,
+    "leadDays": 32,
+    "dso": 78
+  }
+}

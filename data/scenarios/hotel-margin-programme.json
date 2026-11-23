@@ -1,0 +1,11 @@
+{
+  "sector": "hospitality",
+  "name": "Hotel margin programme",
+  "description": "Shift mix to direct booking, engineer F&B menus and retrofit energy systems, while protecting rooms labour.",
+  "levers": {
+    "distribution": 11.5,
+    "fnbCostRatio": 62,
+    "energy": 48,
+    "occupancy": 76
+  }
+}
