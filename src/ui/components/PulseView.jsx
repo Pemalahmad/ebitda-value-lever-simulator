@@ -154,7 +154,10 @@ export function PulseView() {
                 <thead><tr><th>Market</th><th className="r">Last</th><th className="r">1D</th><th className="r">1W</th><th className="r">1M</th><th className="r">3M</th><th className="r">Trend</th></tr></thead>
                 <tbody>{rows.filter((r) => r.group === g).map((r) => (
                   <tr key={r.id}>
-                    <td>{r.label}{r.s.stale && <div className="muted" style={{ fontSize: 11 }}>Recent history not published by the source</div>}</td>
+                    <td>{r.label}
+                      {Date.now() - Date.parse(r.s.asOf) > 4 * 864e5
+                        ? <div className="neg" style={{ fontSize: 11 }}>Last update {r.s.asOf}: source unavailable since</div>
+                        : r.s.stale && <div className="muted" style={{ fontSize: 11 }}>Recent history not published by the source</div>}</td>
                     <td className="r">{num(r.s.last)}{r.unit ? <span className="muted"> {r.unit}</span> : r.currency && r.currency !== 'USD' ? <span className="muted"> {r.currency}</span> : null}</td>
                     {['d1', 'w1', 'm1', 'm3'].map((k) => <td key={k} className={`r ${tone(r.invert && r.s[k] != null ? -r.s[k] : r.s[k])}`}>{pct(r.s[k])}</td>)}
                     <td className="r">{r.s.monthly ? <span className="muted">—</span> : <Spark series={r.series} color={r.s.m3 != null && (r.invert ? r.s.m3 > 0 : r.s.m3 < 0) ? 'var(--rust)' : 'var(--accent)'} />}</td>
