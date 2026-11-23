@@ -95,7 +95,7 @@ The verdict is:
 
 Every number in the memo is read from the engine's output for the same scenario.
 
-## 8. Group plays (`src/engine/plays.js`)
+## 8. Portfolio plays (`src/engine/plays.js`)
 
 Each play returns value-bridge lines that sum to its value, the cash raised or deployed, and the change in run-rate EBITDA:
 
@@ -103,13 +103,13 @@ Each play returns value-bridge lines that sum to its value, the cash raised or d
 |---|---|
 | REIT carve-out | re-rating `NOI/listing yield − NOI/book yield` + development margin on redeployed cash `(cash × yield on cost)/listing yield − cash` − fees |
 | Subsidiary IPO | `EBITDA × (IPO multiple × (1 − discount) − book multiple)`; cash = priced EV × stake floated |
-| Land-bank JV | land revaluation `area × (market − book)` + group share of `area × (price − build − market land)` |
+| Land-bank JV | land revaluation `area × (market − book)` + portfolio share of `area × (price − build − market land)` |
 | Asset-light hospitality | `fee EBITDA × fee multiple − key money`; fee EBITDA = (base fee × revenue + incentive fee × GOP) × 70% conversion |
-| Platform consolidation | `synergy × group multiple − one-off integration cost` |
-| Bolt-on M&A | `EBITDA × (group − purchase multiple) + synergies × group multiple − fees` |
+| Platform consolidation | `synergy × portfolio multiple − one-off integration cost` |
+| Bolt-on M&A | `EBITDA × (portfolio − purchase multiple) + synergies × portfolio multiple − fees` |
 | Master-planned launch | NPV of development profit (`units × price × margin`) spread evenly over the delivery period |
 
-The group value bridge adds the operating value created in each vertical (ΔEV + cash released) and the value of each active play to the modelled baseline EV.
+The portfolio value bridge adds the operating value created in each sector model (ΔEV + cash released) and the value of each active play to the modelled baseline EV. The interface is a neutral scenario lab and does not represent a named company.
 
 ## 9. Market tracker (`src/engine/market.js`)
 

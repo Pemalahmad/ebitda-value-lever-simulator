@@ -291,7 +291,7 @@ table.data tr.dim td { opacity: 0.45; }
   .memo { padding: 0; }
 }
 
-/* Group & Funds */
+/* Wide market and portfolio views */
 .layout.wide { grid-template-columns: minmax(0, 1fr); }
 .layout.wide .levers, .layout.wide .game { display: none; }
 .hero { background: linear-gradient(135deg, rgba(229, 185, 92, 0.1), rgba(45, 212, 191, 0.04)), var(--panel); }
@@ -350,8 +350,8 @@ table.funds td { vertical-align: top; }
 .vb-bar.partial { background: repeating-linear-gradient(135deg, rgba(45, 212, 191, 0.9) 0 6px, rgba(45, 212, 191, 0.55) 6px 12px); }
 .vb-val { font-size: 11.5px; margin-top: 5px; }
 .vb-lbl { font-size: 11px; color: var(--muted); text-align: center; }
-tr.dh td { background: rgba(229, 185, 92, 0.06); }
-.dh-chip { margin-left: 6px; color: var(--gold-2); border-color: rgba(229, 185, 92, 0.5); }
+.market-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; color: var(--muted); font-size: 11.5px; }
+.market-meta b { color: var(--gold-2); font-family: var(--mono); }
 .signals { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; }
 .signal { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; font-size: 12.5px; }
 .steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }

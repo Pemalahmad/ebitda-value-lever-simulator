@@ -30,10 +30,10 @@ async function shot(name, { width = 1600, height = 1000, hash = '', tab, full = 
 }
 
 const scenario = '#s=urbanServices&tab=simulator&utilisation=76&subShare=22&sla=1.8&dso=78&leadDays=32';
-await shot('screenshot-group', { hash: '#s=hospitality&occupancy=78&labourPOR=155', height: 1500, action: async (page) => {
+await shot('screenshot-portfolio', { hash: '#tab=portfolio&s=hospitality&occupancy=78&labourPOR=155', height: 1500, action: async (page) => {
   for (const name of ['Include REIT carve-out & capital recycling', 'Include Platform consolidation', 'Include Asset-light hospitality expansion']) await page.getByRole('button', { name }).click();
 } });
-await shot('screenshot-market', { hash: '#tab=market', height: 1400 });
+await shot('screenshot-market', { height: 1400 });
 await shot('screenshot-simulator', { hash: scenario });
 await shot('screenshot-scorecard', { hash: scenario, tab: 'Balanced Scorecard' });
 await shot('screenshot-business-case', { hash: scenario, tab: 'Business Case' });
@@ -45,7 +45,7 @@ if (process.argv.includes('--gif')) {
   rmSync(frames, { recursive: true, force: true });
   mkdirSync(frames, { recursive: true });
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
-  await page.goto(url + '#s=realEstate');
+  await page.goto(url);
   await page.evaluate(() => localStorage.clear());
   await page.reload();
   let n = 0;
@@ -64,13 +64,9 @@ if (process.argv.includes('--gif')) {
       await frame();
     }
   };
-  await frame(8); // Group & Funds landing
-  await page.getByRole('button', { name: 'Model it' }).nth(2).click(); // Dubai Residential REIT IPO preset
-  await page.waitForTimeout(300);
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await frame(8);
-  await page.getByRole('button', { name: /Integrated Urban Services/ }).click();
+  await frame(10); // Market tracker landing
   await page.getByRole('tab', { name: 'Value Simulator' }).click();
+  await page.getByRole('button', { name: /Integrated Urban Services/ }).click();
   await page.waitForTimeout(300);
   await frame(5);
   await slide('utilisation', 76, 8);

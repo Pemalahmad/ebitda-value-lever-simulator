@@ -8,7 +8,7 @@ import {
 
 const close = (a, b, eps = 1e-6) => assert.ok(Math.abs(a - b) < eps, `${a} ≈ ${b}`);
 
-test('six group businesses, each with levers, scenarios and missions', () => {
+test('six market-facing sector models, each with levers, scenarios and missions', () => {
   assert.equal(SECTORS.length, 6);
   for (const s of SECTORS) {
     assert.ok(s.levers.length >= 6, s.id);

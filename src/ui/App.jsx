@@ -3,26 +3,26 @@ import { SECTORS, getSector, baseLevers, evaluate, investmentByLever, newAchieve
 import { LeverPanel } from './components/Levers.jsx';
 import { GamePanel, Toasts } from './components/GamePanel.jsx';
 import { SimulatorView, ScorecardView, BusinessCaseView, MemoView } from './components/Views.jsx';
-import { GroupView } from './components/GroupView.jsx';
+import { PortfolioView } from './components/PortfolioView.jsx';
 import { MarketView } from './components/MarketView.jsx';
 import { Icon } from './components/Icons.jsx';
 import { readHash, writeHash, loadProgress, saveProgress } from './state.js';
 
 const TABS = [
-  { id: 'group', label: 'Group & Funds' },
+  { id: 'market', label: 'Market Tracker' },
   { id: 'simulator', label: 'Value Simulator' },
   { id: 'scorecard', label: 'Balanced Scorecard' },
   { id: 'case', label: 'Business Case' },
   { id: 'memo', label: 'Board Memo' },
-  { id: 'market', label: 'Market Tracker' },
+  { id: 'portfolio', label: 'Portfolio Lab' },
 ];
-const WIDE = ['market'];
+const WIDE = ['market', 'portfolio'];
 const XP_PER_LEVEL = 400;
 
 export default function App() {
   const initial = useMemo(readHash, []);
   const [sectorId, setSectorId] = useState(initial.sector);
-  const [tab, setTab] = useState(TABS.some((t) => t.id === initial.tab) ? initial.tab : 'group');
+  const [tab, setTab] = useState(TABS.some((t) => t.id === initial.tab) ? initial.tab : 'market');
   const [bySector, setBySector] = useState(() => ({ [initial.sector]: { ...baseLevers(getSector(initial.sector)), ...initial.levers } }));
   const [activeScenario, setActiveScenario] = useState(null);
   const [progress, setProgress] = useState(loadProgress);
@@ -106,21 +106,21 @@ export default function App() {
             <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="8" fill="var(--panel-2)" /><path d="M7 23l6-7 5 4 7-10" stroke="var(--gold)" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </div>
           <div>
-            <h1>EBITDA Value Lever Simulator</h1>
-            <div className="brand-sub">Strategy · Portfolio Management (PMO) · Technology Transformation</div>
+            <h1>Dubai Real Estate Market Tracker</h1>
+            <div className="brand-sub">Official market data · momentum signals · value scenarios</div>
           </div>
         </div>
         <div className="player">
-          <div className="lvl">LVL {level}</div>
-          <div className="xpbox">
-            <div className="xp-top"><span>{xp.toLocaleString('en-US')} XP</span><span className="muted">{XP_PER_LEVEL - (xp % XP_PER_LEVEL)} to LVL {level + 1}</span></div>
-            <div className="bar gold"><span style={{ width: `${((xp % XP_PER_LEVEL) / XP_PER_LEVEL) * 100}%` }} /></div>
-          </div>
-          <button className="ghost sm" onClick={share} title="Copy a link to this exact scenario"><Icon name="link" size={14} /> {shared ? 'Link copied' : 'Share scenario'}</button>
+          {!WIDE.includes(tab) && <><div className="lvl">LVL {level}</div>
+            <div className="xpbox">
+              <div className="xp-top"><span>{xp.toLocaleString('en-US')} XP</span><span className="muted">{XP_PER_LEVEL - (xp % XP_PER_LEVEL)} to LVL {level + 1}</span></div>
+              <div className="bar gold"><span style={{ width: `${((xp % XP_PER_LEVEL) / XP_PER_LEVEL) * 100}%` }} /></div>
+            </div></>}
+          <button className="ghost sm" onClick={share} title="Copy a link to this exact view"><Icon name="link" size={14} /> {shared ? 'Link copied' : WIDE.includes(tab) ? 'Share view' : 'Share scenario'}</button>
         </div>
       </header>
 
-      <nav className="sectors no-print" aria-label="Group businesses">
+      {!WIDE.includes(tab) && <nav className="sectors no-print" aria-label="Operating model sectors">
         {SECTORS.map((s) => {
           const done = [...s.missions.map((m) => `${s.id}.${m.id}`), ...['selfFunding', 'cleanBoard', 'balanced'].map((m) => `${s.id}.${m}`)].filter((id) => progress.missions[id]).length;
           return (
@@ -132,14 +132,14 @@ export default function App() {
             </button>
           );
         })}
-      </nav>
+      </nav>}
 
-      <div className="context no-print">
+      {!WIDE.includes(tab) && <div className="context no-print">
         <div>
-          <b>{sector.company}</b> <span className="muted">· {sector.scale} · illustrative operating model; public facts are cited on the Group &amp; Funds tab</span>
+          <b>{sector.company}</b> <span className="muted">· {sector.scale} · illustrative operating model for scenario analysis</span>
         </div>
         <div className="muted">Baseline EBITDA {fmt.money(e.cmp.base.ebitda)} · EV {fmt.money(e.cmp.base.ev)}</div>
-      </div>
+      </div>}
 
       <main className={`layout ${WIDE.includes(tab) ? 'wide' : ''}`}>
         <LeverPanel sector={sector} levers={levers} cost={cost} onChange={setLever} onReset={reset} onScenario={applyScenario} activeScenario={activeScenario} />
@@ -149,7 +149,7 @@ export default function App() {
               <button key={t.id} role="tab" aria-selected={tab === t.id} className={`tab ${tab === t.id ? 'on' : ''}`} onClick={() => setTab(t.id)}>{t.label}</button>
             ))}
           </div>
-          {tab === 'group' && <GroupView bySector={bySector} plays={plays} setPlays={setPlays} onOpenSector={(id) => { pickSector(id); setTab('simulator'); }} />}
+          {tab === 'portfolio' && <PortfolioView bySector={bySector} plays={plays} setPlays={setPlays} onOpenSector={(id) => { pickSector(id); setTab('simulator'); }} />}
           {tab === 'market' && <MarketView />}
           {tab === 'simulator' && <SimulatorView sector={sector} levers={levers} e={e} onNudge={nudge} />}
           {tab === 'scorecard' && <ScorecardView e={e} />}
@@ -160,7 +160,7 @@ export default function App() {
       </main>
 
       <footer className="foot no-print">
-        Independent analysis, not affiliated with or endorsed by Dubai Holding or any fund named. Public figures are cited; operating models are illustrative. Method: <code>docs/methodology.md</code>.
+        Independent market analysis. Public figures link to their sources; operating models and scenarios are illustrative. Not affiliated with or endorsed by DLD. Method: <code>docs/methodology.md</code>.
       </footer>
       <Toasts toasts={toasts} />
     </div>

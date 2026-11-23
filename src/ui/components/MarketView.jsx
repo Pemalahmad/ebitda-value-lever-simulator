@@ -1,5 +1,5 @@
 import React from 'react';
-import { Source } from './GroupView.jsx';
+import { Source } from './Source.jsx';
 import OFFICIAL from '../../../data/market/dld-official.json';
 
 // Deal-level aggregate is optional: it exists only after `node scripts/ingest-dld.mjs <csv>`.
@@ -19,8 +19,9 @@ export function MarketView() {
     <>
       <section className="card hero">
         <div className="eyebrow">Dubai real-estate market tracker</div>
-        <h3>Where the market is, from official DLD data</h3>
-        <p className="card-sub">Headline flows from Dubai Land Department publications and the Dubai Media Office. Every figure links to its source. The deal-level tracker below switches on when a DLD open-data CSV is ingested.</p>
+        <h3>Track the market. Test the opportunity.</h3>
+        <p className="card-sub">A market intelligence tracker built from Dubai Land Department publications and open transaction data. Follow transaction value, investor activity, community performance and deal-level momentum, then use the scenario tools to test the operating impact.</p>
+        <div className="market-meta"><span>Market-data snapshot</span><b>{OFFICIAL.asOf}</b><span>Every published figure links to its source</span></div>
       </section>
 
       {latest && (
