@@ -103,7 +103,7 @@ export default function App() {
       <header className="top no-print">
         <div className="brand">
           <div className="logo" aria-hidden="true">
-            <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="8" fill="var(--panel-2)" /><path d="M7 23l6-7 5 4 7-10" stroke="var(--gold)" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="8" fill="var(--text)" /><path d="M7 23l6-7 5 4 7-10" stroke="#fff" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </div>
           <div>
             <h1>Dubai Real Estate Market Tracker</h1>
