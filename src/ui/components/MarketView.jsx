@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Source } from './Source.jsx';
+import { BeforeAfterCard, ImportLab, MobileCommandDock, ReleaseCalendar, ScenarioDeck } from './MarketWorkspace.jsx';
 import OFFICIAL from '../../../data/market/dld-official.json';
 
 // Deal-level aggregate is optional: it exists only after `node scripts/ingest-dld.mjs <csv>`.
@@ -22,6 +23,8 @@ const SOP_STEPS = [
 ];
 
 export function MarketView() {
+  const [selectedCase, setSelectedCase] = useState('base');
+  const [importedAggregate, setImportedAggregate] = useState(null);
   const years = OFFICIAL.annual.filter((item) => item.valueAedBn);
   const latest = years.at(-1);
   const previous = years.at(-2);
@@ -29,8 +32,10 @@ export function MarketView() {
   const valueChange = previous ? latest.valueAedBn / previous.valueAedBn - 1 : 0;
   const transactionChange = previous?.transactions ? latest.transactions / previous.transactions - 1 : 0;
 
+  const activeAggregate = importedAggregate ?? AGG;
+
   return <div className="market-board">
-    <section className="market-opening">
+    <section className="market-opening" id="market-pulse">
       <div className="market-intro">
         <div className="market-status"><span aria-hidden="true" />Market snapshot <b>{OFFICIAL.asOf}</b></div>
         <h2>Dubai property,<br />read as a market.</h2>
@@ -46,24 +51,40 @@ export function MarketView() {
       <PeriodWidget period={currentPeriod} />
     </section>
 
-    <section className="market-analysis-grid">
+    <ReleaseCalendar />
+
+    <section className="market-analysis-grid" id="market-history">
       <HistoryWidget years={years} />
       <CommunityLedger />
     </section>
 
+    <section className="scenario-workspace">
+      <ScenarioDeck latest={latest} selectedId={selectedCase} onSelect={setSelectedCase} />
+      <BeforeAfterCard latest={latest} scenarioId={selectedCase} />
+    </section>
+
     {OFFICIAL.signals?.length > 0 && <SignalLedger signals={OFFICIAL.signals} />}
-    <SignalSop />
-    {AGG ? <DealTracker agg={AGG} /> : <IngestHowTo />}
+    <div id="market-sop"><SignalSop /></div>
+    {activeAggregate && <DealTracker agg={activeAggregate} />}
+    <ImportLab onImport={setImportedAggregate} bundledAggregate={AGG} />
+    <MobileCommandDock />
   </div>;
 }
 
 function PulseWidget({ latest, previous, years, change }) {
+  const [metric, setMetric] = useState('value');
+  const metrics = {
+    value: { short: 'Value', label: 'Recorded market value', value: bn(latest.valueAedBn), change, series: years.map((item) => item.valueAedBn), source: latest.source, footer: [`${n0(latest.transactions)} transactions`, `${n0(latest.investors)} investors`] },
+    volume: { short: 'Volume', label: 'Transaction volume', value: n0(latest.transactions), change: latest.transactions / previous.transactions - 1, series: years.map((item) => item.transactions), source: latest.source, footer: [`${bn(latest.valueAedBn)} value`, `${n0(previous.transactions)} in ${previous.year}`] },
+    investors: { short: 'Investors', label: 'Active investor base', value: n0(latest.investors), change: latest.investors / previous.investors - 1, series: years.map((item) => item.investors), source: latest.investorsSource ?? latest.source, footer: [`${n0(latest.newInvestors)} new investors`, `${n0(previous.investors)} in ${previous.year}`] },
+  };
+  const current = metrics[metric];
   return <article className="pulse-widget">
-    <header><div><span>Recorded market value</span><b>{latest.year} full year</b></div><Source s={latest.source} /></header>
-    <div className="pulse-number">{bn(latest.valueAedBn)}</div>
-    <div className="pulse-change"><strong>{pctS(change)}</strong><span>against {previous.year}</span></div>
-    <Sparkline values={years.map((item) => item.valueAedBn)} />
-    <footer><span>{n0(latest.transactions)} transactions</span><span>{n0(latest.investors)} investors</span></footer>
+    <header><div><span>{current.label}</span><b>{latest.year} full year</b></div><div className="pulse-actions"><div className="pulse-switch" aria-label="Headline metric">{Object.entries(metrics).map(([id, item]) => <button type="button" key={id} className={metric === id ? 'on' : ''} onClick={() => setMetric(id)} aria-pressed={metric === id}>{item.short}</button>)}</div><Source s={current.source} /></div></header>
+    <div className="pulse-number" key={metric}>{current.value}</div>
+    <div className="pulse-change"><strong>{pctS(current.change)}</strong><span>against {previous.year}</span></div>
+    <Sparkline values={current.series} label={`${current.label} annual trend`} />
+    <footer><span>{current.footer[0]}</span><span>{current.footer[1]}</span></footer>
   </article>;
 }
 
@@ -212,7 +233,7 @@ function DealTracker({ agg }) {
   const maxMonth = Math.max(...agg.months.map((month) => month.valueAedBn));
   const ppsm = (value) => `AED ${Math.round(value).toLocaleString('en-US')}/m²`;
   return <section className="deal-workspace">
-    <header><div><span>Connected transaction file</span><h3>{agg.period.start} to {agg.period.end}</h3></div><Source s={{ url: agg.source.url, title: agg.source.name, date: agg.source.generated }} /></header>
+    <header><div><span>Connected transaction file</span><h3>{agg.period.start} to {agg.period.end}</h3></div>{agg.source?.url ? <Source s={{ url: agg.source.url, title: agg.source.name, date: agg.source.generated }} /> : <span className="src">[local file]</span>}</header>
     <div className="deal-metrics"><Metric label="Deals" value={n0(agg.totals.deals)} /><Metric label="Total value" value={bn(agg.totals.valueAedBn)} /><Metric label="Off-plan" value={pctS(agg.totals.offPlanShare, 0).replace('+', '')} /><Metric label="Median sale" value={ppsm(agg.totals.medianSalePpsm)} /></div>
     <div className="month-strip">{agg.months.map((month) => <div key={month.month}><i style={{ height: `${(month.valueAedBn / maxMonth) * 100}%` }} /><span>{month.month.slice(2)}</span></div>)}</div>
     <div className="grid-2"><MomentumTable title="Price increases" rows={agg.momentum.increases} windowDays={agg.momentum.windowDays} ppsm={ppsm} /><MomentumTable title="Price drops" rows={agg.momentum.drops} windowDays={agg.momentum.windowDays} ppsm={ppsm} /></div>
@@ -223,19 +244,12 @@ function MomentumTable({ title, rows, windowDays, ppsm }) {
   return <article className="momentum-table"><h3>{title}</h3><p>Median AED/m², last {windowDays} days versus the preceding window.</p><table className="market-table"><thead><tr><th>Area</th><th>Now</th><th>Change</th></tr></thead><tbody>{rows.map((row) => <tr key={row.area}><td>{row.area}</td><td>{ppsm(row.recentPpsm)}</td><td className={row.change >= 0 ? 'pos' : 'neg'}>{pctS(row.change)}</td></tr>)}</tbody></table></article>;
 }
 
-function IngestHowTo() {
-  return <section className="connect-strip">
-    <div><span>Deal-level workspace</span><h3>Connect a DLD transaction file</h3><p>Add monthly flow, area momentum and project rankings without uploading the CSV.</p></div>
-    <ol><li><b>1</b><span>Download Transactions CSV from <a href="https://dubailand.gov.ae/en/open-data/real-estate-data/" target="_blank" rel="noreferrer">DLD Open Data</a></span></li><li><b>2</b><span>Run <code>node scripts/ingest-dld.mjs path/to/transactions.csv</code></span></li><li><b>3</b><span>Rebuild with <code>npm run build</code></span></li></ol>
-  </section>;
-}
-
-function Sparkline({ values }) {
+function Sparkline({ values, label = 'Annual transaction value trend' }) {
   const width = 420, height = 112, pad = 8;
   const min = Math.min(...values), max = Math.max(...values), range = max - min || 1;
   const points = values.map((value, index) => `${pad + (index / Math.max(1, values.length - 1)) * (width - pad * 2)},${height - pad - ((value - min) / range) * (height - pad * 2)}`).join(' ');
   const area = `${pad},${height - pad} ${points} ${width - pad},${height - pad}`;
-  return <svg className="pulse-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Annual transaction value trend"><polygon points={area} /><polyline points={points} />{points.split(' ').map((point) => { const [cx, cy] = point.split(','); return <circle key={point} cx={cx} cy={cy} r="4" />; })}</svg>;
+  return <svg className="pulse-chart" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={label}><polygon points={area} /><polyline points={points} />{points.split(' ').map((point) => { const [cx, cy] = point.split(','); return <circle key={point} cx={cx} cy={cy} r="4" />; })}</svg>;
 }
 
 const Metric = ({ label, value }) => <div><span>{label}</span><b>{value}</b></div>;
