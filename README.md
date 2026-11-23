@@ -12,7 +12,7 @@
 
 ![Demo: moving levers in Integrated Urban Services, completing missions, then the scorecard, business case and board memo](docs/demo.gif)
 
-## New: Market Pulse, the investment manager's morning read
+## New: Market Pulse, investment's UAE read
 
 **[How it works →](docs/market-pulse.md)**
 
