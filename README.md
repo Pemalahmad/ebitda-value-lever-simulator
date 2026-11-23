@@ -12,7 +12,7 @@
 
 ![Dubai real-estate market tracker](docs/screenshot-market.png)
 
-## Live Market
+## Live Market — UAE investment read
 
 The **Live Market** workspace adds a six-hour market and news pulse without tying the analysis to a named organisation. It includes:
 
