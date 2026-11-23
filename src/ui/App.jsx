@@ -18,6 +18,18 @@ const TABS = [
 ];
 const WIDE = ['market', 'portfolio'];
 const XP_PER_LEVEL = 400;
+const THEME_KEY = 'market-tracker-theme';
+
+function initialTheme() {
+  if (typeof window === 'undefined') return 'light';
+  try {
+    const saved = window.localStorage.getItem(THEME_KEY);
+    if (saved === 'light' || saved === 'dark') return saved;
+  } catch {
+    // Storage can be unavailable in locked-down browser contexts.
+  }
+  return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
 
 export default function App() {
   const initial = useMemo(readHash, []);
@@ -29,6 +41,7 @@ export default function App() {
   const [toasts, setToasts] = useState([]);
   const [shared, setShared] = useState(false);
   const [plays, setPlays] = useState({});
+  const [theme, setTheme] = useState(initialTheme);
 
   const sector = getSector(sectorId);
   const levers = bySector[sectorId] ?? baseLevers(sector);
@@ -36,6 +49,10 @@ export default function App() {
   const cost = useMemo(() => investmentByLever(sector, levers), [sector, levers]);
 
   useEffect(() => writeHash(sectorId, levers, baseLevers(sector), tab), [sectorId, levers, sector, tab]);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try { window.localStorage.setItem(THEME_KEY, theme); } catch { /* Keep the in-session preference. */ }
+  }, [theme]);
 
   // Award missions and achievements once, then keep them.
   const progressRef = useRef(progress);
@@ -103,7 +120,7 @@ export default function App() {
       <header className="top no-print">
         <div className="brand">
           <div className="logo" aria-hidden="true">
-            <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="8" fill="var(--text)" /><path d="M7 23l6-7 5 4 7-10" stroke="#fff" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="8" fill="var(--text)" /><path d="M7 23l6-7 5 4 7-10" stroke="var(--bg)" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
           </div>
           <div>
             <h1>Dubai Real Estate Market Tracker</h1>
@@ -116,6 +133,10 @@ export default function App() {
               <div className="xp-top"><span>{xp.toLocaleString('en-US')} XP</span><span className="muted">{XP_PER_LEVEL - (xp % XP_PER_LEVEL)} to LVL {level + 1}</span></div>
               <div className="bar gold"><span style={{ width: `${((xp % XP_PER_LEVEL) / XP_PER_LEVEL) * 100}%` }} /></div>
             </div></>}
+          <button className="ghost sm theme-toggle" onClick={() => setTheme((value) => value === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
+            <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={15} />
+            <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
+          </button>
           <button className="ghost sm" onClick={share} title="Copy a link to this exact view"><Icon name="link" size={14} /> {shared ? 'Link copied' : WIDE.includes(tab) ? 'Share view' : 'Share scenario'}</button>
         </div>
       </header>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Source } from './Source.jsx';
 import OFFICIAL from '../../../data/market/dld-official.json';
 
@@ -9,6 +9,17 @@ const AGG = Object.values(optional)[0] ?? null;
 const bn = (value) => `AED ${value.toLocaleString('en-US', { maximumFractionDigits: 1 })}bn`;
 const n0 = (value) => value.toLocaleString('en-US');
 const pctS = (value, dp = 1) => `${value > 0 ? '+' : value < 0 ? '−' : ''}${Math.abs(value * 100).toFixed(dp)}%`;
+const CHART_METRICS = {
+  valueAedBn: { label: 'Value', title: 'Transaction value', unit: 'AED billions', format: bn },
+  transactions: { label: 'Transactions', title: 'Transaction volume', unit: 'published transactions', format: n0 },
+  investors: { label: 'Investors', title: 'Investor base', unit: 'active investors', format: n0 },
+};
+const SOP_STEPS = [
+  { id: 'validate', label: 'Validate evidence', owner: 'Market intelligence', sla: '4 hours', gate: 'Confirm the source, reporting period and metric definition.', evidence: ['Official or named source', 'Period and scope recorded', 'Partial data labelled'], output: 'Verified signal record' },
+  { id: 'classify', label: 'Classify materiality', owner: 'Strategy', sla: '1 business day', gate: 'Test the move against agreed materiality thresholds.', evidence: ['Value movement ≥ 10%', 'Volume movement ≥ 10%', 'Investor movement ≥ 8%'], output: 'Watch, model or escalate' },
+  { id: 'decide', label: 'Set the response', owner: 'Business owner', sla: '2 business days', gate: 'Choose the response and name the accountable owner.', evidence: ['Scenario impact quantified', 'Downside case reviewed', 'Decision owner assigned'], output: 'Approved response plan' },
+  { id: 'record', label: 'Record and review', owner: 'PMO', sla: 'Weekly', gate: 'Log the rationale, evidence and next review date.', evidence: ['Decision log updated', 'Source link retained', 'Review date scheduled'], output: 'Auditable decision trail' },
+];
 
 export function MarketView() {
   const years = OFFICIAL.annual.filter((item) => item.valueAedBn);
@@ -41,6 +52,7 @@ export function MarketView() {
     </section>
 
     {OFFICIAL.signals?.length > 0 && <SignalLedger signals={OFFICIAL.signals} />}
+    <SignalSop />
     {AGG ? <DealTracker agg={AGG} /> : <IngestHowTo />}
   </div>;
 }
@@ -91,15 +103,39 @@ function PeriodWidget({ period }) {
 }
 
 function HistoryWidget({ years }) {
-  const bars = [...years.map((item) => ({ label: String(item.year), value: item.valueAedBn, source: item.source })), ...OFFICIAL.periods.filter((item) => item.valueAedBn).map((item) => ({ label: item.period, value: item.valueAedBn, source: item.source, partial: true }))];
-  const max = Math.max(...bars.map((item) => item.value));
+  const [metric, setMetric] = useState('valueAedBn');
+  const [selectedId, setSelectedId] = useState(`annual-${years.at(-1).year}`);
+  const definition = CHART_METRICS[metric];
+  const bars = useMemo(() => [
+    ...years.map((item) => ({ ...item, id: `annual-${item.year}`, label: String(item.year), partial: false })),
+    ...OFFICIAL.periods.map((item) => ({ ...item, id: `period-${item.period}`, label: item.period, partial: true })),
+  ].filter((item) => Number.isFinite(item[metric])), [years, metric]);
+  const selected = bars.find((item) => item.id === selectedId) ?? bars.at(-1);
+  const max = Math.max(...bars.map((item) => item[metric]));
+  const previousAnnual = !selected.partial ? years.find((item) => item.year === selected.year - 1) : null;
+  const annualChange = previousAnnual?.[metric] ? selected[metric] / previousAnnual[metric] - 1 : null;
+  const selectedSource = metric === 'investors' ? selected.investorsSource ?? selected.source : selected.source;
+
+  useEffect(() => {
+    if (!bars.some((item) => item.id === selectedId)) setSelectedId(bars.at(-1).id);
+  }, [bars, selectedId]);
+
   return <article className="history-widget">
-    <header><div><h3>Transaction value</h3><p>AED billions across published full and partial periods</p></div><span className="chart-key"><i />Partial period</span></header>
+    <header><div><h3>{definition.title}</h3><p>{definition.unit} across comparable published periods</p></div><span className="chart-key"><i />Partial period</span></header>
+    <div className="chart-controls" aria-label="Chart metric">
+      {Object.entries(CHART_METRICS).map(([id, item]) => <button key={id} type="button" className={metric === id ? 'on' : ''} aria-pressed={metric === id} onClick={() => setMetric(id)}>{item.label}</button>)}
+    </div>
     <div className="history-chart">
-      {bars.map((item) => <div className="history-column" key={item.label}>
-        <div className="history-bar-space"><i className={item.partial ? 'partial' : ''} style={{ height: `${(item.value / max) * 100}%` }} /></div>
-        <b>{Math.round(item.value)}</b><span>{item.label} <Source s={item.source} /></span>
-      </div>)}
+      {bars.map((item) => <button type="button" className={`history-column ${selected.id === item.id ? 'selected' : ''}`} key={item.id} onClick={() => setSelectedId(item.id)} aria-pressed={selected.id === item.id} aria-label={`${item.label}: ${definition.format(item[metric])}`}>
+        <span className="history-bar-space"><i className={item.partial ? 'partial' : ''} style={{ height: `${(item[metric] / max) * 100}%` }} /></span>
+        <b>{metric === 'valueAedBn' ? Math.round(item[metric]) : Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(item[metric])}</b><span>{item.label}</span>
+      </button>)}
+    </div>
+    <div className="chart-inspector" role="status" aria-live="polite">
+      <div><span>Selected period</span><b>{selected.label}</b></div>
+      <div><span>{definition.label}</span><b>{definition.format(selected[metric])}</b></div>
+      <div><span>Comparison</span><b>{selected.partial ? 'Partial period' : annualChange === null ? 'First published point' : `${pctS(annualChange)} vs ${previousAnnual.year}`}</b></div>
+      <Source s={selectedSource} />
     </div>
     {OFFICIAL.periodsNote && <footer>{OFFICIAL.periodsNote}</footer>}
   </article>;
@@ -119,6 +155,56 @@ function SignalLedger({ signals }) {
   return <section className="signal-ledger">
     <header><div><h3>Signals worth carrying forward</h3><p>Use these facts to frame a scenario—not as forecasts.</p></div><span>{signals.length} sourced observations</span></header>
     <div>{signals.map((signal) => <article key={signal.text}><i aria-hidden="true" /><p>{signal.text}</p><Source s={signal.source} /></article>)}</div>
+  </section>;
+}
+
+function readSopProgress() {
+  if (typeof window === 'undefined') return { completed: [], decision: 'Model scenario' };
+  try {
+    const value = JSON.parse(window.localStorage.getItem('market-signal-sop') || '{}');
+    return { completed: Array.isArray(value.completed) ? value.completed : [], decision: value.decision || 'Model scenario' };
+  } catch {
+    return { completed: [], decision: 'Model scenario' };
+  }
+}
+
+function SignalSop() {
+  const initial = useMemo(readSopProgress, []);
+  const [active, setActive] = useState(0);
+  const [completed, setCompleted] = useState(initial.completed);
+  const [decision, setDecision] = useState(initial.decision);
+  const step = SOP_STEPS[active];
+  const isComplete = completed.includes(step.id);
+
+  useEffect(() => {
+    try { window.localStorage.setItem('market-signal-sop', JSON.stringify({ completed, decision })); } catch { /* Keep the in-session state. */ }
+  }, [completed, decision]);
+
+  const toggleStep = () => setCompleted((items) => items.includes(step.id) ? items.filter((id) => id !== step.id) : [...items, step.id]);
+
+  return <section className="sop-console">
+    <header>
+      <div><span>Standard operating procedure</span><h3>Market signal response</h3><p>Move a sourced observation from evidence to an auditable decision.</p></div>
+      <div className="sop-progress"><b>{completed.length}/{SOP_STEPS.length}</b><span>gates cleared</span></div>
+    </header>
+    <div className="sop-layout">
+      <nav className="sop-steps" aria-label="SOP stages">
+        {SOP_STEPS.map((item, index) => <button type="button" key={item.id} className={`${active === index ? 'on' : ''} ${completed.includes(item.id) ? 'done' : ''}`} onClick={() => setActive(index)} aria-current={active === index ? 'step' : undefined}>
+          <span>{completed.includes(item.id) ? '✓' : index + 1}</span><span><b>{item.label}</b><small>{item.owner}</small></span>
+        </button>)}
+      </nav>
+      <article className="sop-detail">
+        <div className="sop-meta"><span>Owner <b>{step.owner}</b></span><span>Service level <b>{step.sla}</b></span></div>
+        <h4>{step.gate}</h4>
+        <ul>{step.evidence.map((item) => <li key={item}><span aria-hidden="true">{isComplete ? '✓' : '○'}</span>{item}</li>)}</ul>
+        {step.id === 'decide' && <fieldset className="decision-set"><legend>Response</legend>{['Watch market', 'Model scenario', 'Escalate now'].map((item) => <label key={item}><input type="radio" name="market-response" value={item} checked={decision === item} onChange={(event) => setDecision(event.target.value)} />{item}</label>)}</fieldset>}
+        <div className="sop-output"><span>Required output</span><b>{step.output}</b></div>
+        <div className="sop-actions">
+          <button type="button" className={`sop-complete ${isComplete ? 'done' : ''}`} onClick={toggleStep}>{isComplete ? 'Reopen step' : 'Mark step complete'}</button>
+          {active < SOP_STEPS.length - 1 && <button type="button" className="ghost sm" onClick={() => setActive((index) => index + 1)}>Continue</button>}
+        </div>
+      </article>
+    </div>
   </section>;
 }
 

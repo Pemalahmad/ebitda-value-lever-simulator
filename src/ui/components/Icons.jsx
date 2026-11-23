@@ -19,6 +19,8 @@ const P = {
   lock: 'M6 11h12v10H6zM8 11V7a4 4 0 0 1 8 0v4',
   check: 'M4 12l5 5L20 6',
   info: 'M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0-18 0M12 11v6M12 7.5v.5',
+  moon: 'M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5z',
+  sun: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',
 };
 
 export function Icon({ name, size = 18, className = '', strokeWidth = 1.8 }) {
