@@ -2,6 +2,7 @@ import React, { useMemo, useRef, useState } from 'react';
 import { SECTORS, compare, PLAYS, runPlay, fmt, consolidate } from '../../engine/index.js';
 import { PageHead, Section, Contents, Card, CardHead, KpiStrip, DotRows, DotTrack, Pill, Waterfall, Status, Dot } from './Dots.jsx';
 import { NewcoCalc } from './NewcoCalc.jsx';
+import { SpotCard } from './Effects.jsx';
 import { SwarmCursor } from './SwarmCursor.jsx';
 
 const { money } = fmt;
@@ -54,10 +55,10 @@ export function PortfolioView({ bySector, plays, setPlays, intercompany = [], se
     <Section id="pl-value" n={1} title="Portfolio value" sub="Pick a measure. Hover a business to isolate it; click to open its value plan.">
       <Card className="chart-card">
         <KpiStrip active={view} onSelect={setView} items={[
-          { id: 'mix', label: 'Modelled portfolio EV', value: money(portfolio.baseEv), sub: 'six baselines' },
-          { id: 'bridge', label: 'Scenario value', value: money(portfolio.total), delta: `${((change / portfolio.baseEv) * 100).toFixed(1)}%`, tone: tone(change) },
-          { id: 'ops', label: 'Operating value created', value: signed(portfolio.operating), tone: tone(portfolio.operating) },
-          { id: 'plays', label: 'Value from plays', value: signed(portfolio.playValue), sub: `net cash ${signed(portfolio.cash)}` },
+          { id: 'mix', label: 'Modelled portfolio EV', money: portfolio.baseEv, sub: 'six baselines' },
+          { id: 'bridge', label: 'Scenario value', money: portfolio.total, delta: `${((change / portfolio.baseEv) * 100).toFixed(1)}%`, tone: tone(change) },
+          { id: 'ops', label: 'Operating value created', money: portfolio.operating, sign: true, tone: tone(portfolio.operating) },
+          { id: 'plays', label: 'Value from plays', money: portfolio.playValue, sign: true, sub: `net cash ${signed(portfolio.cash)}` },
         ]} />
         {view === 'mix' && <Composition rows={portfolio.rows} focus={focus} setFocus={setFocus} onOpen={onOpenSector} />}
         {view === 'bridge' && <div className="pad"><Waterfall bridge={{ start: portfolio.baseEv, end: portfolio.total, steps: steps.map((x, i) => ({ id: `s${i}`, ...x })) }} startLabel="Baseline EV" endLabel="Scenario value" format={(v) => money(v)} /></div>}
@@ -75,14 +76,14 @@ export function PortfolioView({ bySector, plays, setPlays, intercompany = [], se
         const state = plays[play.id];
         const result = runPlay(play, state?.params);
         const max = Math.max(1, ...PLAYS.map((x) => Math.abs(runPlay(x, plays[x.id]?.params).value)));
-        return <Card key={play.id} className={`play-card ${state?.on ? 'on' : ''}`}>
+        return <SpotCard key={play.id} className={`play-card ${state?.on ? 'on' : ''}`}>
           <header><div><span className="w-eyebrow">{play.archetype}</span><h4>{play.title}</h4></div><button type="button" className={`switch ${state?.on ? 'on' : ''}`} onClick={() => toggle(play.id)} aria-pressed={!!state?.on} aria-label={`Include ${play.title}`}><span /></button></header>
           <p className="play-sum">{play.summary}</p>
           <div className="play-value"><b className={tone(result.value)}>{signed(result.value)}</b><DotTrack to={Math.abs(result.value) / max} tone={state?.on ? (result.value >= 0 ? 'pos' : 'neg') : 'faint'} slots={30} /></div>
           {state?.on && <div className="play-params">{play.params.map((parameter) => <label key={parameter.id} className="pp"><span className="pp-top"><span>{parameter.label}</span><b className="mono">{fmt.unitValue(result.params[parameter.id], parameter.unit === 'AED' && parameter.base > 1000 ? 'AED' : parameter.unit, parameter.step < 1 ? 1 : 0)}</b></span><input type="range" min={parameter.min} max={parameter.max} step={parameter.step} value={result.params[parameter.id]} onChange={(event) => setParam(play.id, parameter.id, Number(event.target.value))} /></label>)}</div>}
           <div className="play-lines">{result.lines.map((line) => <div key={line.label}><span>{line.label}</span><Pill value={line.value}>{signed(line.value)}</Pill></div>)}</div>
           {state?.on && (result.risks.length > 0 || result.notes.length > 0) && <details className="play-more"><summary>Notes and risks</summary>{result.notes.map((note) => <p key={note} className="muted sm">{note}</p>)}{result.risks.map((risk) => <p key={risk} className="risk-line">{risk}</p>)}</details>}
-        </Card>;
+        </SpotCard>;
       })}</div>
     </Section>
 

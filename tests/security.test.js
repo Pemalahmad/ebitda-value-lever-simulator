@@ -108,3 +108,13 @@ test('CI pins actions to commit SHAs, audits dependencies and runs read-only', (
   assert.match(ci, /^permissions:\n\s+contents: read/m);
   assert.match(ci, /persist-credentials: false/);
 });
+
+test('third-party React Bits components keep their licence notice', () => {
+  const dir = new URL('../src/ui/vendor/reactbits/', import.meta.url);
+  assert.match(readFileSync(new URL('LICENSE.md', dir), 'utf8'), /Commons Clause/);
+  for (const f of readdirSync(dir).filter((x) => /\.(jsx|css)$/.test(x))) {
+    const src = readFileSync(new URL(f, dir), 'utf8');
+    assert.match(src.split('\n')[0], /From React Bits .*David Haz/, `${f} header`);
+    assert.doesNotMatch(src, /\bfetch\(|\beval\(|new Function\(|dangerouslySetInnerHTML|innerHTML/, `${f} has no network or raw-HTML code`);
+  }
+});

@@ -1,12 +1,14 @@
 // The shared visual language: dot-matrix charts, KPI strips, folder tabs and document sections.
 // Every tab is built from these, so moving between tabs keeps one design.
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { HeaderGrid, CountMoney, CountNumber } from './Effects.jsx';
 
 /* ---------- Document structure ---------- */
 
 export function PageHead({ status, title, muted, sub, meta = [], actions }) {
   return (
     <header className="page-head">
+      <HeaderGrid />
       <div className="page-head-main">
         {status && <div className="page-status"><i aria-hidden="true" />{status}</div>}
         <h2>{title}{muted && <span> {muted}</span>}</h2>
@@ -84,7 +86,7 @@ export function KpiStrip({ items, active, onSelect }) {
         return (
           <Tag key={k.id} type={onSelect ? 'button' : undefined} className={`kpi ${on ? 'on' : ''}`} onClick={onSelect ? () => onSelect(k.id) : undefined} aria-pressed={onSelect ? on : undefined}>
             <span className="kpi-label"><i style={{ background: k.color ?? (on ? 'var(--text)' : 'var(--line-2)') }} />{k.label}</span>
-            <span className="kpi-value">{k.value}{k.delta && <Pill tone={k.tone}>{k.delta}</Pill>}</span>
+            <span className="kpi-value">{k.money != null ? <CountMoney value={k.money} sign={k.sign} /> : k.num != null ? <CountNumber value={k.num} decimals={k.decimals} prefix={k.prefix} suffix={k.suffix} /> : k.value}{k.delta && <Pill tone={k.tone}>{k.delta}</Pill>}</span>
             {k.sub && <span className="kpi-sub">{k.sub}</span>}
             {onSelect && <span className="kpi-rule" aria-hidden="true" />}
           </Tag>

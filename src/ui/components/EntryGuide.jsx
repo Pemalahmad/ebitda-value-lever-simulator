@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { ROUTES, LOCATIONS, BUSINESS_TYPES, STEPS, schedule, MOA, TAX, BOTTLENECKS, GUIDE_AS_OF } from '../../engine/entryGuide.js';
 import { VASP_STAGES } from '../../engine/entry.js';
 import { Section, Card, CardHead, FolderTabs, Segmented, Status } from './Dots.jsx';
+import { SpotCard } from './Effects.jsx';
 
 const aedRange = ([a, b]) => `AED ${Math.round(a / 1000)}k–${Math.round(b / 1000)}k`;
 const wk = (w) => (w < 1 ? `${Math.max(1, Math.round(w * 5))} working day${Math.round(w * 5) > 1 ? 's' : ''}` : `${Math.round(w * 10) / 10} week${w > 1 ? 's' : ''}`);
@@ -18,7 +19,7 @@ export function LocationAdvisor({ n, type, setType, onPickRoute }) {
       <div className="advisor-grid">{t.rank.map(([id, why], i) => {
         const l = loc(id);
         return (
-          <Card key={id} className={`advisor-card ${i === 0 ? 'best' : ''}`}>
+          <SpotCard key={id} className={`advisor-card ${i === 0 ? 'best' : ''}`}>
             <span className="w-eyebrow">{i === 0 ? 'Best fit' : `Option ${i + 1}`} · {l.emirate}</span>
             <h4>{l.name}</h4>
             <p className="advisor-why">{why}</p>
@@ -30,7 +31,7 @@ export function LocationAdvisor({ n, type, setType, onPickRoute }) {
             </dl>
             <p className="advisor-watch"><b>Watch:</b> {l.watch}</p>
             <button type="button" className="ghost sm" onClick={() => onPickRoute(l.route)}>See the steps for this route →</button>
-          </Card>
+          </SpotCard>
         );
       })}</div>
       <Card>

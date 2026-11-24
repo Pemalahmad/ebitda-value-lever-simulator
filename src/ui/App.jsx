@@ -8,6 +8,7 @@ import { PulseView } from './components/PulseView.jsx';
 import { EntryView } from './components/EntryView.jsx';
 import { Icon } from './components/Icons.jsx';
 import { ChecksButton, ChecksDrawer, useChecks } from './components/ChecksDrawer.jsx';
+import { Sparks } from './components/Effects.jsx';
 import { readHash, writeHash } from './state.js';
 
 const TABS = [
@@ -119,6 +120,7 @@ export default function App() {
         </div>
       </header>
 
+      <Sparks>
       <main className={`layout ${WIDE.includes(tab) ? 'wide' : ''}`}>
         {tab === 'value' && <LeverPanel sector={sector} levers={levers} cost={cost} onChange={setLever} onReset={reset} onScenario={applyScenario} activeScenario={activeScenario} />}
         <div className="center" key={tab}>
@@ -129,6 +131,7 @@ export default function App() {
           {tab === 'value' && <ValuePlanView sector={sector} levers={levers} e={e} onNudge={nudge} onPickSector={pickSector} />}
         </div>
       </main>
+      </Sparks>
 
       <ChecksDrawer open={checksOpen} onClose={() => setChecksOpen(false)} result={checks} />
       <footer className="foot no-print">

@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { SECTORS, fmt, bridge, tornado, leverage, grid, buildMemo, renderMarkdown, memoVerdict, UAE_CORPORATE_TAX, evMultiple, lineBridge, rolling12, assumptionSummary } from '../../engine/index.js';
 import { Heatmap } from './Charts.jsx';
 import { Icon } from './Icons.jsx';
+import { SpotCard } from './Effects.jsx';
 import { PageHead, Section, Contents, Card, CardHead, KpiStrip, DotLine, DotRows, DotRing, DotColumns, DotTrack, FolderTabs, Pill, Dot, Segmented, Waterfall, Status } from './Dots.jsx';
 
 const { money, pct, months, unitValue } = fmt;
@@ -73,9 +74,9 @@ function ValueAtStake({ sector, levers, e, onNudge }) {
       <div className="split-main">
         <Card className="chart-card">
           <KpiStrip active={metric} onSelect={setMetric} items={[
-            { id: 'ebitda', label: 'Run-rate EBITDA', value: money(c.scn.ebitda), delta: pct(c.dEbitdaPct, { sign: true }), tone: toneOf(c.dEbitda) },
-            { id: 'ev', label: 'Enterprise value', value: money(c.scn.ev), delta: signed(c.dEv), tone: toneOf(c.dEv) },
-            { id: 'value', label: 'Value created', value: signed(c.valueCreated), delta: pct(e.valueCreatedPct, { sign: true }), tone: toneOf(c.valueCreated) },
+            { id: 'ebitda', label: 'Run-rate EBITDA', money: c.scn.ebitda, delta: pct(c.dEbitdaPct, { sign: true }), tone: toneOf(c.dEbitda) },
+            { id: 'ev', label: 'Enterprise value', money: c.scn.ev, delta: signed(c.dEv), tone: toneOf(c.dEv) },
+            { id: 'value', label: 'Value created', money: c.valueCreated, sign: true, delta: pct(e.valueCreatedPct, { sign: true }), tone: toneOf(c.valueCreated) },
             { id: 'cash', label: 'Cumulative cash, after tax', value: signed(bc.flows.reduce((a, x) => a + x, 0)), sub: `payback ${months(bc.paybackMonths)}` },
           ]} />
           <DotLine series={series} baseline={p.base} format={(v) => money(v)} label="Five-year value path" />
@@ -229,10 +230,10 @@ function Scorecard({ e }) {
         {persp.map((x) => {
           const on = x.items.filter((k) => k.status === 'green').length;
           return (
-            <Card key={x.name} className={`persp ${p === x.name ? 'on' : ''}`} role="button" tabIndex={0} onClick={() => setP(p === x.name ? 'all' : x.name)} onKeyDown={(ev) => ev.key === 'Enter' && setP(p === x.name ? 'all' : x.name)}>
+            <SpotCard key={x.name} className={`persp ${p === x.name ? 'on' : ''}`} role="button" tabIndex={0} onClick={() => setP(p === x.name ? 'all' : x.name)} onKeyDown={(ev) => ev.key === 'Enter' && setP(p === x.name ? 'all' : x.name)}>
               <DotRing value={on / x.items.length} label={`${on}/${x.items.length}`} sub="on target" size={112} n={36} tone={x.status === 'green' ? 'pos' : x.status === 'amber' ? 'amber' : 'neg'} />
               <div><h4><Dot tone={x.status} /> {x.name}</h4><p>{OBJECTIVES[x.name]}</p></div>
-            </Card>
+            </SpotCard>
           );
         })}
       </div>
@@ -254,7 +255,7 @@ function Case({ sector, e }) {
     <Section id="vp-case" n={6} title="Business case" sub={`Five years, after ${pct(UAE_CORPORATE_TAX, { dp: 0 })} UAE corporate tax, discounted at ${pct(bc.wacc)}.`}>
       <Card>
         <KpiStrip items={[
-          { id: 'npv', label: '5-year NPV', value: signed(bc.npv), tone: toneOf(bc.npv) },
+          { id: 'npv', label: '5-year NPV', money: bc.npv, sign: true, tone: toneOf(bc.npv) },
           { id: 'irr', label: 'IRR', value: Number.isFinite(bc.irr) ? pct(bc.irr) : bc.irr === Infinity ? '> 1,000%' : 'n/a' },
           { id: 'pb', label: 'Payback', value: months(bc.paybackMonths) },
           { id: 'inv', label: 'One-off investment', value: money(bc.invest), sub: `${money(sector.budget)} envelope` },

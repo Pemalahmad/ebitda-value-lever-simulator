@@ -24,8 +24,8 @@ export function NewcoCalc() {
       <div className="split-main newco">
         <Card className="chart-card">
           <KpiStrip items={[
-            { id: 'setup', label: 'Set-up capex', value: money(plan.setup) },
-            { id: 'peak', label: 'Peak funding need', value: money(plan.peakFunding), sub: 'deepest cumulative cash' },
+            { id: 'setup', label: 'Set-up capex', money: plan.setup },
+            { id: 'peak', label: 'Peak funding need', money: plan.peakFunding, sub: 'deepest cumulative cash' },
             { id: 'be', label: 'EBITDA breakeven', value: plan.breakevenYear ? `Year ${plan.breakevenYear}` : 'Not in 5 years', tone: plan.breakevenYear ? '' : 'neg' },
             { id: 'irr', label: 'IRR, with exit', value: Number.isFinite(plan.irr) ? `${(plan.irr * 100).toFixed(1)}%` : plan.irr === Infinity ? '> 1,000%' : 'n/a', sub: `NPV ${signed(plan.npv)} · ${plan.moic ? `${plan.moic.toFixed(1)}x MOIC` : ''}` },
           ]} />
