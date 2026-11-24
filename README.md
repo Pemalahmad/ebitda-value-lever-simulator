@@ -1,136 +1,188 @@
-# Dubai Market & Value Tracker
+# Value Lever — Dubai Market & Value Tracker
 
-**Independent Dubai market intelligence built from cited public sources and open transaction data, with scenario tools that connect market movement to operating and portfolio value.**
+**A decision workspace for investing and creating value in Dubai: live market signals, official real-estate evidence, a UAE market-entry roadmap, operating value plans and a portfolio lab, all in one consistent design and every figure traceable to its source or its formula.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-61%20passing-2dd4bf)
+![Tests](https://img.shields.io/badge/tests-61%20passing-1b9a59)
+![Checks](https://img.shields.io/badge/workbook%20checks-75-121212)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
-![Dependencies](https://img.shields.io/badge/engine-zero%20dependencies-e5b95c)
+![Engine](https://img.shields.io/badge/engine-zero%20dependencies-f05a28)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-**[▶ Open the live tracker](https://pemalahmad.github.io/ebitda-value-lever-simulator/)**
+**[▶ Open the live app](https://pemalahmad.github.io/ebitda-value-lever-simulator/)**
 
-![Dubai real-estate market tracker](docs/screenshot-market.png)
+![Demo](docs/demo.gif)
 
-## Live Market — UAE investment read
+---
 
-The **Live Market** workspace adds a six-hour market and news pulse without tying the analysis to a named organisation. It includes:
+## Contents
 
-- urgency-ranked market signals with their evidence;
-- Dubai, GCC and global market tables with source-recency warnings;
-- oil, rates, currencies, volatility, freight and maritime chokepoints;
-- country and theme filters for linked news headlines;
-- a browser-local decision journal with review dates and an evidence checklist;
-- explicit source-health and fallback-data status.
+1. [What it does](#what-it-does)
+2. [The five tabs](#the-five-tabs)
+3. [Analysis toolkit](#analysis-toolkit)
+4. [Data and sources](#data-and-sources)
+5. [Quick start](#quick-start)
+6. [Share links, CLI and API](#share-links-cli-and-api)
+7. [How it is built](#how-it-is-built)
+8. [Method and limitations](#method-and-limitations)
 
-![Live market monitoring workspace](docs/screenshot-pulse.png)
+---
 
-## One design across five tabs
+## What it does
 
-The dashboard reads like a business-development document. Every tab shares one shell and one visual language:
+An investment or strategy team in Dubai needs answers to five questions. Each tab answers one of them.
 
-- **Five tabs:** Live Market, Market Tracker, Market Entry, **Value Plan** and Portfolio Lab. A black-pill navigation bar stays on top.
-- **Document layout:** each tab opens with a page header, then numbered sections.
-- **Dot-matrix charts:** KPI strips switch the chart below them, charts show hover tooltips, and tables sit under folder tabs. Light and dark themes.
-- **Value Plan:** the old Simulator, Balanced Scorecard, Business Case and Board Memo tabs, merged into one document in five sections:
-  1. value at stake;
-  2. drivers;
-  3. the scorecard as dot rings and target bars;
-  4. the business case as dotted columns and a cash curve;
-  5. the board memo as a one-page decision: verdict, value by initiative, risks and decisions requested. The full text is one click away.
-- **Portfolio Lab:** an interactive sum of the parts. Each dot is 1% of portfolio value; hover a business to isolate it, click to open its plan. Play cards update the figures as you drag, and a swarm of dots follows the cursor.
+| Tab | The question it answers | Key tools |
+|---|---|---|
+| **Live Market** | What moved, and does it matter for a Dubai portfolio? | Headline chart, KPIs to watch with triggers, signal register, markets, shipping chokepoints, local news by theme, decision journal |
+| **Market Tracker** | How is Dubai real estate actually performing? | Official DLD value, volume and investors, volume-vs-price variance bridge, community ledger, scenario deck, DLD import lab |
+| **Market Entry** | What does it take to enter the UAE? | Regulator routing, company set-up procedure, VARA licensing stages, capital and fee calculator, cash-before-launch waterfall |
+| **Value Plan** | What is a business worth if we pull these levers? | EBITDA variance bridge, KPIs to watch, rolling 12 months, assumption sensitivity, balanced scorecard, business case, board memo |
+| **Portfolio Lab** | What is the group worth, and what would a new company add? | Sum of the parts, intercompany eliminations, portfolio plays, new-company capex and opex case |
+
+A **Checks** button in the top bar runs 75 consistency checks across all five tabs and lists the data that is still missing.
+
+## The five tabs
+
+### Live Market
+
+Refreshed every six hours from 29 sources: delayed prices plus local and maritime news.
+
+- **Headline chart:** switch between Brent, MSCI UAE, S&P 500, US 10-year yield, gold and VIX; hover for the exact value and date.
+- **KPIs to watch:** every signal threshold, how close each market is to it, and its status. Upside moves in UAE equities show as a tailwind, not a breach.
+- **Signal register:** each signal past its threshold, listed once. Open a row for the headlines behind it.
+- **Markets** by group under folder tabs, **shipping chokepoints** (Hormuz, Red Sea, Suez), **country movement**, and **news by theme**: resilience, security, economy, resources, infrastructure and society.
+- **Decision journal:** record the thesis, what would change your mind and a review date. Market levels are saved with each note.
+
+![Live Market](docs/screenshot-pulse.png)
+
+### Market Tracker
+
+Official DLD and Dubai Media Office figures, each linked to its source.
+
+- **Headline figures:** annual value, transactions and investors, and the current reporting period.
+- **Variance bridge:** how much of each year's change came from more deals and how much from a higher average ticket. In 2025, 96% of the AED 156bn growth came from volume.
+- **History chart, community ledger, release calendar, scenario deck and before/after comparison.**
+- **DLD import lab:** validates and aggregates a Transactions CSV in the browser, without uploading it.
+
+![Market Tracker](docs/screenshot-market.png)
+
+### Market Entry
+
+A step-by-step UAE entry roadmap for any business, with a full track for virtual-asset (crypto) firms benchmarked on Dubai's VARA and its ADGM and DIFC equivalents.
+
+- **Entry profile:** the business model and zone pick the regulator (VARA, DFSA, FSRA or SCA) and flag traps, such as custody needing its own entity.
+- **Procedure:**
+  - company set-up, product import and a self-custody licence map;
+  - VARA's two licensing stages, each with what to file and what is and is not allowed;
+  - every step has a checklist.
+- **Capital and fee calculator** across VARA's eight activities, with a **waterfall** of the cash needed before the first client.
+- **Compliance, pitfalls and sources.**
+
+Details: [docs/market-entry.md](docs/market-entry.md). A planning aid, not legal advice.
+
+![Market Entry](docs/screenshot-entry.png)
+
+### Value Plan
+
+Six illustrative operating models: real estate, hospitality, leisure, retail and asset management, community management, and integrated urban services. Move the levers on the left and a seven-section document recalculates.
+
+1. **Value at stake:** five-year path of EBITDA, EV, value created or cash, with board confidence and the next best moves.
+2. **Variance bridge:** baseline-to-scenario EBITDA as a waterfall, by lever or by P&L line, beside the **KPIs to watch**.
+3. **Rolling 12 months:** trailing-twelve-month EBITDA as initiatives ramp, and the month 90% of the uplift is banked.
+4. **Assumption sensitivity summary:** downside and upside swing per assumption at ±5%, ±10% or ±20%, with share of total risk, elasticity and headroom.
+5. **Balanced scorecard:** a ring per perspective and each KPI against its target.
+6. **Business case:** NPV, IRR and payback after 9% UAE corporate tax, yearly benefits and cumulative cash.
+7. **Board memo:** the decision on one page (verdict, value by initiative, risks, decisions requested). The full written memo is one click away.
 
 ![Value Plan](docs/screenshot-value.png)
 
-![Board memo as a one-page decision](docs/screenshot-memo.png)
-
-## Variance, controls and new-company cases
-
-- **Variance bridges on every tab**, as waterfall charts:
-  - **Market Tracker:** volume vs price, year on year.
-  - **Market Entry:** cash needed before the first client.
-  - **Value Plan:** EBITDA by lever or by P&L line.
-  - **Portfolio Lab:** portfolio value and consolidated revenue.
-  - **New company case:** EBITDA to free cash flow.
-- **KPIs to watch** with thresholds and status, in the Value Plan and Live Market.
-- **Rolling 12 months:** trailing-twelve-month EBITDA as initiatives ramp.
-- **Assumption sensitivity summary** for the selected business: downside and upside swing, share of total risk, elasticity and headroom, at ±5%, ±10% or ±20%.
-- **Intercompany elimination helper:** removes sales between the six businesses. Operating flows net out; capitalised flows remove unrealised profit. It checks that the eliminations balance.
-- **Logic checker and missing data:** the Checks button runs about 75 consistency checks across every tab and lists the data that would let the model evolve, with the fix for each.
-- **New company case:** a capex and opex calculator for a company you might invest in. It shows funding need, breakeven, payback, IRR, NPV, MOIC and exit value, with five editable templates.
-- **Live Market signals:** listed once, in a signal register you can expand.
-
-Methods: [docs/variance-and-controls.md](docs/variance-and-controls.md).
-
 ![Variance bridge and KPIs to watch](docs/screenshot-variance.png)
 
-![Assumption sensitivity summary](docs/screenshot-sensitivity.png)
+### Portfolio Lab
+
+- **Portfolio value:** each dot is 1% of portfolio EV. Hover a business to isolate it, click to open its value plan. Switch to the value bridge, the operating value or the plays.
+- **Consolidation:** an intercompany elimination helper with balance checks.
+- **Portfolio plays:** seven transparent corporate-finance plays (REIT carve-out, subsidiary IPO, land-bank JV, asset-light hospitality, platform consolidation, bolt-on M&A, master-planned launch), each with live assumptions.
+- **New company case:** a capex and opex calculator for a company you might invest in.
+
+![Portfolio Lab](docs/screenshot-portfolio.png)
+
+## Analysis toolkit
+
+### Variance bridges on every tab
+
+Every bridge reconciles exactly (start + steps = end), and the checker tests it on every change.
+
+| Where | Bridge |
+|---|---|
+| Market Tracker | Recorded value, year on year: volume effect vs price and mix effect |
+| Market Entry | Cash before the first client: application fees, supervision, paid-up capital |
+| Value Plan | EBITDA, baseline to scenario, by lever or by P&L line |
+| Portfolio Lab | Portfolio value by business and play; consolidated revenue after eliminations |
+| New company case | Year-1 EBITDA to free cash flow: tax, capex, working capital |
+
+### Intercompany eliminations
+
+Sales between the six businesses inflate group revenue. Enter each flow once (seller, buyer, amount, and whether the buyer expenses or capitalises it).
+
+- **Operating flows:** revenue and cost both fall, so EBITDA is unchanged.
+- **Capitalised flows:** the seller's margin is removed as unrealised profit.
+- **Checks:** opex eliminations net to zero, and no flow exceeds the seller's revenue.
 
 ![Intercompany eliminations](docs/screenshot-consolidation.png)
 
-![New company capex and opex case](docs/screenshot-newco.png)
+### New company case: capex and opex
 
-![Workbook checks and missing data](docs/screenshot-checks.png)
+Five editable templates: logistics hub, specialist clinic, F&B group, B2B software and EV charging network.
 
-## Market Entry — UAE regulatory roadmap
+- **Inputs:**
+  - revenue and growth, gross margin;
+  - overhead headcount and cost per head;
+  - rent, marketing, G&A;
+  - set-up capex by type, asset life and maintenance capex;
+  - working-capital days, discount rate and exit multiple.
+- **Outputs:**
+  - peak funding need, EBITDA breakeven and payback;
+  - NPV, IRR and MOIC with a year-5 exit;
+  - a five-year P&L and cash flow, and the year-1 opex mix;
+  - plausibility checks.
 
-The **Market Entry** tab is a step-by-step guide to entering the UAE for any business, with a full track for virtual-asset (crypto) firms benchmarked on Dubai's VARA and its ADGM and DIFC equivalents:
+![New company case](docs/screenshot-newco.png)
 
-- an entry profile that routes a business model and zone to the right regulator (VARA, DFSA, FSRA or SCA) and flags structural traps;
-- company setup in order: structure and zone, approvals, UBO register, banking, corporate tax and VAT, visas and Emiratisation, data protection and consumer law;
-- a product track for devices sold into the UAE (customs, TDRA type approval, conformity, Arabic labelling, channels) and a feature-by-feature licence map for self-custody wallets;
-- VARA's two licensing stages with what to file, what is and is not allowed, and when fees fall due;
-- a capital and fee calculator across the eight VARA activities;
-- AML/CFT, marketing, governance and technology requirements, pitfalls and cited sources.
+### Assumption sensitivity summary
 
-![UAE market entry roadmap](docs/screenshot-entry.png)
+![Assumption sensitivity summary](docs/screenshot-sensitivity.png)
 
-See [docs/market-entry.md](docs/market-entry.md). A planning aid, not legal advice.
+### Workbook checks and missing data
 
-## What it tracks
+The **Checks** button runs 75 checks.
 
-The market tracker is the default landing experience. It brings together:
+- **Operating models:**
+  - lever ranges and scenario presets;
+  - P&L lines adding up to EBITDA, and valuation;
+  - both bridges reconciling and NPV recomputing;
+  - rolling 12 months converging, margins and budget.
+- **Portfolio plays:** each play's value equals its lines.
+- **Market data:** years in order, every figure sourced, plausible tickets, unofficial periods flagged.
+- **Live snapshot:** series order, missing prices, freshness and source fallbacks.
 
-- annual Dubai transaction value, volume and investor participation;
-- current-period transaction value and volume;
-- leading communities by investment value;
-- cited market signals covering sales, off-plan share, prices, rents and long-term demand;
-- an interactive history chart that switches between value, transactions and investors, with period-level inspection;
-- a morphing headline instrument for value, volume and investor participation;
-- an evidence calendar for market releases, review dates and decision gates;
-- five illustrative working cases in an interactive scenario deck, linked to a folding before/after comparison;
-- a persistent light/dark theme switch;
-- a four-stage market-signal SOP that tracks validation, materiality, response and decision-record gates;
-- a mobile command dock for jumping between market workspaces;
-- a browser-based DLD import lab that validates and aggregates a Transactions CSV locally, without uploading it;
-- deal-level analysis from the connected CSV, including monthly flow, median AED/m², off-plan share, price momentum and top projects.
+The **missing data** list says what is absent, why it limits the model and how to fix it. Examples: monthly actuals, deal-level DLD transactions, capex and opex by business, quarterly releases, and daily DFM and Tadawul history.
 
-Every published headline links to its source. The snapshot date is visible in the product, and partial-period figures are labelled.
+![Workbook checks](docs/screenshot-checks.png)
 
-![Dark market tracker with interactive chart controls](docs/screenshot-dark.png)
+Methods for every calculation: [docs/variance-and-controls.md](docs/variance-and-controls.md).
 
-![Interactive scenario deck and before-after comparison](docs/screenshot-scenarios.png)
+## Data and sources
 
-![Local DLD transaction import lab](docs/screenshot-import-lab.png)
-
-## From market signal to value scenario
-
-The tracker also includes six illustrative operating models for testing how market conditions may affect value:
-
-| Model | Representative drivers |
-|---|---|
-| Real Estate & Land | launch volume, selling price, construction cost, infrastructure phasing, commission, cycle time |
-| Hospitality | occupancy, ADR, distribution cost, labour, F&B margin, energy |
-| Leisure & Entertainment | visits, yield, marketing, retention, safety staffing, ancillary spend |
-| Retail & Asset Management | occupancy, rent, footfall, turnover rent, recoveries, operating cost |
-| Community Management | fees, collections, retention, service cost, procurement, digital adoption |
-| Integrated Urban Services | utilisation, bill rate, retention, subcontracting, SLA penalties, DSO |
-
-Move a lever and the application recalculates EBITDA, enterprise value, working capital, one-off investment, NPV, IRR, payback, risk flags, a Balanced Scorecard and a board memo. The **Portfolio Lab** combines the six model outputs into a sum-of-the-parts scenario and adds seven transparent portfolio plays.
-
-> The operating models are illustrative. They are not company forecasts, investment recommendations or valuations of a named organisation.
-
-![Neutral portfolio scenario lab](docs/screenshot-portfolio.png)
+| Data | Source | Refresh |
+|---|---|---|
+| Market prices (20 instruments) | Yahoo Finance delayed quotes | Every 6 hours by CI; last good value kept on failure |
+| Local and maritime news | Gulf News, The National, Arabian Business, Khaleej Times, WAM, Zawya, gCaptain, Splash247, chokepoint search | Every 6 hours; headlines and links only |
+| Dubai real-estate aggregates | Dubai Land Department and Dubai Media Office releases | Curated in `data/market/dld-official.json`, each with its source |
+| Deal-level transactions (optional) | DLD Open Data Transactions CSV | Local: `scripts/ingest-dld.mjs` or the in-browser import lab |
+| UAE entry rules, VARA fees and capital | VARA rulebooks and adviser summaries, CBUAE, SCA, ADGM, DFSA, FTA, TDRA | As at 24 Nov 2026, cited in `src/engine/entry.js` |
+| Operating models and plays | Illustrative assumptions | Deterministic; documented in [docs/methodology.md](docs/methodology.md) |
 
 ## Quick start
 
@@ -141,89 +193,75 @@ npm ci
 npm run dev
 ```
 
-Open the local URL shown by Vite. The market tracker appears first; use the tabs to open Live Market, Market Entry, the Value Plan and the Portfolio Lab.
+| Command | What it does |
+|---|---|
+| `npm run dev` | Development server |
+| `npm test` | 61 Node tests (engine, variance, checks, market, entry, pulse, API) |
+| `npm run check` | Tests plus the production build in `dist/` |
+| `npm start` | Serves the build and the JSON API |
+| `npm run pulse` | Refreshes the Live Market snapshot |
+| `npm run memo` | Writes a board memo from the command line |
+| `node scripts/ingest-dld.mjs <csv>` | Builds the deal-level market aggregate from a DLD CSV |
+| `node scripts/capture.mjs --gif` | Regenerates the screenshots and demo GIF (needs Playwright) |
 
-Refresh the committed Live Market snapshot with `npm run pulse`. The scheduled GitHub workflow refreshes it every six hours before deployment and retains the last good value when a source is temporarily unavailable.
+## Share links, CLI and API
 
-### Production build
-
-```bash
-npm run check
-npm start
-```
-
-`npm run check` runs the complete Node test suite and creates the static production build in `dist/`. The included Node server serves that build and the JSON simulation API.
-
-## Connect DLD transaction data
-
-The repository ships with cited published aggregates in `data/market/dld-official.json`. To enable deal-level momentum analysis:
-
-1. Download the Transactions CSV from [DLD Open Data](https://dubailand.gov.ae/en/open-data/real-estate-data/).
-2. Run:
-
-   ```bash
-   node scripts/ingest-dld.mjs /path/to/transactions.csv
-   ```
-
-3. Rebuild the application:
-
-   ```bash
-   npm run build
-   ```
-
-The import lab can read the same file directly in the dashboard and keeps it in the browser session. For a repeatable bundled build, the ingest script writes `data/market/dld-aggregate.json`. Neither route uploads the source CSV or requires a third-party data service.
-
-## Share a scenario
-
-Scenario state is encoded in the URL hash. A shared link carries the selected model, view and changed levers without sending the scenario to a backend.
+The URL hash holds the tab, the business and any changed levers, so a link reopens the exact scenario without a backend:
 
 ```text
-#tab=market
+#tab=pulse
 #s=realEstate&tab=value&units=2200&price=1900&cycle=26
 #s=hospitality&tab=value&occupancy=80&adr=1220
 ```
 
-## CLI and API
-
-Generate a decision memo without the browser:
+Older links to the former Simulator, Scorecard, Business Case and Memo tabs open the matching Value Plan section.
 
 ```bash
 npm run memo -- --sector hospitality --scenario "Peak season push"
 npm run memo -- --sector realEstate --set units=2200,price=1900,cycle=26 --summary
 ```
 
-After `npm run build && npm start`, the local API provides:
+After `npm run build && npm start`: `GET /api/health`, `GET /api/sectors`, `POST /api/simulate`, `POST /api/sensitivity`, `POST /api/memo`.
 
-- `GET /api/health`
-- `GET /api/sectors`
-- `POST /api/simulate`
-- `POST /api/sensitivity`
-- `POST /api/memo`
+## How it is built
 
-## Repository map
+- **Engine** (`src/engine`): pure, zero-dependency JavaScript shared by the app, the API and the CLI. Every number on screen comes from a tested function.
+- **Interface** (`src/ui`): React and Vite, with one shared visual language in `components/Dots.jsx`:
+  - page header, numbered document sections and contents bar;
+  - KPI strips that switch the chart below them;
+  - dot-matrix line charts with hover read-outs, and waterfalls;
+  - dot rings, folder tabs and status chips.
+- **Theme:** light and dark, from one set of CSS tokens.
+- **CI** (`.github/workflows/ci.yml`): tests, refreshes market data on a 6-hour schedule, builds and deploys to GitHub Pages.
 
 ```text
-src/engine/             deterministic calculation engine
-src/engine/sectors/     six illustrative operating models
-src/engine/entry.js     UAE market-entry rules, VARA fees and capital
-src/ui/                 React tracker and scenario workspace
-data/market/            cited market snapshot and optional generated aggregate
-scripts/ingest-dld.mjs  local DLD CSV ingestion
-server/                 static server and simulation API
-bin/                    board-memo CLI
-tests/                  engine, market, API and security tests
-docs/                   methodology, user guide and product images
+src/engine/              calculation engine (no dependencies)
+  sectors/               six illustrative operating models
+  variance.js            bridges, rolling 12 months, eliminations, sensitivity
+  checks.js              logic checker and missing-data finder
+  newco.js               new-company capex and opex case
+  entry.js               UAE market-entry rules, VARA fees and capital
+  pulse.js               market signals, news themes, decision journal rules
+  plays.js               portfolio plays
+src/ui/components/       tabs and the shared design components
+data/market/             cited DLD aggregates (+ optional deal-level aggregate)
+data/pulse/              live market snapshot written by CI
+scripts/                 market refresh, DLD ingest, screenshot capture
+server/  bin/            static server and API; board-memo CLI
+tests/                   61 tests
+docs/                    methods, user guide, screenshots
 ```
 
 ## Method and limitations
 
-- Market headlines are hand-curated from the sources linked in `data/market/dld-official.json`.
-- Deal-level momentum uses median sale AED/m² in the latest 90 days versus the preceding 90 days, with a minimum transaction threshold.
-- Operating baselines, elasticities, costs and valuation assumptions are illustrative and deterministic.
-- The model does not forecast the market and does not replace source-data validation, professional valuation or investment due diligence.
+- **Market headlines:** hand-curated from linked official sources. Unofficial or partial periods are labelled.
+- **Prices:** delayed quotes. Indices with only monthly history on the source show level and daily move only.
+- **Operating models, plays and templates:** illustrative and deterministic. They are not forecasts, valuations or a profile of any named organisation.
+- **Variance:** measured against the model baseline until monthly actuals are loaded.
+- **Market Entry:** a planning aid, not legal advice. Confirm every requirement with the regulator and UAE counsel.
 
-See [docs/methodology.md](docs/methodology.md) for formulas and [docs/user-guide.md](docs/user-guide.md) for the workflow.
+Further reading: [methodology](docs/methodology.md) · [variance and controls](docs/variance-and-controls.md) · [market pulse](docs/market-pulse.md) · [market entry](docs/market-entry.md) · [user guide](docs/user-guide.md) · [changelog](CHANGELOG.md)
 
 ## License and independence
 
-MIT licensed. Independent analysis; not affiliated with or endorsed by Dubai Land Department or any source publisher. This project is not investment advice.
+MIT licensed. Independent analysis; not affiliated with or endorsed by Dubai Land Department, VARA or any source publisher. Not investment advice.

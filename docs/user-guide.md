@@ -1,31 +1,64 @@
 # User guide: from market signal to a board memo
 
-1. **Scan Live Market.** Start with urgency-ranked signals, market movements, source freshness and linked news. Use the country and theme filters when a signal needs more context.
-2. **Record the decision logic.** In the decision journal, write the call, stance, conviction, thesis, disconfirming evidence and review date. Notes stay in the browser unless you export them.
-3. **Open Market Tracker.** Read the official-data snapshot date and switch the headline instrument between value, transaction volume and investors. Every published figure links to its source. Use the header switch to choose light or dark mode; the browser remembers your choice.
-4. **Use the evidence calendar.** Move between months and select marked days to inspect publication checks, model refreshes, decision reviews and memo cut-offs. Calendar entries describe an internal review cadence unless they explicitly identify a published source.
-5. **Interrogate the history chart.** Switch between value, transactions and investors, then select a period to inspect its exact value, comparison basis, reporting scope and source. Partial periods are not treated as full-year comparisons.
-6. **Choose a working case.** Use the scenario deck or arrow keys to select Base, Upside, Growth, Downside or Liquidity Stress. Open the comparison card to place the selected illustrative case beside the published market level. These cases frame analysis; they are not forecasts.
-7. **Run the market-signal SOP.** Work through *Validate evidence*, *Classify materiality*, *Set the response* and *Record and review*. Each gate identifies its owner, service level, required evidence and output. Progress and the selected response are saved locally.
-8. **Connect deal-level data when needed.** Choose a DLD Transactions CSV in the import lab. The browser validates required fields, counts rejected rows and builds the deal-level workspace locally without uploading the file. Use the CLI ingest route when the aggregate should ship with the build.
-9. **Use the mobile command dock.** On a narrow screen, jump directly to the pulse, charts, cases, SOP or import lab.
-10. **Open Value Simulator** and pick one of the six market-facing operating models.
-11. **Read the baseline.** The context line shows baseline EBITDA and EV. With nothing moved, the *Board Memo* tab lists the three levers to explore first.
-12. **Move levers** on the left.
-    - The blue tick marks the baseline. Double-click a slider to reset it.
-    - A **green** span means the move creates value; **red** means it destroys value.
-    - Each moved lever shows its one-off **investment**. Hover the ⓘ to see the trade-off built into the model.
-    - Or start from a **scenario preset** chip such as *Utilisation drive* or *Softer market*.
-13. **Read the Value Simulator tab.**
-    - The tiles show EBITDA, margin, EV, cash released, value created and investment against the budget envelope.
-    - The **EBITDA bridge** shows which lever did the work.
-    - The **tornado** shows which drivers matter most from where you are now.
-    - **Where to play next** ranks the next 10% move on every lever. Press **Play** to apply it.
-    - Confidence and risk flags show whether the scenario remains operationally credible.
-14. **Check the Balanced Scorecard.** Cost cuts that hurt customers turn the Customer perspective amber or red.
-15. **Check the Business Case.** It shows NPV, IRR and payback after UAE corporate tax, the year-by-year benefit ramp, and an initiative register with owners.
-16. **Use Portfolio Lab** to combine sector scenarios and test transparent portfolio-level plays without tying the analysis to a named company.
-17. **Export the Board Memo** with *Copy Markdown*, *Download .md* or *Print / PDF*.
-18. **Share** the scenario. The URL carries every lever, so a colleague opens exactly what you built.
+The app has five tabs that share one layout: a page header, numbered sections and a contents bar. The
+**Checks** button in the top bar is available everywhere.
 
-**Tip:** use the live pulse to identify the question, the tracker to validate it, and the simulator to test only the levers that answer it. Prefer short payback, manageable risks and working-capital improvements over the largest headline move.
+## 1. Live Market: what moved
+
+1. Read the **KPIs to watch**. Each market shows its move, its trigger and how close it is. Past the
+   trigger it becomes a signal; upside in UAE equities shows as a tailwind.
+2. Click a headline figure (Brent, MSCI UAE, S&P 500, US 10-year, gold, VIX) to redraw the chart; hover
+   it for exact values.
+3. Open rows in the **signal register** for the headlines behind each signal.
+4. Use the **markets** folder tabs, the **chokepoints**, **country movement** and **news by theme** for
+   context. Click a market row to chart it.
+5. Write the call in the **decision journal**: stance, conviction, thesis, what would change your mind,
+   review date. Notes stay in the browser; export them to keep a copy.
+
+## 2. Market Tracker: is the evidence there
+
+1. Check the snapshot date, then switch the headline instrument between value, volume and investors.
+2. Read the **variance bridge**: pick a year pair to see how much growth came from more deals and how much
+   from a higher average ticket.
+3. Interrogate the history chart, the community ledger and the release calendar. Partial periods are
+   labelled and never compared with full years.
+4. Use the scenario deck and the market-signal SOP to move from evidence to a recorded response.
+5. Load a DLD Transactions CSV in the **import lab** for deal-level analysis. It stays in the browser.
+
+## 3. Market Entry: what it takes to enter
+
+1. Pick the business model and zone; the page names the regulator and flags traps.
+2. Work through the **procedure**, ticking each item; progress is saved locally.
+3. For a virtual-asset business, select activities in the **capital and fee calculator** and read the
+   waterfall of cash needed before the first client.
+
+## 4. Value Plan: what a business is worth
+
+1. Choose the business in the header, then move levers on the left (double-click to reset), or start from
+   a scenario preset.
+2. **Value at stake:** pick EBITDA, EV, value created or cash to redraw the five-year path. Press
+   **Play** on a next best move to apply it.
+3. **Variance bridge:** read the waterfall by lever or by P&L line, and the **KPIs to watch** beside it.
+4. **Rolling 12 months:** see when the plan shows up in trailing results.
+5. **Sensitivity:** choose ±5%, ±10% or ±20% and click a driver for its share of risk, elasticity and
+   headroom.
+6. **Scorecard, business case and board memo:** click a perspective ring to filter KPIs; read the verdict
+   and decisions requested; copy or download the full memo.
+
+## 5. Portfolio Lab: what the group is worth
+
+1. Hover the dot composition to isolate a business; click to open its value plan.
+2. In **Consolidation**, load the typical intercompany flows or add your own, and check the eliminations
+   balance.
+3. Switch **plays** on and drag their assumptions; the portfolio figures update live.
+4. In the **new company case**, start from a template and tune revenue, opex, capex, working capital and
+   valuation. Read funding need, breakeven, IRR and the year-1 cash waterfall, then the checks tab.
+
+## Checks and sharing
+
+- Open **Checks** to see every logic check and the missing data that would improve the model.
+- **Share** copies a link with the tab, business and levers, so a colleague opens exactly what you built.
+
+**Tip:** use Live Market to find the question, Market Tracker to validate it, and the Value Plan to test only
+the levers that answer it. Prefer short payback, manageable risks and working-capital gains over the largest
+headline move.
