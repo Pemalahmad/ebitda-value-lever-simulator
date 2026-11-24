@@ -3,7 +3,7 @@
 **A decision workspace for investing and creating value in Dubai: live market signals, official real-estate evidence, a UAE market-entry roadmap, operating value plans and a portfolio lab, all in one consistent design and every figure traceable to its source or its formula.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-61%20passing-1b9a59)
+![Tests](https://img.shields.io/badge/tests-72%20passing-1b9a59)
 ![Checks](https://img.shields.io/badge/workbook%20checks-75-121212)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Engine](https://img.shields.io/badge/engine-zero%20dependencies-f05a28)
@@ -196,7 +196,7 @@ npm run dev
 | Command | What it does |
 |---|---|
 | `npm run dev` | Development server |
-| `npm test` | 61 Node tests (engine, variance, checks, market, entry, pulse, API) |
+| `npm test` | 72 Node tests (engine, variance, checks, market, entry, pulse, API, security) |
 | `npm run check` | Tests plus the production build in `dist/` |
 | `npm start` | Serves the build and the JSON API |
 | `npm run pulse` | Refreshes the Live Market snapshot |
@@ -248,7 +248,7 @@ data/market/             cited DLD aggregates (+ optional deal-level aggregate)
 data/pulse/              live market snapshot written by CI
 scripts/                 market refresh, DLD ingest, screenshot capture
 server/  bin/            static server and API; board-memo CLI
-tests/                   61 tests
+tests/                   72 tests, including security
 docs/                    methods, user guide, screenshots
 ```
 
@@ -261,6 +261,10 @@ docs/                    methods, user guide, screenshots
 - **Market Entry:** a planning aid, not legal advice. Confirm every requirement with the regulator and UAE counsel.
 
 Further reading: [methodology](docs/methodology.md) · [variance and controls](docs/variance-and-controls.md) · [market pulse](docs/market-pulse.md) · [market entry](docs/market-entry.md) · [user guide](docs/user-guide.md) · [changelog](CHANGELOG.md)
+
+## Security
+
+The built site carries a strict Content-Security-Policy, and the API server sends security headers, limits request size, confines static files and validates every input. CI audits dependencies and pins its actions to commit SHAs. Details and how to report an issue: [SECURITY.md](SECURITY.md). Run `node --test tests/security.test.js`.
 
 ## License and independence
 

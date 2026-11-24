@@ -17,6 +17,18 @@ const ROOT = resolve(fileURLToPath(new URL('../dist', import.meta.url)));
 const MAX_BODY = 64 * 1024;
 const MIME = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.png': 'image/png', '.gif': 'image/gif', '.json': 'application/json', '.ico': 'image/x-icon', '.woff2': 'font/woff2' };
 
+// Sent on every response: no MIME sniffing, no framing, no referrer leakage, and a strict CSP
+// (the same policy the static build carries in its meta tag).
+export const SECURITY_HEADERS = {
+  'x-content-type-options': 'nosniff',
+  'x-frame-options': 'DENY',
+  'referrer-policy': 'strict-origin-when-cross-origin',
+  'cross-origin-opener-policy': 'same-origin',
+  'cross-origin-resource-policy': 'same-origin',
+  'permissions-policy': 'camera=(), microphone=(), geolocation=(), payment=()',
+  'content-security-policy': "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'",
+};
+
 const json = (res, code, body) => {
   res.writeHead(code, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
   res.end(JSON.stringify(body, (_, v) => (v === Infinity ? 'Infinity' : Number.isNaN(v) ? null : v)));
@@ -28,7 +40,7 @@ function readBody(req) {
     const chunks = [];
     req.on('data', (c) => {
       size += c.length;
-      if (size > MAX_BODY) { fail(Object.assign(new Error('Body too large'), { status: 413 })); req.destroy(); return; }
+      if (size > MAX_BODY) { req.removeAllListeners('data'); req.pause(); fail(Object.assign(new Error('Body too large'), { status: 413, close: true })); return; }
       chunks.push(c);
     });
     req.on('end', () => {
@@ -73,7 +85,10 @@ async function api(req, res, path) {
 }
 
 async function staticFile(res, path) {
-  const rel = normalize(decodeURIComponent(path)).replace(/^([/\\])+/, '');
+  let decoded;
+  try { decoded = decodeURIComponent(path); } catch { return json(res, 400, { error: 'Bad request' }); }
+  if (decoded.includes('\0')) return json(res, 400, { error: 'Bad request' });
+  const rel = normalize(decoded).replace(/^([/\\])+/, '');
   let file = join(ROOT, rel || 'index.html');
   if (file !== ROOT && !file.startsWith(ROOT + sep)) return json(res, 403, { error: 'Forbidden' });
   try {
@@ -95,13 +110,17 @@ async function staticFile(res, path) {
 
 export function createServer() {
   return http.createServer(async (req, res) => {
-    const { pathname } = new URL(req.url, 'http://localhost');
+    for (const [k, v] of Object.entries(SECURITY_HEADERS)) res.setHeader(k, v);
+    let pathname;
+    try { ({ pathname } = new URL(req.url, 'http://localhost')); } catch { return json(res, 400, { error: 'Bad request' }); }
     try {
       if (pathname.startsWith('/api/')) return await api(req, res, pathname);
       return await staticFile(res, pathname);
     } catch (err) {
       const status = err.status ?? (/Unknown sector|must be a number/.test(err.message) ? 400 : 500);
-      return json(res, status, { error: status === 500 ? 'Internal error' : err.message });
+      if (err.close) res.setHeader('connection', 'close');
+      // Never return stack traces; cap echoed input so error bodies stay small.
+      return json(res, status, { error: status === 500 ? 'Internal error' : String(err.message).slice(0, 200) });
     }
   });
 }
