@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Source } from './Source.jsx';
-import { PageHead } from './Dots.jsx';
+import { PageHead, Card, CardHead, Waterfall, Segmented, KpiStrip } from './Dots.jsx';
+import { priceVolumeBridge } from '../../engine/index.js';
 import { BeforeAfterCard, ImportLab, MobileCommandDock, ReleaseCalendar, ScenarioDeck } from './MarketWorkspace.jsx';
 import OFFICIAL from '../../../data/market/dld-official.json';
 
@@ -53,6 +54,8 @@ export function MarketView() {
       <InvestorWidget latest={latest} />
       <PeriodWidget period={currentPeriod} />
     </section>
+
+    <MarketVariance years={years} />
 
     <ReleaseCalendar />
 
@@ -256,3 +259,24 @@ function Sparkline({ values, label = 'Annual transaction value trend' }) {
 }
 
 const Metric = ({ label, value }) => <div><span>{label}</span><b>{value}</b></div>;
+
+// Year-on-year variance: how much of the change in market value came from more deals vs a higher ticket.
+function MarketVariance({ years }) {
+  const pairs = years.slice(1).map((y, i) => [years[i], y]);
+  const [pick, setPick] = useState(pairs.length - 1);
+  const [a, b] = pairs[pick];
+  const br = priceVolumeBridge({ value: a.valueAedBn, volume: a.transactions }, { value: b.valueAedBn, volume: b.transactions });
+  const share = br.steps[0].delta / (br.end - br.start);
+  return <Card className="market-variance">
+    <CardHead title="Variance bridge: volume vs price" sub={`What drove the change in recorded value from ${a.year} to ${b.year}. Volume at the ${a.year} average ticket; price and mix at ${b.year} volume.`} right={<Segmented value={pick} onChange={setPick} label="Years" options={pairs.map(([x, y], i) => [i, `${y.year} vs ${x.year}`])} />} />
+    <div className="split-main">
+      <Waterfall bridge={br} startLabel={`${a.year} value`} endLabel={`${b.year} value`} format={(v) => `AED ${v.toFixed(0)}bn`} height={260} />
+      <KpiStrip items={[
+        { id: 'vol', label: 'Volume effect', value: `AED ${br.steps[0].delta.toFixed(0)}bn`, sub: `${pctS(b.transactions / a.transactions - 1)} transactions` },
+        { id: 'px', label: 'Price & mix effect', value: `AED ${br.steps[1].delta.toFixed(0)}bn`, sub: `ticket AED ${(br.ticket.prev * 1000).toFixed(2)}m → ${(br.ticket.cur * 1000).toFixed(2)}m` },
+        { id: 'share', label: 'Growth from volume', value: `${Math.round(share * 100)}%`, sub: share > 0.6 ? 'activity-led market' : share < 0.4 ? 'price-led market' : 'balanced growth' },
+      ]} />
+    </div>
+    <footer className="w-foot">Source: the annual DLD and Dubai Media Office figures above. Partial periods are excluded because they are not comparable.</footer>
+  </Card>;
+}

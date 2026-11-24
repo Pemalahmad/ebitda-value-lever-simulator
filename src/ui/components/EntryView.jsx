@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AS_OF, SOURCES, JURISDICTIONS, VA_ACTIVITIES, MODELS, COMPANY_STEPS, PRODUCT_STEPS, VASP_STAGES, COMPLIANCE, PITFALLS, assess, varaCosts } from '../../engine/entry.js';
 import { Source } from './Source.jsx';
-import { PageHead } from './Dots.jsx';
+import { PageHead, Waterfall } from './Dots.jsx';
 
 const KEY = 'vls.entry.v1';
 const aed = (v) => (v == null ? 'Set by VARA' : `AED ${Math.round(v).toLocaleString('en-US')}`);
@@ -109,6 +109,7 @@ export function EntryView() {
           <tbody>{costs.capitalByActivity.map((c, i) => { const x = VA_ACTIVITIES.find((v) => v.id === c.id); return <tr key={c.id}><td><span>{i + 1}</span>{c.label}</td><td>{aed(x.application)}</td><td>{aed(x.supervision)}</td><td>{aed(c.capital)}</td></tr>; })}
             <tr className="entry-total"><td>Total</td><td>≤ {aed(costs.application)}</td><td>{aed(costs.supervision)}</td><td>≥ {aed(costs.capitalFloor)}</td></tr></tbody>
         </table></div>}
+        {acts.length > 0 && costs.capitalFloor != null && <div className="entry-wf"><span className="w-eyebrow">Cash needed before the first client, regulatory items only</span><Waterfall zoom={false} height={230} bridge={{ start: 0, end: costs.firstYear + costs.capitalFloor, steps: [{ id: 'app', label: 'Application fees', delta: costs.application }, { id: 'sup', label: 'First-year supervision', delta: costs.supervision }, { id: 'cap', label: 'Paid-up capital', delta: costs.capitalFloor }] }} startLabel="Start" endLabel="Total" format={(v) => aedShort(v)} /></div>}
         <footer>{costs.separateCustodyEntity ? 'Custody must sit in its own licensed entity: budget a second set of capital and fees. ' : ''}Additional activities attract a reduced extension fee, so the application total is an upper bound.</footer>
       </article>}
 

@@ -221,3 +221,56 @@ export function DotColumns({ cols, format, rows = 12 }) {
 
 // Severity / status dot.
 export const Dot = ({ tone }) => <i className={`sdot ${tone}`} aria-hidden="true" />;
+
+// Vertical waterfall for any bridge { start, end, steps }. Movements are filled with a dot texture,
+// totals are solid. The axis zooms in (and says so) when the movements are small next to the totals.
+export function Waterfall({ bridge, startLabel = 'Start', endLabel = 'End', format = (v) => v, height = 280, zoom = true }) {
+  const box = useRef(null);
+  const [W, setW] = useState(720);
+  const [hover, setHover] = useState(null);
+  useEffect(() => {
+    if (!box.current || typeof ResizeObserver === 'undefined') return undefined;
+    const ro = new ResizeObserver(([e]) => setW(Math.max(300, Math.round(e.contentRect.width))));
+    ro.observe(box.current);
+    return () => ro.disconnect();
+  }, []);
+  const bars = [{ label: startLabel, from: 0, to: bridge.start, kind: 'total' }];
+  let cum = bridge.start;
+  for (const s of bridge.steps) { bars.push({ label: s.label, from: cum, to: cum + s.delta, kind: Math.abs(s.delta) < 1e-9 ? 'flat' : s.delta > 0 ? 'up' : 'down', delta: s.delta }); cum += s.delta; }
+  bars.push({ label: endLabel, from: 0, to: bridge.end, kind: 'end' });
+  const vals = bars.flatMap((b) => [b.from, b.to]);
+  const max = Math.max(0, ...vals), minV = Math.min(0, ...vals);
+  const moves = bars.filter((b) => b.kind === 'up' || b.kind === 'down').flatMap((b) => [b.from, b.to]);
+  const span = moves.length ? Math.max(...moves) - Math.min(...moves) : 0;
+  const lo = zoom && minV >= 0 && moves.length && span < max * 0.35 ? Math.max(0, Math.min(...moves, bridge.start, bridge.end) - span * 1.2) : minV;
+  const padT = 26, padB = 46, H = height, n = bars.length, slot = W / n, bw = Math.min(64, slot * 0.58);
+  const y = (v) => padT + (1 - (Math.max(v, lo) - lo) / (max - lo || 1)) * (H - padT - padB);
+  const id = useMemo(() => `wf${Math.random().toString(36).slice(2, 7)}`, []);
+  const tone = { total: 'var(--text)', end: 'var(--gold)', up: 'var(--pos)', down: 'var(--neg)', flat: 'var(--line-2)' };
+  return (
+    <div className="waterfall-v" ref={box} onMouseLeave={() => setHover(null)}>
+      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`Waterfall from ${startLabel} to ${endLabel}`}>
+        <defs>{['up', 'down'].map((k) => <pattern key={k} id={`${id}-${k}`} width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill={tone[k]} opacity=".14" /><circle cx="3" cy="3" r="1.7" fill={tone[k]} /></pattern>)}</defs>
+        {lo > 0 && <text x="0" y={H - padB + 36} className="dl-axis">Axis from {format(lo)}</text>}
+        <line x1="0" x2={W} y1={y(Math.max(lo, 0))} y2={y(Math.max(lo, 0))} className="wf-axis" />
+        {bars.map((b, i) => {
+          const x = i * slot + (slot - bw) / 2;
+          const top = y(Math.max(b.from, b.to)), bot = y(Math.min(b.from, b.to));
+          const next = bars[i + 1];
+          return (
+            <g key={i} onMouseEnter={() => setHover(i)} className={hover != null && hover !== i ? 'wf-dim' : ''}>
+              <rect x={i * slot} y={0} width={slot} height={H} fill="transparent" />
+              <rect x={x} y={top} width={bw} height={Math.max(2, bot - top)} rx="5" fill={b.kind === 'up' || b.kind === 'down' ? `url(#${id}-${b.kind})` : tone[b.kind]} stroke={tone[b.kind]} strokeWidth={b.kind === 'up' || b.kind === 'down' ? 1 : 0} />
+              {next && <line x1={x + bw} x2={(i + 1) * slot + (slot - bw) / 2} y1={y(b.to)} y2={y(b.to)} className="wf-link" />}
+              <text x={x + bw / 2} y={top - 8} textAnchor="middle" className={`wf-val ${b.kind}`}>{b.kind === 'flat' ? '—' : b.delta != null ? `${b.delta >= 0 ? '+' : '−'}${format(Math.abs(b.delta))}` : format(b.to)}</text>
+              <foreignObject x={i * slot + 2} y={H - padB + 6} width={slot - 4} height={padB - 6}><div className="wf-label" title={b.label}>{b.label}</div></foreignObject>
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+}
+
+// Status chip used by watchlists and checks.
+export const Status = ({ s }) => <span className={`status ${s}`}>{{ pass: 'Pass', ok: 'On track', warn: 'Watch', near: 'Near', fail: 'Fail', breach: 'Breach', tail: 'Tailwind' }[s] ?? s}</span>;

@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.8.0 (2026-11-24): Variance, controls and new-company cases
+
+- **Variance bridges on every tab**, drawn as waterfall charts:
+  - **Market Tracker:** volume vs price, year on year.
+  - **Market Entry:** cash before the first client.
+  - **Value Plan:** EBITDA by lever or by P&L line.
+  - **Portfolio Lab:** portfolio value and consolidated revenue.
+  - **New company case:** EBITDA to free cash flow.
+- **KPIs to watch** with thresholds and status (Value Plan and Live Market).
+- **Rolling 12 months** of EBITDA as initiatives ramp.
+- **Assumption sensitivity summary** for the selected business, at ±5%, ±10% or ±20%.
+- **Intercompany elimination helper** with balance checks.
+- **Logic checker and missing-data finder:** about 75 checks across every tab behind a Checks button.
+- **New company case:** a capex and opex calculator with five editable templates.
+- **Live Market:** the duplicated signal cards are replaced by one expandable signal register, and the side list became the KPI watchlist.
+- 61 tests (new: bridge reconciliation, rolling 12 months, eliminations, sensitivity, new-company plan, workbook checks).
+
 ## 1.7.0 (2026-11-24): One design, five tabs
 
 - **New visual system ("Dots"):**

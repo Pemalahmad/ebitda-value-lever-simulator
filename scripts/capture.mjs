@@ -41,6 +41,11 @@ await shot('screenshot-value', { hash: scenario, height: 1300 });
 for (const [name, id] of [['screenshot-scorecard', '#vp-scorecard'], ['screenshot-business-case', '#vp-case'], ['screenshot-memo', '#vp-memo']]) {
   await shot(name, { hash: scenario, selector: id, height: 1300 });
 }
+await shot('screenshot-variance', { hash: scenario, selector: '#vp-drivers', height: 1300 });
+await shot('screenshot-sensitivity', { hash: scenario, selector: '#vp-sens', height: 1300 });
+await shot('screenshot-consolidation', { hash: '#tab=portfolio', selector: '#pl-ic', height: 1400, action: async (page) => { await page.getByRole('button', { name: 'Load typical flows' }).click(); await page.waitForTimeout(300); } });
+await shot('screenshot-newco', { hash: '#tab=portfolio', selector: '#pl-newco', height: 1500 });
+await shot('screenshot-checks', { height: 1000, action: async (page) => { await page.locator('.checks-btn').click(); await page.getByRole('tab', { name: /Missing data/ }).click(); await page.waitForTimeout(300); } });
 await shot('screenshot-mobile', { width: 390, height: 844, hash: '#s=hospitality&occupancy=79&labourPOR=152' });
 await shot('screenshot-dark', { height: 1400, action: async (page) => {
   await page.getByRole('button', { name: 'Switch to dark mode' }).click();

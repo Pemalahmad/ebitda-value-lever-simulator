@@ -9,3 +9,6 @@ export { renderMarkdown } from './markdown.js';
 export { PLAYS, runPlay, getPlay, playDefaults } from './plays.js';
 export { parseCsv, normalise, aggregate, DLD_COLUMNS } from './market.js';
 export * as fmt from './format.js';
+export { priceVolumeBridge, lineBridge, rolling12, consolidate, assumptionSummary, reconciles } from './variance.js';
+export { newcoPlan, newcoChecks, NEWCO_PRESETS, NEWCO_FIELDS } from './newco.js';
+export { logicChecks, dataGaps } from './checks.js';

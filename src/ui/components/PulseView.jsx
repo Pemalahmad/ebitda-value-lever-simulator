@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import PULSE from '../../../data/pulse/pulse.json';
-import { PageHead, Section, Card, CardHead, KpiStrip, DotLine, FolderTabs, Pill } from './Dots.jsx';
+import { PageHead, Section, Card, CardHead, KpiStrip, DotLine, FolderTabs, Pill, Status, DotTrack } from './Dots.jsx';
 import { CHOKEPOINTS, CHECKLIST, STANCES, byCountry, byTheme, classify, noteErrors, reviewDue, signals, snapshotLevels, stats } from '../../engine/pulse.js';
 
 const JOURNAL_KEY = 'vls.journal.v1';
@@ -115,6 +115,7 @@ export function PulseView() {
   const [country, setCountry] = useState('all');
   const [focus, setFocus] = useState('brent');
   const [group, setGroup] = useState(GROUPS[0]);
+  const [openSig, setOpenSig] = useState(null);
   const rows = useMemo(() => PULSE.markets.map((m) => ({ ...m, s: stats(m.series, m) })), []);
   const recent = PULSE.news.filter((n) => Date.now() - Date.parse(n.published) <= 3 * 864e5).map((n) => ({ ...n, ...classify(n.title) }));
   const filtered = PULSE.news.map((n) => ({ ...n, ...classify(n.title) }))
@@ -127,37 +128,41 @@ export function PulseView() {
       <PageHead status={`Data as of ${stamp(PULSE.generatedAt)} · ${live}/${PULSE.sources.length} sources live`} title="Market pulse" muted="for a Dubai portfolio"
         sub={<>What moved, what it means, and what the local papers are saying, in one read before the investment committee. Delayed quotes; not investment advice. Live maps of conflicts and shipping: <a href="https://www.worldmonitor.app/" target="_blank" rel="noreferrer">World Monitor</a>.</>} />
 
-      <Section n={1} title="Headline markets" sub="Pick a market to redraw the three-month chart. Signals past their thresholds sit on the right.">
+      <Section n={1} title="Headline markets" sub="Pick a market to redraw the three-month chart. On the right, the KPIs to watch against the thresholds that trigger a signal.">
         <div className="split-main">
           <Card className="chart-card">
             <KpiStrip active={focus} onSelect={setFocus} items={HEADLINE.filter((id) => byId[id]).map((id) => { const r = byId[id]; const m = r.invert && r.s.m1 != null ? -r.s.m1 : r.s.m1; return { id, label: SHORT[id] ?? r.label, value: num(r.s.last), delta: r.s.m1 == null ? null : `${pct(r.s.m1)} 1M`, tone: tone(m) }; })} />
             {byId[focus] && (byId[focus].s.monthly
               ? <p className="empty-card">This source publishes only monthly history, so there is no daily chart. Last {num(byId[focus].s.last)} on {byId[focus].s.asOf}.</p>
-              : <DotLine height={330} series={byId[focus].series.slice(-63).map(([d, v]) => ({ label: new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }), value: v }))} format={(v) => num(v)} label={`${byId[focus].label}, three months`} />)}
+              : <DotLine height={420} series={byId[focus].series.slice(-63).map(([d, v]) => ({ label: new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }), value: v }))} format={(v) => num(v)} label={`${byId[focus].label}, three months`} />)}
             {byId[focus] && <p className="w-foot">{byId[focus].label}{byId[focus].unit ? `, ${byId[focus].unit}` : ''} · 1W {pct(byId[focus].s.w1)} · 3M {pct(byId[focus].s.m3)} · last {byId[focus].s.asOf}</p>}
           </Card>
-          <Card className="signal-side">
-            <CardHead title="Top signals" sub={`${sigs.length} past threshold`} />
-            {sigs.length === 0 ? <p className="muted sm">No signal past its threshold today.</p> : <ul className="movers">{sigs.map((x) => <li key={x.id}><span className="mv-name">{x.title}<small>{x.why}</small></span><span className={`chip sm ${LEVEL[x.level][1]}`}>{LEVEL[x.level][0]}</span></li>)}</ul>}
-          </Card>
+          <WatchList byId={byId} />
         </div>
       </Section>
 
-      <Section n={2} title="Signals in detail" sub="Each signal with the reason it matters here and the data or headlines behind it.">
-      <section className="card">
-        {sigs.length === 0 ? <p className="muted">No market or news signal past its threshold today.</p> : (
-          <div className="pulse-signals">{sigs.map((s) => (
-            <article key={s.id} className="pulse-signal">
-              <span className={`chip sm ${LEVEL[s.level][1]}`}>{LEVEL[s.level][0]}</span>
-              <h4>{s.title}</h4>
-              <p>{s.why}</p>
-              {s.evidence?.length > 0 && <p className="muted" style={{ fontSize: 12 }}>Based on: {s.evidence.map((id) => byId[id]?.label ?? id).join(', ')}</p>}
-              {s.news?.length > 0 && <ul className="plain">{s.news.map((n) => <Headline key={n.link} n={n} />)}</ul>}
-            </article>
-          ))}</div>
-        )}
-      </section>
-
+      <Section n={2} title="Signal register" sub="Every signal past its threshold, once. Open a row for the evidence and the headlines behind it.">
+        <Card className="register">
+          {sigs.length === 0 ? <p className="empty-card">No market or news signal past its threshold today.</p> : (
+            <div className="table-wrap"><table className="data reg-table">
+              <thead><tr><th>Level</th><th>Signal</th><th>Why it matters for a Dubai portfolio</th><th>Evidence</th><th /></tr></thead>
+              <tbody>{sigs.map((x) => (
+                <React.Fragment key={x.id}>
+                  <tr className="clickable" onClick={() => setOpenSig(openSig === x.id ? null : x.id)} aria-expanded={openSig === x.id}>
+                    <td><span className={`chip sm ${LEVEL[x.level][1]}`}>{LEVEL[x.level][0]}</span></td>
+                    <td><b>{x.title}</b></td>
+                    <td className="muted reg-why">{x.why}</td>
+                    <td className="muted sm">{x.evidence?.length ? x.evidence.map((id) => SHORT[id] ?? byId[id]?.label ?? id).join(', ') : `${x.news?.length ?? 0} headlines`}</td>
+                    <td className="r"><span className={`reg-caret ${openSig === x.id ? 'on' : ''}`}>›</span></td>
+                  </tr>
+                  {openSig === x.id && <tr className="reg-open"><td /><td colSpan={4}>
+                    {x.news?.length > 0 ? <ul className="plain">{x.news.map((n) => <Headline key={n.link} n={n} />)}</ul> : <p className="muted sm">Market signal: see the {x.evidence.map((id) => byId[id]?.label ?? id).join(' and ')} chart above.</p>}
+                  </td></tr>}
+                </React.Fragment>
+              ))}</tbody>
+            </table></div>
+          )}
+        </Card>
       </Section>
 
       <Section n={3} title="Markets" sub="Dubai and GCC first, then the global drivers that reach Dubai through the dollar peg, oil and capital flows.">
@@ -241,5 +246,30 @@ export function PulseView() {
       </section>
       </Section>
     </div>
+  );
+}
+
+// The KPIs behind the signals, all of them, with how close each is to its trigger.
+function WatchList({ byId }) {
+  const g = (id) => byId[id]?.s;
+  const bp = (id) => { const m = byId[id]; if (!m || m.series.length < 22) return null; return (m.series.at(-1)[1] - m.series.at(-22)[1]) * 100; };
+  const rows = [
+    { k: 'Brent, 1 month', v: g('brent')?.m1, fmt: (x) => pct(x), t: 0.1, tl: '±10%' },
+    { k: 'US 10-year yield, 1 month', v: bp('us10y'), fmt: (x) => `${x >= 0 ? '+' : '−'}${Math.abs(x).toFixed(0)} bp`, t: 25, tl: '±25 bp' },
+    { k: 'Dollar index, 1 month', v: g('dxy')?.m1, fmt: (x) => pct(x), t: 0.03, tl: '±3%' },
+    { k: 'VIX level', v: g('vix')?.last, fmt: (x) => x.toFixed(1), t: 25, tl: '≥ 25', level: true },
+    { k: 'MSCI UAE vs S&P 500, 1 month', v: g('msci-uae')?.m1 != null && g('spx')?.m1 != null ? (g('msci-uae').m1 - g('spx').m1) * 100 : null, fmt: (x) => `${x >= 0 ? '+' : '−'}${Math.abs(x).toFixed(1)} pts`, t: 5, tl: '±5 pts', upGood: true },
+    { k: 'Emaar, 1 month', v: g('emaar')?.m1, fmt: (x) => pct(x), t: 0.1, tl: '±10%', upGood: true },
+    { k: 'Dry-bulk freight, 1 month', v: g('freight')?.m1, fmt: (x) => pct(x), t: 0.15, tl: '±15%' },
+  ].map((r) => { const ratio = r.v == null ? null : r.level ? r.v / r.t : Math.abs(r.v) / r.t; const s2 = ratio == null ? 'n/a' : r.upGood && r.v > 0 ? (ratio >= 1 ? 'tail' : 'ok') : ratio >= 1 ? 'breach' : ratio >= 0.7 ? 'near' : 'ok'; return { ...r, ratio, s: s2 }; });
+  return (
+    <Card className="signal-side">
+      <CardHead title="KPIs to watch" sub={`${rows.filter((r) => r.s === 'breach').length} adverse past threshold · ${rows.filter((r) => r.s === 'near').length} near · ${rows.filter((r) => r.s === 'tail').length} tailwind`} />
+      <ul className="watch watch-mkt">{rows.map((r) => (
+        <li key={r.k}><span className="w-k">{r.k}<small>trigger {r.tl}</small></span><b>{r.v == null ? '—' : r.fmt(r.v)}</b><Status s={r.s} />
+          {r.ratio != null && <span className="watch-track"><DotTrack to={Math.min(1, r.ratio / 1.5)} marker={1 / 1.5} tone={r.s === 'breach' ? 'neg' : r.s === 'near' ? 'amber' : 'pos'} slots={30} /></span>}</li>
+      ))}</ul>
+      <p className="w-foot">The ring marks the trigger. Past it, the signal enters the register below.</p>
+    </Card>
   );
 }

@@ -7,6 +7,7 @@ import { MarketView } from './components/MarketView.jsx';
 import { PulseView } from './components/PulseView.jsx';
 import { EntryView } from './components/EntryView.jsx';
 import { Icon } from './components/Icons.jsx';
+import { ChecksButton, ChecksDrawer, useChecks } from './components/ChecksDrawer.jsx';
 import { readHash, writeHash } from './state.js';
 
 const TABS = [
@@ -40,12 +41,15 @@ export default function App() {
   const [activeScenario, setActiveScenario] = useState(null);
   const [shared, setShared] = useState(false);
   const [plays, setPlays] = useState({});
+  const [intercompany, setIntercompany] = useState([]);
+  const [checksOpen, setChecksOpen] = useState(false);
   const [theme, setTheme] = useState(initialTheme);
 
   const sector = getSector(sectorId);
   const levers = bySector[sectorId] ?? baseLevers(sector);
   const e = useMemo(() => evaluate(sector, levers), [sector, levers]);
   const cost = useMemo(() => investmentByLever(sector, levers), [sector, levers]);
+  const checks = useChecks(bySector, plays, intercompany);
 
   useEffect(() => writeHash(sectorId, levers, baseLevers(sector), tab), [sectorId, levers, sector, tab]);
   useEffect(() => { const id = LEGACY[initial.tab]; if (id) setTimeout(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }), 60); }, [initial.tab]);
@@ -107,6 +111,7 @@ export default function App() {
           ))}
         </nav>
         <div className="player">
+          <ChecksButton result={checks} onOpen={() => setChecksOpen(true)} />
           <button className="ghost sm icon-btn" onClick={() => setTheme((value) => value === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
             <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={15} />
           </button>
@@ -117,7 +122,7 @@ export default function App() {
       <main className={`layout ${WIDE.includes(tab) ? 'wide' : ''}`}>
         {tab === 'value' && <LeverPanel sector={sector} levers={levers} cost={cost} onChange={setLever} onReset={reset} onScenario={applyScenario} activeScenario={activeScenario} />}
         <div className="center" key={tab}>
-          {tab === 'portfolio' && <PortfolioView bySector={bySector} plays={plays} setPlays={setPlays} onOpenSector={(id) => { pickSector(id); go('value'); }} />}
+          {tab === 'portfolio' && <PortfolioView bySector={bySector} plays={plays} setPlays={setPlays} intercompany={intercompany} setIntercompany={setIntercompany} onOpenSector={(id) => { pickSector(id); go('value'); }} />}
           {tab === 'pulse' && <PulseView />}
           {tab === 'market' && <MarketView />}
           {tab === 'entry' && <EntryView />}
@@ -125,6 +130,7 @@ export default function App() {
         </div>
       </main>
 
+      <ChecksDrawer open={checksOpen} onClose={() => setChecksOpen(false)} result={checks} />
       <footer className="foot no-print">
         Independent market analysis. Public figures link to their sources; operating models and scenarios are illustrative. Not affiliated with or endorsed by DLD. Method: <code>docs/methodology.md</code>.
       </footer>

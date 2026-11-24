@@ -3,7 +3,7 @@
 **Independent Dubai market intelligence built from cited public sources and open transaction data, with scenario tools that connect market movement to operating and portfolio value.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-54%20passing-2dd4bf)
+![Tests](https://img.shields.io/badge/tests-61%20passing-2dd4bf)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Dependencies](https://img.shields.io/badge/engine-zero%20dependencies-e5b95c)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -43,6 +43,34 @@ The dashboard reads like a business-development document. Every tab shares one s
 ![Value Plan](docs/screenshot-value.png)
 
 ![Board memo as a one-page decision](docs/screenshot-memo.png)
+
+## Variance, controls and new-company cases
+
+- **Variance bridges on every tab**, as waterfall charts:
+  - **Market Tracker:** volume vs price, year on year.
+  - **Market Entry:** cash needed before the first client.
+  - **Value Plan:** EBITDA by lever or by P&L line.
+  - **Portfolio Lab:** portfolio value and consolidated revenue.
+  - **New company case:** EBITDA to free cash flow.
+- **KPIs to watch** with thresholds and status, in the Value Plan and Live Market.
+- **Rolling 12 months:** trailing-twelve-month EBITDA as initiatives ramp.
+- **Assumption sensitivity summary** for the selected business: downside and upside swing, share of total risk, elasticity and headroom, at ±5%, ±10% or ±20%.
+- **Intercompany elimination helper:** removes sales between the six businesses. Operating flows net out; capitalised flows remove unrealised profit. It checks that the eliminations balance.
+- **Logic checker and missing data:** the Checks button runs about 75 consistency checks across every tab and lists the data that would let the model evolve, with the fix for each.
+- **New company case:** a capex and opex calculator for a company you might invest in. It shows funding need, breakeven, payback, IRR, NPV, MOIC and exit value, with five editable templates.
+- **Live Market signals:** listed once, in a signal register you can expand.
+
+Methods: [docs/variance-and-controls.md](docs/variance-and-controls.md).
+
+![Variance bridge and KPIs to watch](docs/screenshot-variance.png)
+
+![Assumption sensitivity summary](docs/screenshot-sensitivity.png)
+
+![Intercompany eliminations](docs/screenshot-consolidation.png)
+
+![New company capex and opex case](docs/screenshot-newco.png)
+
+![Workbook checks and missing data](docs/screenshot-checks.png)
 
 ## Market Entry — UAE regulatory roadmap
 

@@ -1,6 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { SECTORS, compare, PLAYS, runPlay, fmt } from '../../engine/index.js';
-import { PageHead, Section, Card, CardHead, KpiStrip, DotRows, DotTrack, Pill } from './Dots.jsx';
+import { SECTORS, compare, PLAYS, runPlay, fmt, consolidate } from '../../engine/index.js';
+import { PageHead, Section, Contents, Card, CardHead, KpiStrip, DotRows, DotTrack, Pill, Waterfall, Status, Dot } from './Dots.jsx';
+import { NewcoCalc } from './NewcoCalc.jsx';
 import { SwarmCursor } from './SwarmCursor.jsx';
 
 const { money } = fmt;
@@ -21,7 +22,7 @@ export function portfolioSotp(bySector, plays) {
   return { rows, activePlays, baseEv, operating, playValue, cash, total: baseEv + operating + playValue };
 }
 
-export function PortfolioView({ bySector, plays, setPlays, onOpenSector }) {
+export function PortfolioView({ bySector, plays, setPlays, intercompany = [], setIntercompany = () => {}, onOpenSector }) {
   const scope = useRef(null);
   const portfolio = useMemo(() => portfolioSotp(bySector, plays), [bySector, plays]);
   const [view, setView] = useState('mix');
@@ -48,7 +49,9 @@ export function PortfolioView({ bySector, plays, setPlays, onOpenSector }) {
     <PageHead status={`Six illustrative operating models · ${portfolio.activePlays.length} of ${PLAYS.length} plays active`} title="Portfolio lab" muted="sum of the parts"
       sub="Combine the six operating models into one portfolio, then switch on financing and portfolio plays and watch the value move. A scenario workspace, not a valuation of any named company." />
 
-    <Section n={1} title="Portfolio value" sub="Pick a measure. Hover a business to isolate it; click to open its value plan.">
+    <Contents items={[{ id: 'pl-value', label: 'Portfolio value' }, { id: 'pl-ic', label: 'Consolidation' }, { id: 'pl-plays', label: 'Portfolio plays' }, { id: 'pl-newco', label: 'New company case' }]} />
+
+    <Section id="pl-value" n={1} title="Portfolio value" sub="Pick a measure. Hover a business to isolate it; click to open its value plan.">
       <Card className="chart-card">
         <KpiStrip active={view} onSelect={setView} items={[
           { id: 'mix', label: 'Modelled portfolio EV', value: money(portfolio.baseEv), sub: 'six baselines' },
@@ -57,13 +60,17 @@ export function PortfolioView({ bySector, plays, setPlays, onOpenSector }) {
           { id: 'plays', label: 'Value from plays', value: signed(portfolio.playValue), sub: `net cash ${signed(portfolio.cash)}` },
         ]} />
         {view === 'mix' && <Composition rows={portfolio.rows} focus={focus} setFocus={setFocus} onOpen={onOpenSector} />}
-        {view === 'bridge' && <div className="pad"><DotRows rows={bridgeRows} valueWidth={110} /><p className="w-foot">Axis starts at {money(lo)} so each step is visible.</p></div>}
+        {view === 'bridge' && <div className="pad"><Waterfall bridge={{ start: portfolio.baseEv, end: portfolio.total, steps: steps.map((x, i) => ({ id: `s${i}`, ...x })) }} startLabel="Baseline EV" endLabel="Scenario value" format={(v) => money(v)} /></div>}
         {view === 'ops' && <div className="pad"><DotRows valueWidth={110} onRow={(r) => onOpenSector(r.id)} rows={portfolio.rows.map((r) => ({ id: r.id, label: r.name, to: Math.abs(r.uplift) / Math.max(1, ...portfolio.rows.map((x) => Math.abs(x.uplift))), tone: r.uplift >= 0 ? 'pos' : 'neg', value: Math.abs(r.uplift) < 0.5 ? '—' : signed(r.uplift), dim: Math.abs(r.uplift) < 0.5 }))} /><p className="w-foot">{portfolio.operating ? 'Click a business to open its levers.' : 'No levers moved yet. Click a business to open its value plan.'}</p></div>}
         {view === 'plays' && <div className="pad"><DotRows valueWidth={110} rows={PLAYS.map((p) => { const on = plays[p.id]?.on; const r = runPlay(p, plays[p.id]?.params); return { label: p.title, to: Math.abs(r.value) / Math.max(1, ...PLAYS.map((x) => Math.abs(runPlay(x, plays[x.id]?.params).value))), tone: on ? (r.value >= 0 ? 'pos' : 'neg') : 'faint', value: signed(r.value), dim: !on }; })} /><p className="w-foot">Faded rows are plays not yet switched on; their value is what they would add.</p></div>}
       </Card>
     </Section>
 
-    <Section n={2} title="Portfolio plays" sub="Switch a play on and tune its assumptions. The value bar and the portfolio figures above update as you drag.">
+    <Section id="pl-ic" n={2} title="Consolidation and intercompany eliminations" sub="Sales between the six businesses inflate group revenue. Add each flow once; the helper removes it and checks that the eliminations balance.">
+      <Eliminations bySector={bySector} flows={intercompany} setFlows={setIntercompany} />
+    </Section>
+
+    <Section id="pl-plays" n={3} title="Portfolio plays" sub="Switch a play on and tune its assumptions. The value bar and the portfolio figures above update as you drag.">
       <div className="play-grid">{PLAYS.map((play) => {
         const state = plays[play.id];
         const result = runPlay(play, state?.params);
@@ -78,7 +85,68 @@ export function PortfolioView({ bySector, plays, setPlays, onOpenSector }) {
         </Card>;
       })}</div>
     </Section>
+
+    <Section id="pl-newco" n={4} title="New company case: capex and opex" sub="Size a company you might invest in: set-up capex, the opex build, working capital and tax, through to funding need, breakeven, IRR and exit value.">
+      <NewcoCalc />
+    </Section>
   </div>;
+}
+
+const TYPICAL = [
+  { from: 'urbanServices', to: 'realEstate', amount: 60, treatment: 'opex', margin: 0 },
+  { from: 'community', to: 'realEstate', amount: 25, treatment: 'opex', margin: 0 },
+  { from: 'realEstate', to: 'hospitality', amount: 120, treatment: 'capex', margin: 18 },
+  { from: 'urbanServices', to: 'retail', amount: 35, treatment: 'opex', margin: 0 },
+];
+
+function Eliminations({ bySector, flows, setFlows }) {
+  const ents = SECTORS.map((s) => { const c = compare(s, bySector[s.id] ?? {}); return { id: s.id, name: s.name, revenue: c.scn.revenue, ebitda: c.scn.ebitda }; });
+  const r = consolidate(ents, flows);
+  const upd = (i, k, v) => setFlows(flows.map((f, j) => (j === i ? { ...f, [k]: v } : f)));
+  return (
+    <div className="split-main">
+      <Card>
+        <CardHead title="Intercompany flows" sub="Seller, buyer, annual amount (AED m), and whether the buyer expenses or capitalises it" right={<div className="page-actions">
+          <button type="button" className="ghost sm" onClick={() => setFlows([...flows, { from: 'urbanServices', to: 'realEstate', amount: 10, treatment: 'opex', margin: 0 }])}>Add flow</button>
+          {!flows.length && <button type="button" className="ghost sm" onClick={() => setFlows(TYPICAL)}>Load typical flows</button>}
+        </div>} />
+        {flows.length === 0 ? <p className="empty-card">No intercompany flows yet. Load the typical set (facilities and community services sold to the developer, construction sold to hospitality) or add your own.</p> : (
+          <div className="table-wrap"><table className="data ic-table">
+            <thead><tr><th>Seller</th><th>Buyer</th><th className="r">Amount</th><th>Buyer treats it as</th><th className="r">Seller margin</th><th /></tr></thead>
+            <tbody>{flows.map((f, i) => (
+              <tr key={i}>
+                <td><select value={f.from} onChange={(e) => upd(i, 'from', e.target.value)}>{ents.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}</select></td>
+                <td><select value={f.to} onChange={(e) => upd(i, 'to', e.target.value)}>{ents.map((x) => <option key={x.id} value={x.id}>{x.name}</option>)}</select></td>
+                <td className="r"><input type="number" min="0" step="5" value={f.amount} onChange={(e) => upd(i, 'amount', Number(e.target.value) || 0)} /></td>
+                <td><select value={f.treatment} onChange={(e) => upd(i, 'treatment', e.target.value)}><option value="opex">Operating cost</option><option value="capex">Capitalised asset</option></select></td>
+                <td className="r">{f.treatment === 'capex' ? <input type="number" min="0" max="100" step="1" value={f.margin} onChange={(e) => upd(i, 'margin', Number(e.target.value) || 0)} /> : <span className="muted">n/a</span>}</td>
+                <td><button type="button" className="ghost sm icon-btn" aria-label="Remove flow" onClick={() => setFlows(flows.filter((_, j) => j !== i))}>✕</button></td>
+              </tr>))}</tbody>
+          </table></div>
+        )}
+        {flows.length > 0 && <Waterfall bridge={{ ...r.revenueBridge, steps: r.revenueBridge.steps }} startLabel="Sum of revenues" endLabel="Consolidated revenue" format={(v) => money(v)} height={240} />}
+      </Card>
+      <div className="split-side">
+        <Card>
+          <CardHead title="Consolidated view" sub="After eliminations" />
+          <ul className="watch">
+            <li><span className="w-k">Revenue<small>sum of parts {money(r.grossRevenue)}</small></span><b>{money(r.revenue)}</b><Pill value={-r.revenueElim}>{r.revenueElim ? money(-r.revenueElim, { sign: true }) : '—'}</Pill></li>
+            <li><span className="w-k">EBITDA<small>sum of parts {money(r.grossEbitda)}</small></span><b>{money(r.ebitda)}</b><Pill value={-r.profitElim}>{r.profitElim ? money(-r.profitElim, { sign: true }) : '—'}</Pill></li>
+            <li><span className="w-k">EBITDA margin<small>sum of parts {((r.grossEbitda / r.grossRevenue) * 100).toFixed(1)}%</small></span><b>{(r.margin * 100).toFixed(1)}%</b><span /></li>
+            <li><span className="w-k">Capitalised intercompany<small>removed from group capex</small></span><b>{money(r.capexElim)}</b><span /></li>
+          </ul>
+        </Card>
+        <Card>
+          <CardHead title="Elimination checks" />
+          <ul className="watch">
+            <li><span className="w-k">Opex eliminations net to zero in EBITDA<small>revenue removed = cost removed</small></span><span /><Status s={r.balanced ? 'pass' : 'fail'} /></li>
+            <li><span className="w-k">Every flow fits inside the seller's revenue<small>{r.issues.length ? r.issues[0] : 'no flow exceeds the seller'}</small></span><span /><Status s={r.issues.length ? 'fail' : 'pass'} /></li>
+            <li><span className="w-k">Unrealised profit removed on capitalised sales<small>seller margin × amount</small></span><span /><Status s="pass" /></li>
+          </ul>
+        </Card>
+      </div>
+    </div>
+  );
 }
 
 // Each dot is 1% of portfolio EV, coloured by business. Hover a business to isolate it.

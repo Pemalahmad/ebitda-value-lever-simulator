@@ -1,10 +1,10 @@
 // Value Plan: one business-development document in five sections. Replaces the separate
 // Simulator, Balanced Scorecard, Business Case and Board Memo tabs.
 import React, { useMemo, useState } from 'react';
-import { SECTORS, fmt, bridge, tornado, leverage, grid, buildMemo, renderMarkdown, memoVerdict, UAE_CORPORATE_TAX, evMultiple } from '../../engine/index.js';
+import { SECTORS, fmt, bridge, tornado, leverage, grid, buildMemo, renderMarkdown, memoVerdict, UAE_CORPORATE_TAX, evMultiple, lineBridge, rolling12, assumptionSummary } from '../../engine/index.js';
 import { Heatmap } from './Charts.jsx';
 import { Icon } from './Icons.jsx';
-import { PageHead, Section, Contents, Card, CardHead, KpiStrip, DotLine, DotRows, DotRing, DotColumns, DotTrack, FolderTabs, Pill, Dot, Segmented } from './Dots.jsx';
+import { PageHead, Section, Contents, Card, CardHead, KpiStrip, DotLine, DotRows, DotRing, DotColumns, DotTrack, FolderTabs, Pill, Dot, Segmented, Waterfall, Status } from './Dots.jsx';
 
 const { money, pct, months, unitValue } = fmt;
 const toneOf = (x) => (x > 1e-9 ? 'pos' : x < -1e-9 ? 'neg' : '');
@@ -12,7 +12,9 @@ const signed = (x) => money(x, { sign: true });
 
 const CONTENTS = [
   { id: 'vp-value', label: 'Value at stake' },
-  { id: 'vp-drivers', label: 'Drivers' },
+  { id: 'vp-drivers', label: 'Variance bridge' },
+  { id: 'vp-r12', label: 'Rolling 12 months' },
+  { id: 'vp-sens', label: 'Sensitivity' },
   { id: 'vp-scorecard', label: 'Balanced scorecard' },
   { id: 'vp-case', label: 'Business case' },
   { id: 'vp-memo', label: 'Board memo' },
@@ -41,6 +43,8 @@ export function ValuePlanView({ sector, levers, e, onNudge, onPickSector }) {
       <Contents items={CONTENTS} />
       <ValueAtStake sector={sector} e={e} levers={levers} onNudge={onNudge} />
       <Drivers sector={sector} levers={levers} e={e} onNudge={onNudge} />
+      <Rolling sector={sector} levers={levers} e={e} />
+      <Sensitivity sector={sector} levers={levers} />
       <Scorecard e={e} />
       <Case sector={sector} e={e} />
       <Memo sector={sector} levers={levers} e={e} />
@@ -96,41 +100,120 @@ function ValueAtStake({ sector, levers, e, onNudge }) {
 
 function Drivers({ sector, levers, e, onNudge }) {
   const [view, setView] = useState('next');
-  const br = useMemo(() => bridge(sector, levers), [sector, levers]);
-  const tor = useMemo(() => tornado(sector, levers), [sector, levers]);
+  const [by, setBy] = useState('lever');
+  const br = useMemo(() => (by === 'lever' ? bridge(sector, levers) : lineBridge(sector, levers)), [sector, levers, by]);
   const lev = useMemo(() => leverage(sector, levers), [sector, levers]);
+  const tor = useMemo(() => tornado(sector, levers), [sector, levers]);
   const g = useMemo(() => grid(sector, levers, tor[0].id, tor[1].id), [sector, levers, tor]);
-  // Bridge as dot ranges on a zoomed axis so small lever effects stay visible.
-  const steps = [{ label: 'Baseline EBITDA', from: 0, to: br.start, total: true }];
-  let cum = br.start;
-  for (const s of br.steps) { steps.push({ label: s.label, from: cum, to: cum + s.delta, delta: s.delta }); cum += s.delta; }
-  steps.push({ label: 'Scenario EBITDA', from: 0, to: br.end, total: true });
-  const vals = steps.flatMap((s) => [s.from, s.to]).filter((v, i) => !(i % 2 === 0 && steps[i / 2]?.total));
-  const hi = Math.max(...steps.map((s) => s.to), ...steps.map((s) => s.from));
-  const lo = Math.max(0, Math.min(...vals, br.start, br.end) * 0.9);
-  const sc = (v) => Math.max(0, (v - lo) / (hi - lo || 1));
-  const maxSwing = Math.max(1, ...tor.slice(0, 7).flatMap((t) => [Math.abs(t.dLow), Math.abs(t.dHigh)]));
   return (
-    <Section id="vp-drivers" n={2} title="What drives it" sub="The EBITDA bridge, the drivers that swing it most, and where to play next.">
-      <div className="grid-2">
+    <Section id="vp-drivers" n={2} title="Variance bridge" sub="Baseline to scenario EBITDA, by lever or by P&L line. Every bar is a variance you can trace to an owner.">
+      <div className="split-main">
         <Card>
-          <CardHead title="EBITDA bridge" sub={br.steps.length ? `Axis from ${money(lo)} so lever effects are visible` : 'Move a lever to build the bridge'} />
-          <DotRows rows={steps.map((s) => ({ label: s.label, from: s.total ? 0 : sc(s.from), to: sc(s.to), tone: s.total ? 'ink' : s.delta >= 0 ? 'pos' : 'neg', value: s.total ? money(s.to) : signed(s.delta) }))} />
+          <CardHead title="EBITDA variance, baseline to scenario" sub={br.steps.length ? `${br.steps.length} movements · ${signed(br.end - br.start)} net` : 'Move a lever to build the bridge'} right={<Segmented value={by} onChange={setBy} label="Bridge by" options={[['lever', 'By lever'], ['line', 'By P&L line']]} />} />
+          <Waterfall bridge={br} startLabel="Baseline EBITDA" endLabel="Scenario EBITDA" format={(v) => money(v)} height={380} />
         </Card>
-        <Card>
-          <CardHead title="Sensitivity" sub="EBITDA swing for ±10% on each driver; widest first" />
-          <DotRows rows={tor.slice(0, 7).map((t) => ({ label: t.label, from: 0.5 - Math.abs(Math.min(t.dLow, t.dHigh, 0)) / maxSwing / 2, to: 0.5 + Math.max(t.dLow, t.dHigh, 0) / maxSwing / 2, tone: 'accent', marker: 0.5, value: `±${money(t.swing / 2)}` }))} />
-        </Card>
+        <KpiWatch sector={sector} e={e} />
       </div>
-      <FolderTabs value={view} onChange={setView} tabs={[{ id: 'next', label: 'Where to play next', count: lev.filter((x) => !x.atLimit).length }, { id: 'pl', label: 'P&L' }, { id: 'grid', label: 'Two-way sensitivity' }]} />
+      <FolderTabs value={view} onChange={setView} tabs={[{ id: 'next', label: 'Where to play next', count: lev.filter((x) => !x.atLimit).length }, { id: 'pl', label: 'P&L variance' }, { id: 'grid', label: 'Two-way sensitivity' }]} />
       <Card className="folder-body">
         {view === 'next' && <div className="table-wrap"><table className="data"><thead><tr><th>#</th><th>Lever</th><th className="r">EBITDA</th><th className="r">Value created</th><th className="r">Cost</th><th className="r">Payback</th><th>Owner</th><th /></tr></thead>
           <tbody>{lev.map((x, i) => <tr key={x.id} className={x.atLimit ? 'dim' : ''}><td className="muted">#{i + 1}</td><td>{x.label}</td><td className="r"><Pill value={x.gain}>{signed(x.gain)}</Pill></td><td className={`r ${toneOf(x.valueGain)}`}>{signed(x.valueGain)}</td><td className="r">{money(x.cost)}</td><td className="r">{x.gain > 0 ? months((x.cost / x.gain) * 12) : x.cashGain > 0 ? 'cash only' : '—'}</td><td className="muted">{x.owner}</td><td><button className="play" disabled={x.atLimit} onClick={() => onNudge(x.id)}>{x.atLimit ? 'At limit' : 'Play'}</button></td></tr>)}</tbody></table></div>}
-        {view === 'pl' && <div className="table-wrap"><table className="data"><thead><tr><th>Line</th><th className="r">Baseline</th><th className="r">Scenario</th><th className="r">Change</th></tr></thead>
-          <tbody>{e.cmp.base.lines.map((l, i) => { const s = e.cmp.scn.lines[i].value; return <tr key={l.label}><td>{l.label}</td><td className="r">{money(l.value)}</td><td className="r">{money(s)}</td><td className="r">{Math.abs(s - l.value) < 0.05 ? '—' : <Pill value={s - l.value}>{signed(s - l.value)}</Pill>}</td></tr>; })}
-            <tr className="total"><td>EBITDA</td><td className="r">{money(e.cmp.base.ebitda)}</td><td className="r">{money(e.cmp.scn.ebitda)}</td><td className="r"><Pill value={e.cmp.dEbitda}>{signed(e.cmp.dEbitda)}</Pill></td></tr></tbody></table></div>}
+        {view === 'pl' && <div className="table-wrap"><table className="data"><thead><tr><th>Line</th><th className="r">Baseline</th><th className="r">Scenario</th><th className="r">Variance</th><th className="r">Variance %</th></tr></thead>
+          <tbody>{e.cmp.base.lines.map((l, i) => { const s2 = e.cmp.scn.lines[i].value; const d = s2 - l.value; return <tr key={l.label}><td>{l.label}</td><td className="r">{money(l.value)}</td><td className="r">{money(s2)}</td><td className="r">{Math.abs(d) < 0.05 ? '—' : <Pill value={d}>{signed(d)}</Pill>}</td><td className="r muted">{Math.abs(d) < 0.05 ? '—' : pct(d / Math.abs(l.value), { sign: true })}</td></tr>; })}
+            <tr className="total"><td>EBITDA</td><td className="r">{money(e.cmp.base.ebitda)}</td><td className="r">{money(e.cmp.scn.ebitda)}</td><td className="r"><Pill value={e.cmp.dEbitda}>{signed(e.cmp.dEbitda)}</Pill></td><td className="r">{pct(e.cmp.dEbitdaPct, { sign: true })}</td></tr></tbody></table></div>}
         {view === 'grid' && <><p className="w-foot" style={{ marginTop: 0 }}>EBITDA across ±20% on the two most sensitive drivers. The outlined cell is the current scenario.</p><Heatmap g={g} /></>}
       </Card>
+    </Section>
+  );
+}
+
+// The KPIs to watch, each with its threshold and status.
+function KpiWatch({ sector, e }) {
+  const c = e.cmp, bc = e.bc;
+  const green = e.sc.items.filter((k) => k.status === 'green').length / e.sc.items.length;
+  const high = c.scn.flags.filter((f) => f.severity === 'high').length;
+  const rows = [
+    { k: 'EBITDA margin', v: pct(c.scn.margin), t: `≥ ${pct(c.base.margin)} baseline`, s: c.scn.margin >= c.base.margin - 1e-9 ? 'ok' : 'breach' },
+    { k: 'Payback', v: months(bc.paybackMonths), t: '≤ 24 months', s: !bc.initiatives.length || bc.paybackMonths <= 24 ? 'ok' : bc.paybackMonths <= 36 ? 'near' : 'breach' },
+    { k: 'Envelope used', v: pct(c.invest / sector.budget, { dp: 0 }), t: '≤ 100%', s: c.invest <= sector.budget * 0.85 ? 'ok' : c.invest <= sector.budget ? 'near' : 'breach' },
+    { k: 'Five-year NPV', v: signed(bc.npv), t: '> 0', s: !bc.initiatives.length || bc.npv > 0 ? 'ok' : 'breach' },
+    { k: 'Board confidence', v: `${e.confidence}/100`, t: '≥ 70', s: e.confidence >= 70 ? 'ok' : e.confidence >= 55 ? 'near' : 'breach' },
+    { k: 'Scorecard on target', v: pct(green, { dp: 0 }), t: '≥ 75%', s: green >= 0.75 ? 'ok' : green >= 0.5 ? 'near' : 'breach' },
+    { k: 'High-severity risks', v: String(high), t: '0', s: high === 0 ? 'ok' : 'breach' },
+  ];
+  return (
+    <Card>
+      <CardHead title="KPIs to watch" sub={`${rows.filter((r) => r.s !== 'ok').length} need attention`} />
+      <ul className="watch">{rows.map((r) => <li key={r.k}><span className="w-k">{r.k}<small>{r.t}</small></span><b>{r.v}</b><Status s={r.s} /></li>)}</ul>
+    </Card>
+  );
+}
+
+function Rolling({ sector, levers, e }) {
+  const [view, setView] = useState('r12');
+  const r = useMemo(() => rolling12(sector, levers, 36), [sector, levers]);
+  const runRate = e.cmp.scn.ebitda;
+  const gap = runRate - e.cmp.base.ebitda;
+  const to90 = gap > 0 ? r.find((m) => m.r12 - e.cmp.base.ebitda >= gap * 0.9)?.month : null;
+  const series = r.map((m) => ({ label: `M${m.month}`, value: view === 'r12' ? m.r12 : m.monthly }));
+  return (
+    <Section id="vp-r12" n={3} title="Rolling 12 months" sub="Trailing-twelve-month EBITDA as initiatives ramp to run rate. Months before the plan run at baseline, so the first points are honest.">
+      <Card className="chart-card">
+        <KpiStrip items={[
+          { id: 'm12', label: 'R12M at month 12', value: money(r[11].r12), delta: signed(r[11].r12 - e.cmp.base.ebitda), tone: toneOf(r[11].r12 - e.cmp.base.ebitda) },
+          { id: 'm24', label: 'R12M at month 24', value: money(r[23].r12), delta: signed(r[23].r12 - e.cmp.base.ebitda), tone: toneOf(r[23].r12 - e.cmp.base.ebitda) },
+          { id: 'rr', label: 'Run rate', value: money(runRate), sub: 'all initiatives at full effect' },
+          { id: 't90', label: '90% of the uplift in R12M', value: to90 ? `Month ${to90}` : '—', sub: gap > 0 ? 'time to bank the plan' : 'no uplift to bank' },
+        ]} />
+        <div className="chart-tools"><Segmented value={view} onChange={setView} label="Series" options={[['r12', 'Rolling 12 months'], ['m', 'Monthly']]} /></div>
+        <DotLine series={series} baseline={view === 'r12' ? e.cmp.base.ebitda : e.cmp.base.ebitda / 12} format={(v) => money(v)} label="Rolling twelve-month EBITDA" xLabels={6} />
+        <p className="w-foot">Dashed line: baseline {view === 'r12' ? 'annual' : 'monthly'} EBITDA. Linear ramp per initiative, as in the business case.</p>
+      </Card>
+    </Section>
+  );
+}
+
+function Sensitivity({ sector, levers }) {
+  const [shock, setShock] = useState(0.1);
+  const [pick, setPick] = useState(null);
+  const a = useMemo(() => assumptionSummary(sector, levers, shock), [sector, levers, shock]);
+  const max = Math.max(1e-9, ...a.rows.flatMap((r) => [Math.abs(r.low), Math.abs(r.high)]));
+  const sel = a.rows.find((r) => r.id === pick) ?? a.rows[0];
+  return (
+    <Section id="vp-sens" n={4} title="Assumption sensitivity summary" sub="How far EBITDA moves when each assumption moves, from the current selection. Change the shock size; click a driver for its detail." actions={<Segmented value={shock} onChange={setShock} label="Shock" options={[[0.05, '±5%'], [0.1, '±10%'], [0.2, '±20%']]} />}>
+      <div className="split-main">
+        <Card>
+          <CardHead title={`EBITDA swing for ±${Math.round(shock * 100)}% on each assumption`} sub={`Around ${money(a.ebitda)} current EBITDA; widest first`} right={<span className="legend"><Dot tone="neg" /> downside <Dot tone="pos" /> upside</span>} />
+          <div className="tornado2">{a.rows.map((r) => {
+            const lo = Math.min(r.low, r.high), hi = Math.max(r.low, r.high);
+            return (
+              <button type="button" key={r.id} className={`t2-row ${sel.id === r.id ? 'on' : ''}`} onClick={() => setPick(r.id)}>
+                <span className="t2-label">{r.label}{r.moved && <i className="t2-moved" title="Moved from baseline" />}</span>
+                <span className="t2-track"><i className="t2-mid" />
+                  {lo < 0 && <i className="t2-bar neg" style={{ left: `${50 - (Math.abs(lo) / max) * 50}%`, width: `${(Math.abs(lo) / max) * 50}%` }} />}
+                  {hi > 0 && <i className="t2-bar pos" style={{ left: '50%', width: `${(hi / max) * 50}%` }} />}
+                </span>
+                <span className="t2-val"><span className="neg">{money(lo, { sign: true })}</span> <span className="pos">{money(hi, { sign: true })}</span></span>
+              </button>
+            );
+          })}</div>
+        </Card>
+        <div className="split-side">
+          <Card className="ring-card">
+            <DotRing value={sel.share} label={pct(sel.share, { dp: 0 })} sub="of total swing" size={120} n={40} />
+            <div><span className="w-eyebrow">Selected driver</span><b className="big-num" style={{ fontSize: 17 }}>{sel.label}</b><span className="muted sm">{sel.owner} · {sel.group}</span></div>
+          </Card>
+          <Card>
+            <ul className="watch">
+              <li><span className="w-k">Elasticity<small>% EBITDA per 1% of the driver</small></span><b>{sel.elasticity.toFixed(2)}</b><span /></li>
+              <li><span className="w-k">Downside<small>−{Math.round(shock * 100)}% move</small></span><b className={toneOf(sel.low)}>{signed(sel.low)}</b><span /></li>
+              <li><span className="w-k">Upside<small>+{Math.round(shock * 100)}% move</small></span><b className={toneOf(sel.high)}>{signed(sel.high)}</b><span /></li>
+              <li><span className="w-k">Headroom<small>room left in the value-creating direction</small></span><b>{pct(sel.headroom, { dp: 0 })}</b><span /></li>
+            </ul>
+            <p className="w-foot">Top three drivers carry {pct(a.rows.slice(0, 3).reduce((x, r) => x + r.share, 0), { dp: 0 })} of the total swing: govern them most tightly.</p>
+          </Card>
+        </div>
+      </div>
     </Section>
   );
 }
@@ -141,7 +224,7 @@ function Scorecard({ e }) {
   const items = e.sc.items.filter((k) => p === 'all' || k.perspective === p);
   const green = e.sc.items.filter((k) => k.status === 'green').length;
   return (
-    <Section id="vp-scorecard" n={3} title="Balanced scorecard" sub={`${green} of ${e.sc.items.length} KPIs on target. Each ring is the share of a perspective's KPIs on target; the bars show each KPI against its target.`}>
+    <Section id="vp-scorecard" n={5} title="Balanced scorecard" sub={`${green} of ${e.sc.items.length} KPIs on target. Each ring is the share of a perspective's KPIs on target; the bars show each KPI against its target.`}>
       <div className="ring-row">
         {persp.map((x) => {
           const on = x.items.filter((k) => k.status === 'green').length;
@@ -166,9 +249,9 @@ function Scorecard({ e }) {
 
 function Case({ sector, e }) {
   const bc = e.bc;
-  if (!bc.initiatives.length) return <Section id="vp-case" n={4} title="Business case" sub="Move a lever to turn it into an initiative with a business case."><Card className="empty-card">No initiatives yet. Move a lever on the left or press Play on a next best move.</Card></Section>;
+  if (!bc.initiatives.length) return <Section id="vp-case" n={6} title="Business case" sub="Move a lever to turn it into an initiative with a business case."><Card className="empty-card">No initiatives yet. Move a lever on the left or press Play on a next best move.</Card></Section>;
   return (
-    <Section id="vp-case" n={4} title="Business case" sub={`Five years, after ${pct(UAE_CORPORATE_TAX, { dp: 0 })} UAE corporate tax, discounted at ${pct(bc.wacc)}.`}>
+    <Section id="vp-case" n={6} title="Business case" sub={`Five years, after ${pct(UAE_CORPORATE_TAX, { dp: 0 })} UAE corporate tax, discounted at ${pct(bc.wacc)}.`}>
       <Card>
         <KpiStrip items={[
           { id: 'npv', label: '5-year NPV', value: signed(bc.npv), tone: toneOf(bc.npv) },
@@ -206,7 +289,7 @@ function Memo({ sector, levers, e }) {
     ? `No levers moved. Explore ${lev.map((x) => x.label).join(', ')} first.`
     : `${bc.initiatives.length} initiatives move EBITDA ${signed(c.dEbitda)} and create ${signed(c.valueCreated)} of value for ${money(c.invest)}.`;
   return (
-    <Section id="vp-memo" n={5} title="Board memo" sub="The decision on one page. Every figure comes from the model above." actions={<>
+    <Section id="vp-memo" n={7} title="Board memo" sub="The decision on one page. Every figure comes from the model above." actions={<>
       <button type="button" className="ghost sm" onClick={copy}><Icon name="copy" size={14} /> {copied ? 'Copied' : 'Copy text'}</button>
       <button type="button" className="ghost sm" onClick={download}><Icon name="download" size={14} /> .md</button>
     </>}>
