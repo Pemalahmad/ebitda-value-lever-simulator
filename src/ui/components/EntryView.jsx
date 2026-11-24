@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AS_OF, SOURCES, JURISDICTIONS, VA_ACTIVITIES, MODELS, COMPANY_STEPS, PRODUCT_STEPS, VASP_STAGES, COMPLIANCE, assess, varaCosts } from '../../engine/entry.js';
 import { Source } from './Source.jsx';
-import { PageHead, Waterfall, Section, Contents } from './Dots.jsx';
+import { PageHead, Waterfall, Section, Contents, DotRing } from './Dots.jsx';
 import { LocationAdvisor, RouteProcedure, EntryTimeline, MoaGuide, TaxGuide, Bottlenecks } from './EntryGuide.jsx';
-import { STEPS, GUIDE_SOURCES } from '../../engine/entryGuide.js';
+import { STEPS, GUIDE_SOURCES, schedule, ROUTES } from '../../engine/entryGuide.js';
 
 const KEY = 'vls.entry.v1';
 const aed = (v) => (v == null ? 'Set by VARA' : `AED ${Math.round(v).toLocaleString('en-US')}`);
@@ -56,49 +56,24 @@ export function EntryView() {
   return <div className="market-board entry-board doc">
     <PageHead status={`Rules as at ${AS_OF}`} title="Market entry" muted="UAE"
       sub="What it takes to enter the UAE, in the order it falls due. A planning aid, not legal advice." />
-    <section className="market-opening">
-      <div className="market-intro">
-        <div className="market-status"><span aria-hidden="true" />Rules as at <b>{AS_OF}</b></div>
-        <h2>Enter the UAE,<br />licensed and in order.</h2>
-        <p>The structure, licences, tax, people and product rules in the order they fall due, with a full track for virtual-asset businesses benchmarked on Dubai's VARA.</p>
+    <section className="entry-overview">
+      <article className="w-card ov-profile">
+        <span className="w-eyebrow">Your entry</span>
         <div className="entry-profile">
           <Segments label="Business" value={model} onChange={setModel} options={MODELS.map((x) => [x.id, SHORT_MODEL[x.id]])} />
           <Segments label="Zone" value={zone} onChange={setZone} options={JURISDICTIONS.map((x) => [x.id, SHORT_ZONE[x.id]])} />
           {model === 'selfcustody' && <label className="entry-toggle"><input type="checkbox" checked={inApp} onChange={(e) => setInApp(e.target.checked)} /> App offers buy, swap or staking through partners</label>}
         </div>
-        <div className="market-provenance">{m.label}. A planning aid, not legal advice: confirm each requirement with the regulator and UAE counsel.</div>
-      </div>
-      <CostWidget va={m.va === true} costs={costs} acts={acts} regulator={a.jurisdiction.vaRegulator} steps={steps} done={done} />
-    </section>
-
-    <section className="instrument-grid">
-      <article className="instrument">
-        <header><span>Who regulates you</span><Source s={SOURCES[a.jurisdiction.src]} /></header>
-        <div className="instrument-value">{m.va ? a.jurisdiction.vaRegulator : 'Licensing authority'}</div>
-        <p>{m.va ? a.jurisdiction.note : 'Department of Economy and Tourism (mainland) or the free-zone authority issues the trade licence. No financial regulator unless the activity is regulated.'}</p>
-        <footer>{a.jurisdiction.label}</footer>
+        <ul className="ov-needs">
+          {a.needs.map((n) => <li key={n}>{n}</li>)}
+          {a.flags.map((f) => <li key={f} className="flag">{f}</li>)}
+        </ul>
       </article>
-      <article className="instrument">
-        <header><span>Entry readiness</span></header>
-        <div className="investor-body">
-          <div className="investor-ring" style={{ '--share': `${(ticked / total) * 100}%` }}><span>{Math.round((ticked / total) * 100)}%</span></div>
-          <div><div className="instrument-value">{ticked}/{total}</div><p>checklist items done</p></div>
-        </div>
-        <footer><b>{gsteps.filter((x) => x.docs.every((d) => done[`${route}:${x.id}:${d}`])).length}</b> of {gsteps.length} steps ready · documents ticked</footer>
-      </article>
-      <article className="instrument period-widget">
-        <header><span>{m.va === true ? 'Licence timeline' : 'Steps by phase'}</span>{m.va === true && <Source s={SOURCES.varaSchedule2} />}</header>
-        <div className="period-head"><div className="instrument-value">{m.va === true ? '4–12 mo' : `${steps.length} steps`}</div><span>{m.va === true ? 'IDQ to full licence, typical range' : 'in the order they fall due'}</span></div>
-        <div className="period-track" aria-label="Typical licence timeline in months">{Array.from({ length: 12 }, (_, i) => <i key={i} className={m.va === true ? (i < 4 ? 'on' : i < 12 ? 'maybe' : '') : (i < steps.length ? 'on' : '')} />)}</div>
-        <footer>{m.va === true ? <><b>Months 1–4</b> well-prepared · <b>to 12</b> with questions</> : <>Company setup first, then {m.product ? 'product compliance' : 'launch'}</>}</footer>
-      </article>
-    </section>
-
-    <section className="signal-ledger">
-      <header><div><h3>What this entry needs</h3><p>Routed from the business model and zone above.</p></div><span>{a.needs.length} requirements{a.flags.length ? ` · ${a.flags.length} flagged` : ''}</span></header>
-      <div>
-        {a.needs.map((n) => <article key={n}><i aria-hidden="true" /><p>{n}</p><span /></article>)}
-        {a.flags.map((f) => <article key={f} className="flag"><i aria-hidden="true" /><p>{f}</p><Source s={SOURCES.varaMarketing} /></article>)}
+      <div className="ov-stats">
+        <article className="w-card ov-stat"><span className="w-eyebrow">Who regulates you <Source s={SOURCES[a.jurisdiction.src]} /></span><b className="ov-big">{m.va ? a.jurisdiction.vaRegulator : 'Licensing authority'}</b><p>{m.va ? a.jurisdiction.label : 'DET, ADDED or the free-zone authority; no financial regulator unless the activity is regulated'}</p></article>
+        <article className="w-card ov-stat ov-ring"><DotRing value={total ? ticked / total : 0} label={`${Math.round((total ? ticked / total : 0) * 100)}%`} sub="ready" size={92} n={30} /><div><span className="w-eyebrow">Entry readiness</span><b className="ov-big">{ticked}/{total}</b><p>documents ticked for {ROUTES.find((x) => x.id === route).label}</p></div></article>
+        <article className="w-card ov-stat"><span className="w-eyebrow">Typical timeline</span><b className="ov-big">{Math.ceil(schedule(route, { regulated, use: 0.5 }).total)} weeks</b><p>{regulated ? 'regulated activity; the regulator sets the pace' : 'banking is usually the longest step'}</p></article>
+        <article className="w-card ov-stat"><span className="w-eyebrow">{m.va ? 'Regulatory fees, year one' : 'Financial licence'}</span><b className="ov-big">{m.va ? (acts.length ? aedShort(costs.firstYear) : '—') : 'None needed'}</b><p>{m.va ? `${acts.length} VARA ${acts.length === 1 ? 'activity' : 'activities'}; capital at least ${costs.capitalFloor != null ? aedShort(costs.capitalFloor) : '—'}` : 'trade licence, tax registration and visas only'}</p></article>
       </div>
     </section>
 
@@ -174,25 +149,3 @@ function Segments({ label, value, onChange, options }) {
   return <div className="entry-seg"><span>{label}</span><div className="chart-controls entry-wrap">{options.map(([id, text]) => <button key={id} type="button" className={value === id ? 'on' : ''} aria-pressed={value === id} onClick={() => onChange(id)}>{text}</button>)}</div></div>;
 }
 
-function CostWidget({ va, costs, acts, regulator, steps, done }) {
-  const [view, setView] = useState('fees');
-  if (!va) {
-    return <article className="pulse-widget">
-      <header><div><span>Entry procedure</span><b>No financial licence needed</b></div></header>
-      <div className="pulse-number">{steps.length} steps</div>
-      <div className="pulse-change"><strong>{steps.reduce((n, s) => n + s.checks.length, 0)} checks</strong><span>from structure to launch</span></div>
-      <div className="entry-bars">{steps.map((s) => { const k = s.checks.filter((c) => done[`${s.id}:${c}`]).length; return <div key={s.id} title={s.label}><i style={{ height: `${20 + (k / s.checks.length) * 80}%` }} className={k === s.checks.length ? 'full' : ''} /><span>{s.id.toUpperCase()}</span></div>; })}</div>
-      <footer><span>Bars fill as checks are ticked</span><span>Trade licence · tax · visas</span></footer>
-    </article>;
-  }
-  const rows = costs.capitalByActivity.map((c) => { const x = VA_ACTIVITIES.find((v) => v.id === c.id); return { id: c.id, label: x.label, v: view === 'fees' ? x.application + x.supervision : view === 'capital' ? c.capital ?? 0 : x.supervision }; });
-  const max = Math.max(1, ...rows.map((r) => r.v));
-  const head = { fees: ['Regulatory fees, year one', costs.firstYear, `Stage 1 payment ${aedShort(costs.atiPayment)}`, 'application plus first supervision'], capital: ['Paid-up capital floor', costs.capitalFloor ?? 0, 'Higher of the floor', 'or 15–25% of fixed overheads'], supervision: ['Annual supervision', costs.supervision, 'Every year', 'payable in advance'] }[view];
-  return <article className="pulse-widget">
-    <header><div><span>{head[0]}</span><b>{regulator} · {acts.length} {acts.length === 1 ? 'activity' : 'activities'}</b></div><div className="pulse-actions"><div className="pulse-switch" aria-label="Cost view">{[['fees', 'Fees'], ['capital', 'Capital'], ['supervision', 'Annual']].map(([id, t]) => <button key={id} type="button" className={view === id ? 'on' : ''} aria-pressed={view === id} onClick={() => setView(id)}>{t}</button>)}</div><Source s={view === 'capital' ? SOURCES.varaCapital : SOURCES.varaSchedule2} /></div></header>
-    <div className="pulse-number" key={view}>{acts.length ? aedShort(head[1]) : '—'}</div>
-    <div className="pulse-change"><strong>{head[2]}</strong><span>{head[3]}</span></div>
-    <div className="entry-bars">{rows.map((r) => <div key={r.id} title={`${r.label}: ${aed(r.v)}`}><i style={{ height: `${(r.v / max) * 100}%` }} /><span>{SHORT_ACT[r.id]}</span></div>)}</div>
-    <footer><span>{acts.length ? `Up to ${aed(costs.firstYear)} in fees` : 'Pick activities below'}</span><span>Before capital, insurance and staff</span></footer>
-  </article>;
-}

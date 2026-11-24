@@ -235,7 +235,7 @@ table.data tr.dim td { opacity: 0.45; }
 .memo em { color: #5b6478; }
 .memo code { color: var(--gold-2); }
 
-:root[data-theme='dark'] .memo { background: #111a27; color: var(--text); }
+:root[data-theme='dark'] .memo { background: var(--panel-2); color: var(--text); }
 :root[data-theme='dark'] .memo strong { color: #fff; }
 :root[data-theme='dark'] .memo th { background: var(--panel-2); }
 :root[data-theme='dark'] .memo th,
@@ -647,10 +647,6 @@ table.funds td { vertical-align: top; }
 .month-strip span { color: var(--muted); font-family: var(--mono); font-size: 9px; }
 .momentum-table { padding: 18px; border: 1px solid var(--line); }
 
-:root[data-theme='dark'] .market-intro { background: rgba(21,30,43,.82); }
-:root[data-theme='dark'] .pulse-widget { background: #111c31; border-color: #263654; }
-:root[data-theme='dark'] .pulse-widget::after { border-color: rgba(111,143,255,.2); }
-:root[data-theme='dark'] .chart-controls button.on { box-shadow: 0 1px 3px rgba(0,0,0,.28); }
 
 @media (max-width: 1050px) {
   .market-opening, .market-analysis-grid { grid-template-columns: 1fr; }
@@ -1301,3 +1297,84 @@ table.data tr.clickable { cursor: pointer; }
 .w-card.spot > :not([class^="spotlight-card__"]) { position: relative; z-index: 2; }
 .sparks { height: auto !important; }
 @media (prefers-reduced-motion: reduce) { .page-grid { display: none; } }
+
+
+/* =====================================================================
+   One palette: Cloudy White #F0F0F0, Galactic Violet #105BFF, Bubblegum #FE8500 touches.
+   Every colour below comes from these tokens; nothing is hard-coded per widget.
+   ===================================================================== */
+:root {
+  --bg: #F0F0F0; --panel: #FFFFFF; --panel-2: #F6F6F7; --line: #E3E3E8; --line-2: #D0D0D8;
+  --text: #111114; --muted: #6C6C77; --gold: #105BFF; --gold-2: #0A47D6; --touch: #FE8500; --accent: var(--gold);
+  --pos: #16915A; --neg: #E5484D; --amber: #B7791F; --track: #E8E8EC; --hue-5: #FE8500; --hue-6: #A9A9B3;
+  --shadow: 0 1px 2px rgba(17,17,20,.04), 0 10px 30px -18px rgba(17,17,20,.14);
+}
+:root[data-theme='dark'] {
+  --bg: #0E0E12; --panel: #17171C; --panel-2: #1F1F26; --line: #2A2A33; --line-2: #3B3B47;
+  --text: #F0F0F0; --muted: #A0A0AB; --gold: #4C82FF; --gold-2: #7DA4FF; --touch: #FF9A2E;
+  --pos: #3CCB84; --neg: #FF6B6B; --amber: #E0A43A; --track: #26262E; --hue-5: #FF9A2E; --hue-6: #5E5E69;
+  --shadow: 0 1px 0 rgba(255,255,255,.03), 0 10px 30px -18px rgba(0,0,0,.6);
+}
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--gold); }
+::selection { background: color-mix(in srgb, var(--gold) 22%, transparent); }
+/* Bubblegum touches: status dots, section index, critical path, live highlights */
+.page-status i { background: var(--touch); box-shadow: 0 0 0 4px color-mix(in srgb, var(--touch) 18%, transparent); }
+.contents button span { color: var(--touch); background: color-mix(in srgb, var(--touch) 12%, transparent); }
+.folder-tabs button.on span { color: var(--touch); background: color-mix(in srgb, var(--touch) 12%, transparent); }
+.dl-hot { fill: var(--touch); }
+.g-row.crit .g-track i { background: radial-gradient(circle, var(--touch) 2.4px, transparent 2.7px) 0 50% / 8px 12px, color-mix(in srgb, var(--touch) 16%, transparent); }
+.t2-moved { background: var(--touch); }
+.advisor-card.best, .persp.on, .play-card.on { box-shadow: 0 0 0 2px var(--gold), var(--shadow); }
+.market-status span { background: var(--touch); box-shadow: 0 0 0 4px color-mix(in srgb, var(--touch) 15%, transparent); }
+/* Legacy widgets brought onto the tokens */
+.pulse-widget, .market-intro { background: var(--panel); color: var(--text); border-color: var(--line); }
+.pulse-widget::after { border-color: color-mix(in srgb, var(--gold) 9%, transparent); }
+.pulse-widget header span, .pulse-change span, .pulse-switch button, .pulse-widget > footer, .pulse-widget footer, .entry-bars span { color: var(--muted); }
+.pulse-widget .src { color: var(--gold); }
+.pulse-switch { border-color: var(--line); background: var(--panel-2); }
+.pulse-switch button.on { background: var(--text); color: var(--bg); }
+.pulse-change strong { color: var(--pos); }
+.pulse-chart polyline { stroke: var(--text); }
+.pulse-chart circle { fill: var(--touch); stroke: var(--panel); }
+.pulse-chart polygon { fill: color-mix(in srgb, var(--gold) 7%, transparent); }
+.comparison-cover { background: var(--panel-2) !important; color: var(--text) !important; }
+.comparison-cover::before { border-color: color-mix(in srgb, var(--gold) 12%, transparent) !important; }
+.comparison-cover span, .comparison-cover small { color: var(--muted) !important; }
+.chart-key i, .history-bar-space i.partial { --dotc: var(--touch); }
+.drop-zone > i, .sop-complete { background: var(--text); border-color: var(--text); color: var(--bg); }
+.switch.on { background: var(--gold); border-color: var(--gold); }
+.switch.on span { background: #fff; }
+.play, .tab.on, .seg button.on, .chip.on, .chart-controls button.on { background: var(--text); color: var(--bg); }
+.platform { background: var(--gold); color: #fff; }
+.verdict { background: var(--text); color: var(--bg); }
+
+/* Merged overviews: fewer, denser widgets */
+.entry-overview { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 14px; }
+.ov-profile .entry-profile { margin-top: 4px; }
+.ov-needs { margin: 14px 0 0; padding: 12px 0 0 18px; border-top: 1px dashed var(--line-2); display: grid; gap: 6px; font-size: 12.5px; line-height: 1.45; }
+.ov-needs li::marker { color: var(--gold); }
+.ov-needs li.flag { color: var(--neg); }
+.ov-needs li.flag::marker { color: var(--touch); }
+.ov-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.ov-stat { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; }
+.ov-stat .w-eyebrow { display: flex; justify-content: space-between; margin: 0; }
+.ov-big { font-size: 24px; font-weight: 600; letter-spacing: -.03em; }
+.ov-stat p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.4; }
+.ov-ring { flex-direction: row; align-items: center; gap: 14px; }
+.market-top { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)); gap: 14px; align-items: stretch; }
+.market-top .pulse-widget { min-height: 300px; }
+.market-top .instrument { min-height: 0; }
+@media (max-width: 1250px) { .market-top { grid-template-columns: repeat(3, minmax(0, 1fr)); } .market-top .pulse-widget { grid-column: 1 / -1; } }
+@media (max-width: 900px) { .entry-overview, .market-top { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 520px) { .ov-stats { grid-template-columns: minmax(0, 1fr); } }
+.plays-live { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 420px); gap: 14px; align-items: start; }
+.plays-live .play-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+.live-impact { position: sticky; top: 120px; }
+.live-impact .kpi-strip { --n: 3 !important; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.live-impact .kpi-value { font-size: 18px; }
+.live-dot { display: inline-block; width: 7px; height: 7px; margin-left: 6px; border-radius: 50%; background: var(--touch); animation: live 1.6s ease-in-out infinite; vertical-align: 1px; }
+@keyframes live { 50% { opacity: .3; } }
+@media (max-width: 1100px) { .plays-live { grid-template-columns: minmax(0, 1fr); } .live-impact { position: static; order: -1; } }
+@media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
+@media (max-width: 700px) { .page-grid { left: -16px; right: -16px; } }
+html, body { overflow-x: clip; }

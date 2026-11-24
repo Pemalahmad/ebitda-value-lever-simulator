@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.9.0 (2026-11-24): One palette, merged widgets, live plays
+
+- **One palette** in light and dark mode:
+  - Cloudy White `#F0F0F0` canvas, Galactic Violet `#105BFF` accent and Bubblegum `#FE8500` touches;
+  - the old dark-mode rules that turned Market Tracker and Market Entry widgets navy are removed.
+- **Merged widgets:**
+  - Market Entry opens with one compact overview: profile, requirements, regulator, readiness, timeline and fees;
+  - Market Tracker's four headline widgets share one row.
+- **Portfolio plays:** a live-impact panel sits beside the cards. Its waterfall and figures redraw as plays are switched on or their sliders move.
+- React Bits effects (dot grid headers, rolling KPI figures, spotlight cards, click sparks), vendored with their licence.
+- **Market Entry set-up guide:**
+  - where to set up, by business type;
+  - every step per route, with platform, documents, cost, time and bottleneck;
+  - a timeline, the memorandum of association, and VAT and corporate tax.
+
 ## 1.8.0 (2026-11-24): Variance, controls and new-company cases
 
 - **Variance bridges on every tab**, drawn as waterfall charts:

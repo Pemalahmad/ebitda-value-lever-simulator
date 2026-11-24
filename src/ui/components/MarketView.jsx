@@ -39,17 +39,8 @@ export function MarketView() {
   return <div className="market-board doc">
     <PageHead status={`Official snapshot · ${OFFICIAL.asOf}`} title="Market tracker" muted="Dubai real estate"
       sub="Official flows, investor activity and community performance, every figure linked to its source." />
-    <section className="market-opening" id="market-pulse">
-      <div className="market-intro">
-        <div className="market-status"><span aria-hidden="true" />Market snapshot <b>{OFFICIAL.asOf}</b></div>
-        <h2>Dubai property,<br />read as a market.</h2>
-        <p>Official flows, investor activity and community performance in one working view. Use the operating models only after the market signal is clear.</p>
-        <div className="market-provenance">Published figures remain linked to source. Partial periods are labelled.</div>
-      </div>
+    <section className="market-top" id="market-pulse">
       <PulseWidget latest={latest} previous={previous} years={years} change={valueChange} />
-    </section>
-
-    <section className="instrument-grid" aria-label="Market headline instruments">
       <VelocityWidget latest={latest} previous={previous} years={years} change={transactionChange} />
       <InvestorWidget latest={latest} />
       <PeriodWidget period={currentPeriod} />

@@ -11,7 +11,7 @@ export function SwarmCursor({ count = 34, scope }) {
     let w = 0, h = 0, raf = 0, idle = 0;
     const target = { x: -100, y: -100, on: false };
     const color = getComputedStyle(document.documentElement).getPropertyValue('--gold').trim() || '#f0592b';
-    const ink = getComputedStyle(document.documentElement).getPropertyValue('--text').trim() || '#111';
+    const ink = getComputedStyle(document.documentElement).getPropertyValue('--touch').trim() || '#FE8500';
     const P = Array.from({ length: count }, (_, i) => ({ x: -100, y: -100, vx: 0, vy: 0, r: 1.4 + (i % 4) * 0.55, k: 0.012 + (i / count) * 0.03, a: i * 0.7 }));
     const size = () => { w = innerWidth; h = innerHeight; canvas.width = w * dpr; canvas.height = h * dpr; canvas.style.width = `${w}px`; canvas.style.height = `${h}px`; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
     const inScope = (ev) => !scope?.current || scope.current.contains(ev.target);

@@ -16,7 +16,7 @@ const readVar = (name, fallback) => {
 
 // Re-reads the colour tokens whenever the light/dark theme changes.
 export function useTokens() {
-  const read = () => ({ text: readVar('--text', '#121212'), line: readVar('--line-2', '#d9d9d4'), accent: readVar('--gold', '#f05a28'), dark: document.documentElement.dataset.theme === 'dark' });
+  const read = () => ({ text: readVar('--text', '#121212'), line: readVar('--line-2', '#d9d9d4'), accent: readVar('--gold', '#105BFF'), touch: readVar('--touch', '#FE8500'), dark: document.documentElement.dataset.theme === 'dark' });
   const [t, setT] = useState(read);
   useEffect(() => {
     const mo = new MutationObserver(() => setT(read()));
@@ -31,7 +31,7 @@ export function HeaderGrid() {
   const t = useTokens();
   return (
     <div className="page-grid" aria-hidden="true">
-      <DotGrid dotSize={3} gap={22} baseColor={t.line} activeColor={t.accent} proximity={120} strength={0.8} shockRadius={260} shockStrength={3} glow={0.3} fade={0.6} opacity={0.9} />
+      <DotGrid dotSize={3} gap={22} baseColor={t.line} activeColor={t.touch} proximity={120} strength={0.8} shockRadius={260} shockStrength={3} glow={0.3} fade={0.6} opacity={0.9} />
     </div>
   );
 }
@@ -50,7 +50,7 @@ export function SpotCard({ className = '', children, ...rest }) {
 // A small burst of accent dots on every click inside the app.
 export function Sparks({ children }) {
   const t = useTokens();
-  return <ClickSpark sparkColor={[t.accent, t.text]} shape="dot" sparkCount={8} sparkRadius={22} sparkWidth={2.2} duration={420} randomness={0.35} className="sparks">{children}</ClickSpark>;
+  return <ClickSpark sparkColor={[t.accent, t.touch]} shape="dot" sparkCount={8} sparkRadius={22} sparkWidth={2.2} duration={420} randomness={0.35} className="sparks">{children}</ClickSpark>;
 }
 
 // A money figure (AED millions) that rolls to its new value, in the same format as fmt.money.

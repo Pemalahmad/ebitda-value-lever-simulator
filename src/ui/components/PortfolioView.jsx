@@ -72,6 +72,7 @@ export function PortfolioView({ bySector, plays, setPlays, intercompany = [], se
     </Section>
 
     <Section id="pl-plays" n={3} title="Portfolio plays" sub="Switch a play on and tune its assumptions. The value bar and the portfolio figures above update as you drag.">
+      <div className="plays-live">
       <div className="play-grid">{PLAYS.map((play) => {
         const state = plays[play.id];
         const result = runPlay(play, state?.params);
@@ -85,12 +86,38 @@ export function PortfolioView({ bySector, plays, setPlays, intercompany = [], se
           {state?.on && (result.risks.length > 0 || result.notes.length > 0) && <details className="play-more"><summary>Notes and risks</summary>{result.notes.map((note) => <p key={note} className="muted sm">{note}</p>)}{result.risks.map((risk) => <p key={risk} className="risk-line">{risk}</p>)}</details>}
         </SpotCard>;
       })}</div>
+      <LiveImpact portfolio={portfolio} plays={plays} />
+      </div>
     </Section>
 
     <Section id="pl-newco" n={4} title="New company case: capex and opex" sub="Size a company you might invest in: set-up capex, the opex build, working capital and tax, through to funding need, breakeven, IRR and exit value.">
       <NewcoCalc />
     </Section>
   </div>;
+}
+
+// Sits beside the play cards and redraws as plays are switched on or their sliders move.
+function LiveImpact({ portfolio, plays }) {
+  const active = portfolio.activePlays;
+  const opsStart = portfolio.baseEv + portfolio.operating;
+  const bridge = { start: opsStart, end: portfolio.total, steps: active.map(({ play, result }) => ({ id: play.id, label: play.title, delta: result.value })) };
+  const max = Math.max(1, ...PLAYS.map((p) => Math.abs(runPlay(p, plays[p.id]?.params).value)));
+  return (
+    <aside className="live-impact">
+      <Card>
+        <span className="w-eyebrow">Live impact <i className="live-dot" aria-hidden="true" /></span>
+        <KpiStrip items={[
+          { id: 'tot', label: 'Scenario value', money: portfolio.total },
+          { id: 'pv', label: 'From plays', money: portfolio.playValue, sign: true },
+          { id: 'cash', label: 'Net cash', money: portfolio.cash, sign: true },
+        ]} />
+        {active.length ? <Waterfall bridge={bridge} startLabel="Before plays" endLabel="With plays" format={(v) => money(v)} height={260} />
+          : <p className="empty-card">Switch on a play to see it here. Each card's value is already shown below its title.</p>}
+        <span className="w-eyebrow" style={{ marginTop: 14 }}>Every play, value if switched on</span>
+        <DotRows valueWidth={96} rows={PLAYS.map((p) => { const on = plays[p.id]?.on; const r = runPlay(p, plays[p.id]?.params); return { label: p.title, to: Math.abs(r.value) / max, tone: on ? (r.value >= 0 ? 'pos' : 'neg') : 'faint', value: signed(r.value), dim: !on }; })} />
+      </Card>
+    </aside>
+  );
 }
 
 const TYPICAL = [

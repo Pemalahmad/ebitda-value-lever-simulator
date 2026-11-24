@@ -106,7 +106,7 @@ Six illustrative operating models: real estate, hospitality, leisure, retail and
 
 - **Portfolio value:** each dot is 1% of portfolio EV. Hover a business to isolate it, click to open its value plan. Switch to the value bridge, the operating value or the plays.
 - **Consolidation:** an intercompany elimination helper with balance checks.
-- **Portfolio plays:** seven transparent corporate-finance plays (REIT carve-out, subsidiary IPO, land-bank JV, asset-light hospitality, platform consolidation, bolt-on M&A, master-planned launch), each with live assumptions.
+- **Portfolio plays:** seven transparent corporate-finance plays (REIT carve-out, subsidiary IPO, land-bank JV, asset-light hospitality, platform consolidation, bolt-on M&A, master-planned launch). A **live-impact panel beside the cards** redraws its waterfall, scenario value and net cash the moment a play is switched on or a slider moves.
 - **New company case:** a capex and opex calculator for a company you might invest in.
 
 ![Portfolio Lab](docs/screenshot-portfolio.png)
@@ -234,7 +234,7 @@ After `npm run build && npm start`: `GET /api/health`, `GET /api/sectors`, `POST
   - KPI strips that switch the chart below them;
   - dot-matrix line charts with hover read-outs, and waterfalls;
   - dot rings, folder tabs and status chips.
-- **Theme:** light and dark, from one set of CSS tokens.
+- **Palette:** one set of tokens drives every widget in light and dark mode: **Cloudy White** `#F0F0F0` canvas, **Galactic Violet** `#105BFF` accent, **Bubblegum** `#FE8500` touches (status dots, section index, critical path, live highlights), with green and red kept for gains and losses.
 - **CI** (`.github/workflows/ci.yml`): tests, refreshes market data on a 6-hour schedule, builds and deploys to GitHub Pages.
 
 ```text
