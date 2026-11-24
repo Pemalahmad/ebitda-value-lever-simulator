@@ -4,7 +4,7 @@ export { bridge, tornado, leverage, grid } from './analysis.js';
 export { businessCase, realisationByYear, npv, irr, UAE_CORPORATE_TAX } from './businessCase.js';
 export { scorecard, rag, PERSPECTIVES } from './scorecard.js';
 export { evaluate, boardConfidence, rankFor, RANKS, ACHIEVEMENTS, GLOBAL_MISSIONS, newAchievements, totalXp } from './game.js';
-export { buildMemo } from './memo.js';
+export { buildMemo, memoVerdict } from './memo.js';
 export { renderMarkdown } from './markdown.js';
 export { PLAYS, runPlay, getPlay, playDefaults } from './plays.js';
 export { parseCsv, normalise, aggregate, DLD_COLUMNS } from './market.js';

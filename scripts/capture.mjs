@@ -16,7 +16,7 @@ const url = `http://127.0.0.1:${server.address().port}/`;
 const browser = await chromium.launch({ args: ['--use-angle=metal', '--force-color-profile=srgb'] });
 
 async function shot(name, { width = 1600, height = 1000, hash = '', tab, full = false, action, selector } = {}) {
-  const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 2 });
+  const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 2, colorScheme: 'light' });
   await page.goto(url + hash);
   await page.addStyleTag({ content: '.toasts{display:none!important}' });
   await page.waitForTimeout(500);
@@ -30,16 +30,17 @@ async function shot(name, { width = 1600, height = 1000, hash = '', tab, full = 
   console.log('wrote', name);
 }
 
-const scenario = '#s=urbanServices&tab=simulator&utilisation=76&subShare=22&sla=1.8&dso=78&leadDays=32';
+const scenario = '#s=urbanServices&tab=value&utilisation=76&subShare=22&sla=1.8&dso=78&leadDays=32';
 await shot('screenshot-portfolio', { hash: '#tab=portfolio&s=hospitality&occupancy=78&labourPOR=155', height: 1500, action: async (page) => {
   for (const name of ['Include REIT carve-out & capital recycling', 'Include Platform consolidation', 'Include Asset-light hospitality expansion']) await page.getByRole('button', { name }).click();
 } });
 await shot('screenshot-market', { height: 1400 });
 await shot('screenshot-pulse', { height: 1400, tab: 'Live Market' });
-await shot('screenshot-simulator', { hash: scenario });
-await shot('screenshot-scorecard', { hash: scenario, tab: 'Balanced Scorecard' });
-await shot('screenshot-business-case', { hash: scenario, tab: 'Business Case' });
-await shot('screenshot-memo', { hash: scenario, tab: 'Board Memo', height: 1300 });
+await shot('screenshot-entry', { height: 1300, tab: 'Market Entry' });
+await shot('screenshot-value', { hash: scenario, height: 1300 });
+for (const [name, id] of [['screenshot-scorecard', '#vp-scorecard'], ['screenshot-business-case', '#vp-case'], ['screenshot-memo', '#vp-memo']]) {
+  await shot(name, { hash: scenario, selector: id, height: 1300 });
+}
 await shot('screenshot-mobile', { width: 390, height: 844, hash: '#s=hospitality&occupancy=79&labourPOR=152' });
 await shot('screenshot-dark', { height: 1400, action: async (page) => {
   await page.getByRole('button', { name: 'Switch to dark mode' }).click();
@@ -62,7 +63,7 @@ if (process.argv.includes('--gif')) {
   const frames = '/tmp/evls-frames';
   rmSync(frames, { recursive: true, force: true });
   mkdirSync(frames, { recursive: true });
-  const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1 });
+  const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 1, colorScheme: 'light' });
   await page.goto(url);
   await page.evaluate(() => localStorage.clear());
   await page.reload();
@@ -82,47 +83,38 @@ if (process.argv.includes('--gif')) {
       await frame();
     }
   };
-  await frame(10); // Market tracker landing
-  await page.getByRole('tab', { name: 'Value Simulator' }).click();
-  await page.getByRole('button', { name: /Integrated Urban Services/ }).click();
-  await page.waitForTimeout(300);
-  await frame(5);
-  await slide('utilisation', 76, 8);
+  await frame(8); // Market tracker landing
+  await page.getByRole('tab', { name: 'Live Market' }).click();
+  await page.waitForTimeout(400);
   await frame(4);
+  for (const m of ['VIX', 'Gold']) { await page.locator('.kpi', { hasText: m }).first().click(); await page.waitForTimeout(200); await frame(4); }
+  await page.getByRole('tab', { name: 'Value Plan' }).click();
+  await page.getByLabel('Business').selectOption('urbanServices');
+  await page.waitForTimeout(300);
+  await frame(4);
+  await slide('utilisation', 76, 8);
   await slide('subShare', 22, 6);
   await slide('dso', 76, 6);
-  await frame(10); // let the updated scenario settle
+  await frame(6);
   await page.getByRole('button', { name: 'Play' }).first().click();
   await page.waitForTimeout(250);
-  await frame(6);
-  await page.getByRole('tab', { name: 'Balanced Scorecard' }).click();
-  await page.waitForTimeout(300);
-  await frame(8);
-  await page.getByRole('tab', { name: 'Business Case' }).click();
-  await page.waitForTimeout(300);
-  await frame(8);
-  await page.getByRole('tab', { name: 'Board Memo' }).click();
-  await page.waitForTimeout(300);
-  await frame(6);
-  for (let y = 0; y < 4; y++) { await page.mouse.wheel(0, 260); await page.waitForTimeout(80); await frame(2); }
-  await page.getByRole('tab', { name: 'Market Tracker' }).click();
-  await page.waitForTimeout(300);
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await frame(8);
-  await page.locator('.pulse-switch').getByRole('button', { name: 'Volume' }).click();
   await frame(4);
-  for (let y = 0; y < 3; y++) { await page.mouse.wheel(0, 300); await page.waitForTimeout(80); await frame(2); }
-  await page.locator('.scenario-deck').scrollIntoViewIfNeeded();
-  await page.getByRole('option', { name: /Growth/ }).click();
-  await frame(5);
-  await page.getByRole('button', { name: /Open comparison Growth/ }).click();
-  await page.waitForTimeout(700);
-  await frame(6);
-  await page.locator('.import-lab').scrollIntoViewIfNeeded();
-  await page.locator('#dld-import-file').setInputFiles('tests/fixtures/dld-synthetic.csv');
-  await page.getByText('Validation passed').waitFor({ state: 'visible' });
+  for (const id of ['vp-drivers', 'vp-scorecard', 'vp-case', 'vp-memo']) {
+    await page.evaluate((x) => { const el = document.getElementById(x); window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 120); }, id);
+    await page.waitForTimeout(250);
+    await frame(6);
+  }
+  await page.getByRole('tab', { name: 'Portfolio Lab' }).click();
+  await page.waitForTimeout(300);
+  await frame(4);
+  for (let i = 0; i < 14; i++) { await page.mouse.move(420 + i * 40, 520 + Math.sin(i / 2) * 60); await page.waitForTimeout(40); await frame(); }
+  for (const name of ['Include REIT carve-out & capital recycling', 'Include Platform consolidation']) { await page.getByRole('button', { name }).click(); await page.waitForTimeout(200); await frame(3); }
+  await page.locator('.kpi', { hasText: 'Scenario value' }).click();
+  await page.waitForTimeout(250);
   await frame(8);
-  await frame(6);
+  await page.getByRole('tab', { name: 'Market Entry' }).click();
+  await page.waitForTimeout(300);
+  await frame(8);
   await page.close();
   const r = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-framerate', '6', '-i', `${frames}/f%04d.png`,
     '-vf', 'scale=1100:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=160:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=4:diff_mode=rectangle',

@@ -1,10 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import PULSE from '../../../data/pulse/pulse.json';
+import { PageHead, Section, Card, CardHead, KpiStrip, DotLine, FolderTabs, Pill } from './Dots.jsx';
 import { CHOKEPOINTS, CHECKLIST, STANCES, byCountry, byTheme, classify, noteErrors, reviewDue, signals, snapshotLevels, stats } from '../../engine/pulse.js';
 
 const JOURNAL_KEY = 'vls.journal.v1';
 const LEVEL = { alert: ['Act now', 'neg'], watch: ['Watch', 'amber'], positive: ['Tailwind', 'pos'] };
 const GROUPS = ['Dubai & GCC', 'Global indices', 'Commodities', 'FX & rates', 'Risk & freight'];
+const HEADLINE = ['brent', 'msci-uae', 'spx', 'us10y', 'gold', 'vix'];
+const SHORT = { brent: 'Brent', 'msci-uae': 'MSCI UAE', spx: 'S&P 500', us10y: 'US 10Y', gold: 'Gold', vix: 'VIX' };
 
 const pct = (x) => (x == null ? '—' : `${x >= 0 ? '+' : '−'}${Math.abs(x * 100).toFixed(1)}%`);
 const tone = (x) => (x == null ? '' : x >= 0 ? 'pos' : 'neg');
@@ -58,8 +61,7 @@ function Journal({ sigs }) {
   const due = notes.filter((n) => reviewDue(n));
   return (
     <section className="card">
-      <h3>Decision journal</h3>
-      <p className="card-sub">Write the call before you make it: the thesis, what would prove it wrong, the signals it rests on, and a date to review it. Market levels are saved with each note so a review shows what has moved since. Notes stay in this browser; export them to keep a copy.</p>
+      <p className="card-sub">The thesis, what would prove it wrong, the signals it rests on, and a date to review it. Market levels are saved with each note so a review shows what has moved since. Notes stay in this browser; export them to keep a copy.</p>
       {due.length > 0 && <p className="chip amber" style={{ display: 'inline-block', marginBottom: 12 }}>{due.length} decision{due.length > 1 ? 's' : ''} due for review</p>}
       <div className="journal-form">
         <label>Decision<input value={draft.title} onChange={(e) => set({ title: e.target.value })} placeholder="e.g. Add to Dubai logistics platform" /></label>
@@ -111,6 +113,8 @@ export function PulseView() {
   const countries = useMemo(() => byCountry(PULSE.news), []);
   const [theme, setTheme] = useState('all');
   const [country, setCountry] = useState('all');
+  const [focus, setFocus] = useState('brent');
+  const [group, setGroup] = useState(GROUPS[0]);
   const rows = useMemo(() => PULSE.markets.map((m) => ({ ...m, s: stats(m.series, m) })), []);
   const recent = PULSE.news.filter((n) => Date.now() - Date.parse(n.published) <= 3 * 864e5).map((n) => ({ ...n, ...classify(n.title) }));
   const filtered = PULSE.news.map((n) => ({ ...n, ...classify(n.title) }))
@@ -119,17 +123,28 @@ export function PulseView() {
   const byId = Object.fromEntries(rows.map((r) => [r.id, r]));
 
   return (
-    <>
-      <section className="card pulse-head">
-        <div>
-          <h3>Market Pulse</h3>
-          <p className="card-sub">What moved, what it means for a Dubai portfolio, and what the local papers are saying, in one read before the investment committee. Data as of <b>{stamp(PULSE.generatedAt)}</b> · prices are delayed quotes · {live}/{PULSE.sources.length} sources live. Not investment advice. For live maps of conflicts, shipping and flights, open <a href="https://www.worldmonitor.app/" target="_blank" rel="noreferrer">World Monitor</a>.</p>
-        </div>
-      </section>
+    <div className="doc">
+      <PageHead status={`Data as of ${stamp(PULSE.generatedAt)} · ${live}/${PULSE.sources.length} sources live`} title="Market pulse" muted="for a Dubai portfolio"
+        sub={<>What moved, what it means, and what the local papers are saying, in one read before the investment committee. Delayed quotes; not investment advice. Live maps of conflicts and shipping: <a href="https://www.worldmonitor.app/" target="_blank" rel="noreferrer">World Monitor</a>.</>} />
 
+      <Section n={1} title="Headline markets" sub="Pick a market to redraw the three-month chart. Signals past their thresholds sit on the right.">
+        <div className="split-main">
+          <Card className="chart-card">
+            <KpiStrip active={focus} onSelect={setFocus} items={HEADLINE.filter((id) => byId[id]).map((id) => { const r = byId[id]; const m = r.invert && r.s.m1 != null ? -r.s.m1 : r.s.m1; return { id, label: SHORT[id] ?? r.label, value: num(r.s.last), delta: r.s.m1 == null ? null : `${pct(r.s.m1)} 1M`, tone: tone(m) }; })} />
+            {byId[focus] && (byId[focus].s.monthly
+              ? <p className="empty-card">This source publishes only monthly history, so there is no daily chart. Last {num(byId[focus].s.last)} on {byId[focus].s.asOf}.</p>
+              : <DotLine height={330} series={byId[focus].series.slice(-63).map(([d, v]) => ({ label: new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }), value: v }))} format={(v) => num(v)} label={`${byId[focus].label}, three months`} />)}
+            {byId[focus] && <p className="w-foot">{byId[focus].label}{byId[focus].unit ? `, ${byId[focus].unit}` : ''} · 1W {pct(byId[focus].s.w1)} · 3M {pct(byId[focus].s.m3)} · last {byId[focus].s.asOf}</p>}
+          </Card>
+          <Card className="signal-side">
+            <CardHead title="Top signals" sub={`${sigs.length} past threshold`} />
+            {sigs.length === 0 ? <p className="muted sm">No signal past its threshold today.</p> : <ul className="movers">{sigs.map((x) => <li key={x.id}><span className="mv-name">{x.title}<small>{x.why}</small></span><span className={`chip sm ${LEVEL[x.level][1]}`}>{LEVEL[x.level][0]}</span></li>)}</ul>}
+          </Card>
+        </div>
+      </Section>
+
+      <Section n={2} title="Signals in detail" sub="Each signal with the reason it matters here and the data or headlines behind it.">
       <section className="card">
-        <h3>Top signals</h3>
-        <p className="card-sub">Moves past a set threshold, ranked by urgency. Each is a prompt to look closer, with the reason it matters here.</p>
         {sigs.length === 0 ? <p className="muted">No market or news signal past its threshold today.</p> : (
           <div className="pulse-signals">{sigs.map((s) => (
             <article key={s.id} className="pulse-signal">
@@ -143,32 +158,32 @@ export function PulseView() {
         )}
       </section>
 
-      <section className="card">
-        <h3>Markets</h3>
-        <p className="card-sub">Dubai and GCC first, then the global drivers that reach Dubai through the dollar peg, oil and capital flows. Three-month trend on the right.</p>
-        <div className="pulse-markets">
-          {GROUPS.map((g) => (
-            <div key={g} className="table-wrap">
-              <p className="tile-label">{g}</p>
-              <table className="data">
-                <thead><tr><th>Market</th><th className="r">Last</th><th className="r">1D</th><th className="r">1W</th><th className="r">1M</th><th className="r">3M</th><th className="r">Trend</th></tr></thead>
-                <tbody>{rows.filter((r) => r.group === g).map((r) => (
-                  <tr key={r.id}>
-                    <td>{r.label}
-                      {Date.now() - Date.parse(r.s.asOf) > 4 * 864e5
-                        ? <div className="neg" style={{ fontSize: 11 }}>Last updated {r.s.asOf}; source unavailable since then</div>
-                        : r.s.stale && <div className="muted" style={{ fontSize: 11 }}>Recent history not published by the source</div>}</td>
-                    <td className="r">{num(r.s.last)}{r.unit ? <span className="muted"> {r.unit}</span> : r.currency && r.currency !== 'USD' ? <span className="muted"> {r.currency}</span> : null}</td>
-                    {['d1', 'w1', 'm1', 'm3'].map((k) => <td key={k} className={`r ${tone(r.invert && r.s[k] != null ? -r.s[k] : r.s[k])}`}>{pct(r.s[k])}</td>)}
-                    <td className="r">{r.s.monthly ? <span className="muted">—</span> : <Spark series={r.series} color={r.s.m3 != null && (r.invert ? r.s.m3 > 0 : r.s.m3 < 0) ? 'var(--rust)' : 'var(--accent)'} />}</td>
-                  </tr>))}
-                </tbody>
-              </table>
-            </div>
-          ))}
-        </div>
-      </section>
+      </Section>
 
+      <Section n={3} title="Markets" sub="Dubai and GCC first, then the global drivers that reach Dubai through the dollar peg, oil and capital flows.">
+        <FolderTabs value={group} onChange={setGroup} tabs={GROUPS.map((g) => ({ id: g, label: g, count: rows.filter((r) => r.group === g).length }))} />
+        <Card className="folder-body">
+          <div className="table-wrap">
+            <table className="data">
+              <thead><tr><th>Market</th><th className="r">Last</th><th className="r">1D</th><th className="r">1W</th><th className="r">1M</th><th className="r">3M</th><th className="r">Trend</th></tr></thead>
+              <tbody>{rows.filter((r) => r.group === group).map((r) => (
+                <tr key={r.id} className="clickable" onClick={() => { setFocus(r.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                  <td>{r.label}
+                    {Date.now() - Date.parse(r.s.asOf) > 4 * 864e5
+                      ? <div className="neg" style={{ fontSize: 11 }}>Last updated {r.s.asOf}; source unavailable since then</div>
+                      : r.s.stale && <div className="muted" style={{ fontSize: 11 }}>Recent history not published by the source</div>}</td>
+                  <td className="r">{num(r.s.last)}{r.unit ? <span className="muted"> {r.unit}</span> : r.currency && r.currency !== 'USD' ? <span className="muted"> {r.currency}</span> : null}</td>
+                  {['d1', 'w1', 'm1', 'm3'].map((k) => { const v = r.s[k]; return <td key={k} className="r">{v == null ? <span className="muted">—</span> : <Pill tone={tone(r.invert ? -v : v)}>{pct(v)}</Pill>}</td>; })}
+                  <td className="r">{r.s.monthly ? <span className="muted">—</span> : <Spark series={r.series} color={r.s.m3 != null && (r.invert ? r.s.m3 > 0 : r.s.m3 < 0) ? 'var(--neg)' : 'var(--text)'} />}</td>
+                </tr>))}
+              </tbody>
+            </table>
+          </div>
+          <p className="w-foot">Click a row to chart it at the top.</p>
+        </Card>
+      </Section>
+
+      <Section n={4} title="Trade, countries and news" sub="Shipping chokepoints, who is in the news, and the local headlines by theme.">
       <div className="grid-2">
         <section className="card">
           <h3>Trade, maritime and logistics</h3>
@@ -213,13 +228,18 @@ export function PulseView() {
         {filtered.length === 0 ? <p className="muted">No headlines match this filter this week.</p> : <ul className="plain pulse-list">{filtered.slice(0, 40).map((n) => <Headline key={n.link} n={n} />)}</ul>}
       </section>
 
-      <Journal sigs={sigs} />
+      </Section>
 
+      <Section n={5} title="Decision journal" sub="Write the call before you make it, and review it against what moved.">
+      <Journal sigs={sigs} />
+      </Section>
+
+      <Section n={6} title="Sources" sub="Refreshed every 6 hours; failed sources keep their last good data.">
       <section className="card">
-        <h3>Sources</h3>
         <p className="card-sub">Refreshed every 6 hours. If a source fails, its last good data is kept and marked here. Prices: Yahoo Finance delayed quotes. News: each publisher's own feed, or Google News where the site blocks direct reading. Only headlines and links are stored.</p>
         <div className="chips">{PULSE.sources.map((s) => <span key={s.name} className={`chip sm ${s.ok ? '' : 'neg'}`} title={s.ok ? `${s.kind}: ${s.count}` : `${s.kind}: ${s.error}`}>{s.ok ? '●' : '○'} {s.name}</span>)}</div>
       </section>
-    </>
+      </Section>
+    </div>
   );
 }

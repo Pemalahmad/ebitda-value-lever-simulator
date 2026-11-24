@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { AS_OF, SOURCES, JURISDICTIONS, VA_ACTIVITIES, MODELS, COMPANY_STEPS, PRODUCT_STEPS, VASP_STAGES, COMPLIANCE, PITFALLS, assess, varaCosts } from '../../engine/entry.js';
 import { Source } from './Source.jsx';
+import { PageHead } from './Dots.jsx';
 
 const KEY = 'vls.entry.v1';
 const aed = (v) => (v == null ? 'Set by VARA' : `AED ${Math.round(v).toLocaleString('en-US')}`);
@@ -44,7 +45,9 @@ export function EntryView() {
   const toggle = (k) => setDone((d) => ({ ...d, [k]: !d[k] }));
   const toggleAct = (id) => setActs((xs) => (xs.includes(id) ? xs.filter((x) => x !== id) : [...xs, id]));
 
-  return <div className="market-board entry-board">
+  return <div className="market-board entry-board doc">
+    <PageHead status={`Rules as at ${AS_OF}`} title="Market entry" muted="UAE"
+      sub="What it takes to enter the UAE, in the order it falls due. A planning aid, not legal advice." />
     <section className="market-opening">
       <div className="market-intro">
         <div className="market-status"><span aria-hidden="true" />Rules as at <b>{AS_OF}</b></div>

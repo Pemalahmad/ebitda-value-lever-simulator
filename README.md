@@ -3,7 +3,7 @@
 **Independent Dubai market intelligence built from cited public sources and open transaction data, with scenario tools that connect market movement to operating and portfolio value.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-53%20passing-2dd4bf)
+![Tests](https://img.shields.io/badge/tests-54%20passing-2dd4bf)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Dependencies](https://img.shields.io/badge/engine-zero%20dependencies-e5b95c)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -24,6 +24,25 @@ The **Live Market** workspace adds a six-hour market and news pulse without tyin
 - explicit source-health and fallback-data status.
 
 ![Live market monitoring workspace](docs/screenshot-pulse.png)
+
+## One design across five tabs
+
+The dashboard reads like a business-development document. Every tab shares one shell and one visual language:
+
+- **Five tabs:** Live Market, Market Tracker, Market Entry, **Value Plan** and Portfolio Lab. A black-pill navigation bar stays on top.
+- **Document layout:** each tab opens with a page header, then numbered sections.
+- **Dot-matrix charts:** KPI strips switch the chart below them, charts show hover tooltips, and tables sit under folder tabs. Light and dark themes.
+- **Value Plan:** the old Simulator, Balanced Scorecard, Business Case and Board Memo tabs, merged into one document in five sections:
+  1. value at stake;
+  2. drivers;
+  3. the scorecard as dot rings and target bars;
+  4. the business case as dotted columns and a cash curve;
+  5. the board memo as a one-page decision: verdict, value by initiative, risks and decisions requested. The full text is one click away.
+- **Portfolio Lab:** an interactive sum of the parts. Each dot is 1% of portfolio value; hover a business to isolate it, click to open its plan. Play cards update the figures as you drag, and a swarm of dots follows the cursor.
+
+![Value Plan](docs/screenshot-value.png)
+
+![Board memo as a one-page decision](docs/screenshot-memo.png)
 
 ## Market Entry — UAE regulatory roadmap
 
@@ -94,7 +113,7 @@ npm ci
 npm run dev
 ```
 
-Open the local URL shown by Vite. The market tracker appears first; use the tabs to open the scenario tools.
+Open the local URL shown by Vite. The market tracker appears first; use the tabs to open Live Market, Market Entry, the Value Plan and the Portfolio Lab.
 
 Refresh the committed Live Market snapshot with `npm run pulse`. The scheduled GitHub workflow refreshes it every six hours before deployment and retains the last good value when a source is temporarily unavailable.
 
@@ -132,8 +151,8 @@ Scenario state is encoded in the URL hash. A shared link carries the selected mo
 
 ```text
 #tab=market
-#s=realEstate&tab=simulator&units=2200&price=1900&cycle=26
-#s=hospitality&tab=case&occupancy=80&adr=1220
+#s=realEstate&tab=value&units=2200&price=1900&cycle=26
+#s=hospitality&tab=value&occupancy=80&adr=1220
 ```
 
 ## CLI and API

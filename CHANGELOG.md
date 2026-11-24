@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.7.0 (2026-11-24): One design, five tabs
+
+- **New visual system ("Dots"):**
+  - a soft grey canvas with white rounded cards;
+  - dot-matrix charts;
+  - black-pill navigation and folder tabs;
+  - one warm accent, in light and dark themes.
+
+  Every tab uses the same shell, page header and numbered sections, so the design holds as you move between them.
+- **Value Plan replaces four tabs:** Simulator, Balanced Scorecard, Business Case and Board Memo are now one document in five sections.
+  - **Scorecard:** dot rings per perspective and KPI bars against target.
+  - **Business case:** dotted yearly columns and a cumulative cash curve.
+  - **Board memo:** a one-page decision showing the verdict, value by initiative, risks and decisions requested. The text memo is still one click away and downloadable.
+  - **Old links:** `#tab=simulator`, `scorecard`, `case` and `memo` open the matching section.
+- **Live Market:**
+  - a headline chart you can switch between Brent, MSCI UAE, S&P 500, US 10-year yield, gold and VIX, with hover read-outs;
+  - market groups under folder tabs; click a row to chart it.
+- **Portfolio Lab:**
+  - a dot composition of portfolio value; hover a business to isolate it, click to open its plan;
+  - switchable views: composition, bridge, operating value and plays;
+  - live play cards;
+  - a swarm cursor, off for reduced motion and touch screens.
+- Market Tracker and Market Entry widgets were moved onto the same surface, and their bars redrawn as dots.
+- 54 tests (new: shared board-verdict logic).
+
 ## 1.6.0 (2026-11-24): UAE Market Entry
 
 - **New tab, Market Entry:** a step-by-step UAE entry roadmap for any business, with a full virtual-asset track benchmarked on VARA.

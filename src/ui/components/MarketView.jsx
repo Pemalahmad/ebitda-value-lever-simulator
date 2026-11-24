@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Source } from './Source.jsx';
+import { PageHead } from './Dots.jsx';
 import { BeforeAfterCard, ImportLab, MobileCommandDock, ReleaseCalendar, ScenarioDeck } from './MarketWorkspace.jsx';
 import OFFICIAL from '../../../data/market/dld-official.json';
 
@@ -34,7 +35,9 @@ export function MarketView() {
 
   const activeAggregate = importedAggregate ?? AGG;
 
-  return <div className="market-board">
+  return <div className="market-board doc">
+    <PageHead status={`Official snapshot · ${OFFICIAL.asOf}`} title="Market tracker" muted="Dubai real estate"
+      sub="Official flows, investor activity and community performance, every figure linked to its source." />
     <section className="market-opening" id="market-pulse">
       <div className="market-intro">
         <div className="market-status"><span aria-hidden="true" />Market snapshot <b>{OFFICIAL.asOf}</b></div>

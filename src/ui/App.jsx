@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { SECTORS, getSector, baseLevers, evaluate, investmentByLever, fmt } from '../engine/index.js';
+import { getSector, baseLevers, evaluate, investmentByLever } from '../engine/index.js';
 import { LeverPanel } from './components/Levers.jsx';
-import { SimulatorView, ScorecardView, BusinessCaseView, MemoView } from './components/Views.jsx';
+import { ValuePlanView } from './components/ValuePlanView.jsx';
 import { PortfolioView } from './components/PortfolioView.jsx';
 import { MarketView } from './components/MarketView.jsx';
 import { PulseView } from './components/PulseView.jsx';
@@ -13,12 +13,11 @@ const TABS = [
   { id: 'pulse', label: 'Live Market' },
   { id: 'market', label: 'Market Tracker' },
   { id: 'entry', label: 'Market Entry' },
-  { id: 'simulator', label: 'Value Simulator' },
-  { id: 'scorecard', label: 'Balanced Scorecard' },
-  { id: 'case', label: 'Business Case' },
-  { id: 'memo', label: 'Board Memo' },
+  { id: 'value', label: 'Value Plan' },
   { id: 'portfolio', label: 'Portfolio Lab' },
 ];
+// Old links (#tab=simulator, scorecard, case, memo) open the matching section of the Value Plan.
+const LEGACY = { simulator: 'vp-value', scorecard: 'vp-scorecard', case: 'vp-case', memo: 'vp-memo' };
 const WIDE = ['pulse', 'market', 'entry', 'portfolio'];
 const THEME_KEY = 'market-tracker-theme';
 
@@ -36,7 +35,7 @@ function initialTheme() {
 export default function App() {
   const initial = useMemo(readHash, []);
   const [sectorId, setSectorId] = useState(initial.sector);
-  const [tab, setTab] = useState(TABS.some((t) => t.id === initial.tab) ? initial.tab : 'market');
+  const [tab, setTab] = useState(LEGACY[initial.tab] ? 'value' : TABS.some((t) => t.id === initial.tab) ? initial.tab : 'pulse');
   const [bySector, setBySector] = useState(() => ({ [initial.sector]: { ...baseLevers(getSector(initial.sector)), ...initial.levers } }));
   const [activeScenario, setActiveScenario] = useState(null);
   const [shared, setShared] = useState(false);
@@ -49,6 +48,8 @@ export default function App() {
   const cost = useMemo(() => investmentByLever(sector, levers), [sector, levers]);
 
   useEffect(() => writeHash(sectorId, levers, baseLevers(sector), tab), [sectorId, levers, sector, tab]);
+  useEffect(() => { const id = LEGACY[initial.tab]; if (id) setTimeout(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }), 60); }, [initial.tab]);
+  const go = (id) => { setTab(id); window.scrollTo({ top: 0 }); };
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
     try { window.localStorage.setItem(THEME_KEY, theme); } catch { /* Keep the in-session preference. */ }
@@ -93,55 +94,34 @@ export default function App() {
       <header className="top no-print">
         <div className="brand">
           <div className="logo" aria-hidden="true">
-            <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="8" fill="var(--text)" /><path d="M7 23l6-7 5 4 7-10" stroke="var(--bg)" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            <svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="9" fill="var(--text)" /><circle cx="10" cy="21" r="2.2" fill="var(--bg)" /><circle cx="16" cy="15" r="2.2" fill="var(--bg)" /><circle cx="22" cy="11" r="2.2" fill="var(--gold)" /></svg>
           </div>
           <div>
-            <h1>Dubai Market &amp; Value Tracker</h1>
-            <div className="brand-sub">Live signals · official real-estate evidence · value scenarios</div>
+            <h1>Value Lever</h1>
+            <div className="brand-sub">Dubai market &amp; value tracker</div>
           </div>
         </div>
+        <nav className="tabs" role="tablist" aria-label="Sections">
+          {TABS.map((t) => (
+            <button key={t.id} role="tab" aria-selected={tab === t.id} className={`tab ${tab === t.id ? 'on' : ''}`} onClick={() => go(t.id)}>{t.label}</button>
+          ))}
+        </nav>
         <div className="player">
-          <button className="ghost sm theme-toggle" onClick={() => setTheme((value) => value === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
+          <button className="ghost sm icon-btn" onClick={() => setTheme((value) => value === 'dark' ? 'light' : 'dark')} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}>
             <Icon name={theme === 'dark' ? 'sun' : 'moon'} size={15} />
-            <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
           </button>
-          <button className="ghost sm" onClick={share} title="Copy a link to this exact view"><Icon name="link" size={14} /> {shared ? 'Link copied' : WIDE.includes(tab) ? 'Share view' : 'Share scenario'}</button>
+          <button className="ghost sm" onClick={share} title="Copy a link to this exact view"><Icon name="link" size={14} /> {shared ? 'Copied' : 'Share'}</button>
         </div>
       </header>
 
-      {!WIDE.includes(tab) && <nav className="sectors no-print" aria-label="Operating model sectors">
-        {SECTORS.map((s) => (
-            <button key={s.id} className={`sector ${s.id === sectorId ? 'on' : ''}`} onClick={() => pickSector(s.id)} aria-pressed={s.id === sectorId}>
-              <Icon name={s.id} size={22} />
-              <span className="s-name">{s.name}</span>
-              <span className="s-tag">{s.tagline}</span>
-            </button>
-        ))}
-      </nav>}
-
-      {!WIDE.includes(tab) && <div className="context no-print">
-        <div>
-          <b>{sector.company}</b> <span className="muted">· {sector.scale} · illustrative operating model for scenario analysis</span>
-        </div>
-        <div className="muted">Baseline EBITDA {fmt.money(e.cmp.base.ebitda)} · EV {fmt.money(e.cmp.base.ev)}</div>
-      </div>}
-
       <main className={`layout ${WIDE.includes(tab) ? 'wide' : ''}`}>
-        <LeverPanel sector={sector} levers={levers} cost={cost} onChange={setLever} onReset={reset} onScenario={applyScenario} activeScenario={activeScenario} />
-        <div className="center">
-          <div className="tabs no-print" role="tablist">
-            {TABS.map((t) => (
-              <button key={t.id} role="tab" aria-selected={tab === t.id} className={`tab ${tab === t.id ? 'on' : ''}`} onClick={() => setTab(t.id)}>{t.label}</button>
-            ))}
-          </div>
-          {tab === 'portfolio' && <PortfolioView bySector={bySector} plays={plays} setPlays={setPlays} onOpenSector={(id) => { pickSector(id); setTab('simulator'); }} />}
+        {tab === 'value' && <LeverPanel sector={sector} levers={levers} cost={cost} onChange={setLever} onReset={reset} onScenario={applyScenario} activeScenario={activeScenario} />}
+        <div className="center" key={tab}>
+          {tab === 'portfolio' && <PortfolioView bySector={bySector} plays={plays} setPlays={setPlays} onOpenSector={(id) => { pickSector(id); go('value'); }} />}
           {tab === 'pulse' && <PulseView />}
           {tab === 'market' && <MarketView />}
           {tab === 'entry' && <EntryView />}
-          {tab === 'simulator' && <SimulatorView sector={sector} levers={levers} e={e} onNudge={nudge} />}
-          {tab === 'scorecard' && <ScorecardView e={e} />}
-          {tab === 'case' && <BusinessCaseView sector={sector} e={e} />}
-          {tab === 'memo' && <MemoView sector={sector} levers={levers} />}
+          {tab === 'value' && <ValuePlanView sector={sector} levers={levers} e={e} onNudge={nudge} onPickSector={pickSector} />}
         </div>
       </main>
 

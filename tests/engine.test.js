@@ -230,3 +230,11 @@ test('markdown renderer escapes HTML and renders tables', () => {
 test('baseLevers matches lever bases', () => {
   for (const s of SECTORS) for (const l of s.levers) assert.equal(baseLevers(s)[l.id], l.base);
 });
+
+test('board verdict: baseline with no moves, approve when value and NPV are positive', async () => {
+  const { getSector, baseLevers, evaluate, memoVerdict } = await import('../src/engine/index.js');
+  const s = getSector('urbanServices');
+  assert.equal(memoVerdict(evaluate(s, baseLevers(s))), 'Baseline');
+  const moved = { ...baseLevers(s), utilisation: 76 };
+  assert.match(memoVerdict(evaluate(s, moved)), /^Approve/);
+});

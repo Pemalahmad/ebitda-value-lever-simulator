@@ -26,6 +26,15 @@ function valuationNote(sector) {
     : `${sector.valuation.multiple}x EV/EBITDA`;
 }
 
+// The board recommendation, shared by the written memo and the memo charts.
+export function memoVerdict({ cmp, bc }) {
+  if (!bc.initiatives.length) return 'Baseline';
+  const flags = cmp.scn.flags;
+  if (cmp.dEbitda > 0 && bc.npv > 0 && !flags.some((f) => f.severity === 'high') && !cmp.overBudget) return 'Approve';
+  if (cmp.dEbitda > 0 && bc.npv > 0) return 'Approve with conditions';
+  return 'Do not approve as framed';
+}
+
 export function buildMemo(sector, levers, { date = new Date().toISOString().slice(0, 10), title } = {}) {
   const e = evaluate(sector, levers);
   const { cmp, bc, sc } = e;
@@ -53,11 +62,7 @@ export function buildMemo(sector, levers, { date = new Date().toISOString().slic
     lev.slice(0, 3).forEach((x, i) => L(`${i + 1}. **${x.label}**: ${money(x.valueGain, { sign: true })} of value (${money(x.gain, { sign: true })} EBITDA) for ${money(x.cost)} invested. Owner: ${x.owner}.`));
     L();
   } else {
-    const verdict = cmp.dEbitda > 0 && bc.npv > 0 && !flags.some((f) => f.severity === 'high') && !cmp.overBudget
-      ? 'Approve'
-      : cmp.dEbitda > 0 && bc.npv > 0
-        ? 'Approve with conditions'
-        : 'Do not approve as framed';
+    const verdict = memoVerdict(e);
     L(`**${verdict}.** This ${moved.length}-initiative programme moves run-rate EBITDA by **${money(cmp.dEbitda, { sign: true })} (${pct(cmp.dEbitdaPct, { sign: true })})** to **${money(cmp.scn.ebitda)}** and creates **${money(cmp.valueCreated, { sign: true })}** of value (${money(cmp.dEv, { sign: true })} enterprise value ${cmp.cashRelease >= 0 ? 'plus' : 'less'} ${money(Math.abs(cmp.cashRelease))} of working capital ${cmp.cashRelease >= 0 ? 'released' : 'absorbed'}), for **${money(cmp.invest)}** of one-off investment.`);
     L();
     L(`- **Five-year NPV:** ${money(bc.npv, { sign: true })} at a ${pct(bc.wacc)} WACC, after ${pct(UAE_CORPORATE_TAX, { dp: 0 })} UAE corporate tax`);
