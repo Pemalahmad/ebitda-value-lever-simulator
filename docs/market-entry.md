@@ -5,6 +5,46 @@ businesses benchmarked on Dubai's VARA regime and its ADGM and DIFC equivalents.
 24 November 2026 and come from the sources listed below. **It is a planning aid, not legal advice:** confirm every
 requirement with the regulator and UAE counsel before relying on it.
 
+## The set-up guide (all businesses)
+
+Data in `src/engine/entryGuide.js`, tested in `tests/entry.test.js`.
+
+1. **Where to set up.** Choose what you are launching:
+   - crypto service, or a non-custodial crypto product;
+   - small-office launch, or trading and import;
+   - tech or SaaS, fintech, or onshore F&B, retail or clinic;
+   - holding company, or manufacturing.
+
+   The three best locations are ranked with the reason. Each shows the indicative first-year cost, set-up time, whether it can sell onshore, the office rule and what to watch. A table compares all eight locations: Dubai mainland, DMCC, IFZA/Meydan, JAFZA, DIFC, Abu Dhabi mainland, ADGM, and KEZAD/Masdar.
+2. **Step by step** for the chosen route: Dubai mainland (DET), a Dubai free zone, Abu Dhabi mainland (ADDED via TAMM), ADGM or DIFC.
+   - **The 14 steps:**
+     1. activity and legal form;
+     2. name and initial approval;
+     3. regulatory approval;
+     4. attestation and translation;
+     5. memorandum of association;
+     6. office lease (Ejari or Tawtheeq);
+     7. licence;
+     8. beneficial-owner register;
+     9. immigration and labour files;
+     10. bank account;
+     11. corporate tax;
+     12. VAT;
+     13. visas;
+     14. the compliance calendar.
+   - **Each step shows** the platform with a link, the documents (tickable), the indicative cost and time, the bottleneck and a tip.
+3. **Timeline.** A schedule that runs steps in parallel where possible, with best-case, typical and prudent estimates. The critical path is highlighted.
+4. **Memorandum of association.**
+   - the ten clauses to write;
+   - how to execute it: agree, draft, translate, notarise or e-sign, submit;
+   - official template sources, cost and pitfalls.
+5. **VAT and corporate tax.**
+   - registration rules, rates, deadlines, returns and penalties;
+   - what the EmaraTax VAT application asks for, section by section.
+6. **Compliance bottlenecks**, ranked by impact with how to clear each.
+
+Costs are indicative ranges from published 2026 adviser estimates, which disagree with each other. Each step links the authority's own portal so the figure can be confirmed before budgeting.
+
 ## How the tab works
 
 1. **Entry profile.** Pick the business model and where the entity sits. The page tells you which regimes apply and

@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { AS_OF, SOURCES, JURISDICTIONS, VA_ACTIVITIES, MODELS, COMPANY_STEPS, PRODUCT_STEPS, VASP_STAGES, COMPLIANCE, PITFALLS, assess, varaCosts } from '../../engine/entry.js';
+import { AS_OF, SOURCES, JURISDICTIONS, VA_ACTIVITIES, MODELS, COMPANY_STEPS, PRODUCT_STEPS, VASP_STAGES, COMPLIANCE, assess, varaCosts } from '../../engine/entry.js';
 import { Source } from './Source.jsx';
-import { PageHead, Waterfall } from './Dots.jsx';
+import { PageHead, Waterfall, Section, Contents } from './Dots.jsx';
+import { LocationAdvisor, RouteProcedure, EntryTimeline, MoaGuide, TaxGuide, Bottlenecks } from './EntryGuide.jsx';
+import { STEPS, GUIDE_SOURCES } from '../../engine/entryGuide.js';
 
 const KEY = 'vls.entry.v1';
 const aed = (v) => (v == null ? 'Set by VARA' : `AED ${Math.round(v).toLocaleString('en-US')}`);
@@ -34,14 +36,20 @@ export function EntryView() {
   const [custodian, setCustodian] = useState(saved.custodian ?? false);
   const [inApp, setInApp] = useState(saved.inApp ?? true);
   const [done, setDone] = useState(saved.done ?? {});
-  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify({ model, jurisdiction: zone, acts, overheads, custodian, inApp, done })); } catch { /* keep in-session */ } }, [model, zone, acts, overheads, custodian, inApp, done]);
+  const ROUTE_OF = { dubai: 'dxbml', difc: 'difc', adgm: 'adgm', other: 'auhml' };
+  const [route, setRoute] = useState(saved.route ?? ROUTE_OF[saved.jurisdiction ?? 'dubai']);
+  const [btype, setBtype] = useState(saved.btype ?? 'vasp');
+  const [regulated, setRegulated] = useState(saved.regulated ?? true);
+  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify({ model, jurisdiction: zone, acts, overheads, custodian, inApp, done, route, btype, regulated })); } catch { /* keep in-session */ } }, [model, zone, acts, overheads, custodian, inApp, done, route, btype, regulated]);
 
   const m = MODELS.find((x) => x.id === model);
   const a = assess({ model, jurisdiction: zone, activities: acts, marketsInApp: inApp });
   const costs = varaCosts(acts, { overheads, usesCustodian: custodian });
   const steps = procedure(m);
-  const total = steps.reduce((n, s) => n + s.checks.length, 0);
-  const ticked = steps.reduce((n, s) => n + s.checks.filter((c) => done[`${s.id}:${c}`]).length, 0);
+  const gsteps = STEPS.filter((x) => x.by[route] && (!x.by[route].optional || regulated));
+  const total = gsteps.reduce((n, x) => n + x.docs.length, 0);
+  const ticked = gsteps.reduce((n, x) => n + x.docs.filter((d) => done[`${route}:${x.id}:${d}`]).length, 0);
+  const pickRoute = (r) => { setRoute(r); setTimeout(() => document.getElementById('me-steps')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 30); };
   const toggle = (k) => setDone((d) => ({ ...d, [k]: !d[k] }));
   const toggleAct = (id) => setActs((xs) => (xs.includes(id) ? xs.filter((x) => x !== id) : [...xs, id]));
 
@@ -76,7 +84,7 @@ export function EntryView() {
           <div className="investor-ring" style={{ '--share': `${(ticked / total) * 100}%` }}><span>{Math.round((ticked / total) * 100)}%</span></div>
           <div><div className="instrument-value">{ticked}/{total}</div><p>checklist items done</p></div>
         </div>
-        <footer><b>{steps.filter((s) => s.checks.every((c) => done[`${s.id}:${c}`])).length}</b> of {steps.length} steps cleared</footer>
+        <footer><b>{gsteps.filter((x) => x.docs.every((d) => done[`${route}:${x.id}:${d}`])).length}</b> of {gsteps.length} steps ready · documents ticked</footer>
       </article>
       <article className="instrument period-widget">
         <header><span>{m.va === true ? 'Licence timeline' : 'Steps by phase'}</span>{m.va === true && <Source s={SOURCES.varaSchedule2} />}</header>
@@ -94,7 +102,15 @@ export function EntryView() {
       </div>
     </section>
 
-    <EntrySop steps={steps} done={done} toggle={toggle} />
+    <Contents items={[{ id: 'me-where', label: 'Where to set up' }, { id: 'me-steps', label: 'Step by step' }, { id: 'me-time', label: 'Timeline' }, { id: 'me-moa', label: 'Memorandum' }, { id: 'me-tax', label: 'VAT and tax' }, { id: 'me-risk', label: 'Bottlenecks' }, ...(m.va === true ? [{ id: 'me-va', label: 'Crypto licensing' }] : [])]} />
+    <LocationAdvisor n={1} type={btype} setType={setBtype} onPickRoute={pickRoute} />
+    <RouteProcedure n={2} route={route} setRoute={setRoute} regulated={regulated} setRegulated={setRegulated} isVa={m.va === true} done={done} toggle={toggle} />
+    <EntryTimeline n={3} route={route} regulated={regulated} />
+    <MoaGuide n={4} />
+    <TaxGuide n={5} />
+    <Bottlenecks n={6} />
+
+    <Section id="me-va" n={7} title={m.va === true ? 'Crypto licensing: capital, fees and regulators' : 'Regulators for virtual assets'} sub="Who licenses virtual-asset activity in each zone, and what a VARA licence costs.">
 
     <section className="market-analysis-grid">
       {m.va === true && <article className="history-widget">
@@ -131,6 +147,7 @@ export function EntryView() {
         </table></div>
       </article>
     </section>
+    </Section>
 
     <section className="signal-ledger entry-compliance">
       <header><div><h3>Compliance you run from day one</h3><p>{m.va ? 'The core of a virtual-asset licence. Regulators test these in interviews and inspections.' : 'AML applies where the activity is designated; the rest is good practice.'}</p></div><span>{COMPLIANCE.filter((c) => m.va || ['aml', 'governance'].includes(c.id)).length} areas</span></header>
@@ -138,13 +155,8 @@ export function EntryView() {
     </section>
 
     <section className="signal-ledger">
-      <header><div><h3>Pitfalls that stall an entry</h3><p>Where entries lose months.</p></div><span>{PITFALLS.length} pitfalls</span></header>
-      <div>{PITFALLS.map((p) => <article key={p} className="flag"><i aria-hidden="true" /><p>{p}</p><span /></article>)}</div>
-    </section>
-
-    <section className="signal-ledger">
-      <header><div><h3>Sources</h3><p>Fees and capital from adviser summaries of VARA's Schedule 2 and Company Rulebook; read the primary rulebooks before relying on them.</p></div><span>{Object.keys(SOURCES).length} sources</span></header>
-      <div>{Object.values(SOURCES).map((s) => <article key={s.url + s.title}><i aria-hidden="true" /><p><a href={s.url} target="_blank" rel="noreferrer">{s.title}</a>{s.date ? ` · ${s.date}` : ''}</p><span /></article>)}</div>
+      <header><div><h3>Sources</h3><p>Set-up costs are adviser estimates and VARA fees come from adviser summaries of its rulebooks; confirm every figure on the authority’s own fee page before relying on it.</p></div><span>{Object.keys(SOURCES).length + GUIDE_SOURCES.length} sources</span></header>
+      <div>{[...GUIDE_SOURCES, ...Object.values(SOURCES)].map((s) => <article key={s.url + s.title}><i aria-hidden="true" /><p><a href={s.url} target="_blank" rel="noreferrer">{s.title}</a>{s.date ? ` · ${s.date}` : ''}</p><span /></article>)}</div>
     </section>
   </div>;
 }
@@ -183,35 +195,4 @@ function CostWidget({ va, costs, acts, regulator, steps, done }) {
     <div className="entry-bars">{rows.map((r) => <div key={r.id} title={`${r.label}: ${aed(r.v)}`}><i style={{ height: `${(r.v / max) * 100}%` }} /><span>{SHORT_ACT[r.id]}</span></div>)}</div>
     <footer><span>{acts.length ? `Up to ${aed(costs.firstYear)} in fees` : 'Pick activities below'}</span><span>Before capital, insurance and staff</span></footer>
   </article>;
-}
-
-function EntrySop({ steps, done, toggle }) {
-  const [active, setActive] = useState(0);
-  const step = steps[Math.min(active, steps.length - 1)];
-  const cleared = (s) => s.checks.every((c) => done[`${s.id}:${c}`]);
-  const all = () => step.checks.forEach((c) => { if (cleared(step) || !done[`${step.id}:${c}`]) toggle(`${step.id}:${c}`); });
-  return <section className="sop-console">
-    <header>
-      <div><span>Entry procedure</span><h3>From structure to launch</h3><p>Work down the steps in order. Tick each item as it is done; progress stays in this browser.</p></div>
-      <div className="sop-progress"><b>{steps.filter(cleared).length}/{steps.length}</b><span>steps cleared</span></div>
-    </header>
-    <div className="sop-layout">
-      <nav className="sop-steps" aria-label="Entry steps">
-        {steps.map((s, i) => <button type="button" key={s.id} className={`${step.id === s.id ? 'on' : ''} ${cleared(s) ? 'done' : ''}`} onClick={() => setActive(i)} aria-current={step.id === s.id ? 'step' : undefined}>
-          <span>{cleared(s) ? '✓' : i + 1}</span><span><b>{s.label}</b><small>{s.owner} · {s.when}</small></span>
-        </button>)}
-      </nav>
-      <article className="sop-detail">
-        <div className="sop-meta"><span>Owner <b>{step.owner}</b></span><span>When <b>{step.when}</b></span>{step.src && <Source s={SOURCES[step.src]} />}</div>
-        <h4>{step.label}</h4>
-        <p className="entry-gate">{step.gate}</p>
-        <ul className="entry-checks">{step.checks.map((c) => { const k = `${step.id}:${c}`; return <li key={c}><button type="button" role="checkbox" aria-checked={!!done[k]} onClick={() => toggle(k)}><span aria-hidden="true">{done[k] ? '✓' : '○'}</span>{c}</button></li>; })}</ul>
-        <div className="sop-output"><span>Items done</span><b>{step.checks.filter((c) => done[`${step.id}:${c}`]).length} of {step.checks.length}</b></div>
-        <div className="sop-actions">
-          <button type="button" className={`sop-complete ${cleared(step) ? 'done' : ''}`} onClick={all}>{cleared(step) ? 'Reopen step' : 'Mark step complete'}</button>
-          {active < steps.length - 1 && <button type="button" className="ghost sm" onClick={() => setActive((i) => i + 1)}>Continue</button>}
-        </div>
-      </article>
-    </div>
-  </section>;
 }

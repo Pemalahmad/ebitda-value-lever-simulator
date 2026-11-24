@@ -40,3 +40,27 @@ test('every activity has fees, every cited source exists, every step has a check
   for (const r of refs) assert.ok(SOURCES[r]?.url?.startsWith('https://'), r);
   for (const s of [...COMPANY_STEPS, ...PRODUCT_STEPS]) assert.ok(s.checks.length > 0, s.id);
 });
+
+test('set-up guide: every step names a platform, cost and time for each route it applies to', async () => {
+  const { STEPS, ROUTES, LOCATIONS, BUSINESS_TYPES, schedule, MOA, TAX } = await import('../src/engine/entryGuide.js');
+  for (const s of STEPS) for (const [rid, r] of Object.entries(s.by)) {
+    assert.ok(ROUTES.some((x) => x.id === rid), `${s.id}: unknown route ${rid}`);
+    assert.ok(r.platform?.url?.startsWith('https://') && r.cost && r.weeks[0] <= r.weeks[1], `${s.id}/${rid}`);
+    for (const a of s.after ?? []) assert.ok(STEPS.some((x) => x.id === a), `${s.id} after ${a}`);
+  }
+  for (const b of BUSINESS_TYPES) for (const [id] of b.rank) assert.ok(LOCATIONS.some((l) => l.id === id), `${b.id} → ${id}`);
+  for (const l of LOCATIONS) assert.ok(ROUTES.some((r) => r.id === l.route) && l.cost[0] < l.cost[1], l.id);
+  assert.ok(MOA.clauses.length >= 8 && TAX.vat.form.length >= 6);
+});
+
+test('timeline: steps never start before their predecessors, regulation lengthens the plan', async () => {
+  const { STEPS, schedule } = await import('../src/engine/entryGuide.js');
+  for (const route of ['dxbml', 'dxbfz', 'auhml', 'adgm', 'difc']) {
+    const plain = schedule(route), reg = schedule(route, { regulated: true });
+    const end = Object.fromEntries(plain.rows.map((r) => [r.id, r.end]));
+    for (const r of plain.rows) for (const a of STEPS.find((s) => s.id === r.id).after ?? []) if (end[a] != null) assert.ok(r.start >= end[a] - 1e-9, `${route}: ${r.id} before ${a}`);
+    assert.ok(reg.total > plain.total, route);
+    assert.ok(plain.rows.some((r) => r.critical));
+  }
+  assert.ok(schedule('dxbfz', { use: 0 }).total < schedule('dxbfz', { use: 1 }).total);
+});

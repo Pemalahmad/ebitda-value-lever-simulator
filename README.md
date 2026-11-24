@@ -3,7 +3,7 @@
 **A decision workspace for investing and creating value in Dubai: live market signals, official real-estate evidence, a UAE market-entry roadmap, operating value plans and a portfolio lab, all in one consistent design and every figure traceable to its source or its formula.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-72%20passing-1b9a59)
+![Tests](https://img.shields.io/badge/tests-74%20passing-1b9a59)
 ![Checks](https://img.shields.io/badge/workbook%20checks-75-121212)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Engine](https://img.shields.io/badge/engine-zero%20dependencies-f05a28)
@@ -71,6 +71,9 @@ Official DLD and Dubai Media Office figures, each linked to its source.
 
 A step-by-step UAE entry roadmap for any business, with a full track for virtual-asset (crypto) firms benchmarked on Dubai's VARA and its ADGM and DIFC equivalents.
 
+- **Where to set up:** pick what you are launching (crypto, small office, trading, tech, fintech, onshore retail, holding, industrial). The three best locations come ranked, with reasons, indicative cost and set-up time.
+- **Step by step for your route:** Dubai mainland, a Dubai free zone, Abu Dhabi mainland, ADGM or DIFC. Fourteen steps, each with the platform to use (Invest in Dubai, TAMM, Ejari, Tawtheeq, EmaraTax, GDRFA, ICP, MoHRE and others), documents, indicative cost, time, bottleneck and tip.
+- **Timeline** with the critical path; a **memorandum of association guide** (clauses, execution, templates); **VAT and corporate tax** rules and what the EmaraTax application asks for; **compliance bottlenecks** with fixes.
 - **Entry profile:** the business model and zone pick the regulator (VARA, DFSA, FSRA or SCA) and flag traps, such as custody needing its own entity.
 - **Procedure:**
   - company set-up, product import and a self-custody licence map;
@@ -196,7 +199,7 @@ npm run dev
 | Command | What it does |
 |---|---|
 | `npm run dev` | Development server |
-| `npm test` | 72 Node tests (engine, variance, checks, market, entry, pulse, API, security) |
+| `npm test` | 74 Node tests (engine, variance, checks, market, entry, pulse, API, security) |
 | `npm run check` | Tests plus the production build in `dist/` |
 | `npm start` | Serves the build and the JSON API |
 | `npm run pulse` | Refreshes the Live Market snapshot |
@@ -248,7 +251,7 @@ data/market/             cited DLD aggregates (+ optional deal-level aggregate)
 data/pulse/              live market snapshot written by CI
 scripts/                 market refresh, DLD ingest, screenshot capture
 server/  bin/            static server and API; board-memo CLI
-tests/                   72 tests, including security
+tests/                   74 tests, including security
 docs/                    methods, user guide, screenshots
 ```
 

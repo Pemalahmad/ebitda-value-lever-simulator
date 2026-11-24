@@ -1242,3 +1242,54 @@ table.data tr.clickable { cursor: pointer; }
   .mix > div { grid-template-columns: 100px 80px auto; }
   .mix i { grid-column: 1 / -1; }
 }
+
+/* Market entry guide */
+.advisor-types .seg { flex-wrap: wrap; border-radius: 16px; }
+.advisor-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.advisor-card { display: flex; flex-direction: column; gap: 8px; }
+.advisor-card.best { box-shadow: 0 0 0 2px var(--text), var(--shadow); }
+.advisor-card h4 { margin: 0; font-size: 17px; letter-spacing: -.02em; }
+.advisor-why { margin: 0; font-size: 13px; line-height: 1.5; }
+.advisor-facts { display: grid; gap: 8px; margin: 6px 0; padding: 10px 0; border-top: 1px dashed var(--line-2); border-bottom: 1px dashed var(--line-2); }
+.advisor-facts dt { color: var(--muted); font-size: 11px; }
+.advisor-facts dd { margin: 1px 0 0; font-size: 12.5px; }
+.advisor-facts div:first-child dd { font-family: var(--mono); font-weight: 600; font-size: 14px; }
+.advisor-watch { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.advisor-card .ghost { align-self: flex-start; margin-top: auto; }
+.loc-table td { vertical-align: top; }
+.route-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); font-size: 12.5px; }
+.route-bar a { color: var(--text); }
+.route-console .sop-steps small { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.step-facts { display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px; margin: 0 0 16px; padding: 12px 14px; border-radius: 12px; background: var(--panel-2); }
+.step-facts span { display: block; color: var(--muted); font-size: 11px; margin-bottom: 3px; }
+.step-facts b { font-size: 12.5px; font-weight: 600; }
+.platform { display: inline-flex; padding: 4px 10px; border-radius: 99px; background: var(--text); color: var(--bg); font-size: 12px; font-weight: 600; text-decoration: none; }
+.platform:hover { opacity: .85; }
+.route-console .entry-checks { margin-bottom: 14px; }
+.step-warn, .step-tip { margin-top: 10px; padding: 10px 12px; border-radius: 10px; font-size: 12.5px; }
+.step-warn { background: color-mix(in srgb, var(--neg) 8%, transparent); border-left: 3px solid var(--neg); }
+.step-tip { background: color-mix(in srgb, var(--pos) 8%, transparent); border-left: 3px solid var(--pos); }
+.step-warn p, .step-tip p { margin: 3px 0 0; line-height: 1.5; }
+.vara-stages { display: grid; gap: 8px; margin: 4px 0 6px; }
+.vara-stages div { padding: 8px 12px; border: 1px dashed var(--line-2); border-radius: 10px; font-size: 12px; }
+.vara-stages p { margin: 3px 0 0; color: var(--muted); }
+.gantt { display: grid; gap: 7px; }
+.g-row { display: grid; grid-template-columns: minmax(140px, 30%) minmax(0, 1fr) 96px; gap: 12px; align-items: center; }
+.g-label { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g-track { position: relative; height: 14px; border-radius: 99px; background: radial-gradient(circle, var(--track) 1.6px, transparent 1.9px) 0 50% / 8px 14px; }
+.g-track i { position: absolute; top: 1px; bottom: 1px; border-radius: 99px; background: radial-gradient(circle, var(--text) 2.4px, transparent 2.7px) 0 50% / 8px 12px, color-mix(in srgb, var(--text) 10%, transparent); transition: left .3s ease, width .3s ease; }
+.g-row.crit .g-track i { background: radial-gradient(circle, var(--gold) 2.4px, transparent 2.7px) 0 50% / 8px 12px, color-mix(in srgb, var(--gold) 16%, transparent); }
+.g-row.crit .g-label { font-weight: 600; }
+.g-val { font-family: var(--mono); font-size: 11px; text-align: right; color: var(--muted); }
+.g-axis { display: flex; justify-content: space-between; margin-left: calc(min(30%, 9999px) + 12px); margin-right: 108px; color: var(--muted); font-family: var(--mono); font-size: 10px; border-top: 1px dashed var(--line-2); padding-top: 6px; }
+.guide-steps { margin: 0; padding-left: 20px; display: grid; gap: 10px; }
+.guide-steps li { font-size: 13px; }
+.guide-steps p { margin: 2px 0 0; color: var(--muted); font-size: 12.5px; line-height: 1.5; }
+.guide-steps.two-col { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; }
+.guide-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.guide-links a { color: var(--text); font-size: 13px; text-underline-offset: 3px; }
+@media (max-width: 1100px) { .advisor-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 700px) {
+  .guide-steps.two-col, .step-facts { grid-template-columns: minmax(0, 1fr); }
+  .g-row { grid-template-columns: minmax(0, 1fr) 70px; } .g-track { grid-column: 1 / -1; grid-row: 2; } .g-axis { margin: 0; }
+}
