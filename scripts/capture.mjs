@@ -114,7 +114,7 @@ if (process.argv.includes('--gif')) {
   await frame(4);
   for (let i = 0; i < 14; i++) { await page.mouse.move(420 + i * 40, 520 + Math.sin(i / 2) * 60); await page.waitForTimeout(40); await frame(); }
   for (const name of ['Include REIT carve-out & capital recycling', 'Include Platform consolidation']) { await page.getByRole('button', { name }).click(); await page.waitForTimeout(200); await frame(3); }
-  await page.locator('.kpi', { hasText: 'Scenario value' }).click();
+  await page.locator('.kpi', { hasText: 'Scenario value' }).first().click();
   await page.waitForTimeout(250);
   await frame(8);
   await page.getByRole('tab', { name: 'Market Entry' }).click();
