@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.1.0 (2026-11-25): Daily operating system
+
+- **Daily Command** is the default landing workspace, with a morning brief, overdue and at-risk exceptions, an owned action register and escalation workflow.
+- Added actual-versus-plan value delivery, decision journal, market and regulatory watchlists, recurring review cadence and data-health status.
+- Press `/` to search actions, decisions and watchlist topics and jump to their connected workspace.
+- Daily operations autosave locally and travel with JSON exports, imports and named decision cases through a bounded, validated schema.
+- Daily Command JavaScript and CSS load on demand; initial bundle budgets remain enforced.
+- 82 unit and security tests plus nine Playwright journeys, including the daily action workflow and accessibility checks.
+
+## 2.0.0 (2026-11-25): UAE Decision Atlas
+
+- Rebuilt the product around six stable workspaces: regional intelligence, live market, market tracker, market entry, value plan and portfolio lab.
+- Added the public-evidence GCC industry map, regulatory source classification, saved decision cases and portable workspace import/export.
+- Removed pointer-following effects and vendored animation code, split workspaces into lazy-loaded bundles, and introduced production bundle budgets.
+- Added responsive geometry, focus-managed drawers, mobile tab visibility, browser journeys, accessibility audits and visual regression coverage.
+
 ## 1.9.0 (2026-11-24): One palette, merged widgets, live plays
 
 - **One palette** in light and dark mode:

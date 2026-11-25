@@ -11,7 +11,14 @@ test('workspace imports accept supported data and clamp untrusted numeric input'
   }));
   assert.equal({}.polluted, undefined);
   assert.equal(workspace.intercompany.length, 1);
+  assert.ok(workspace.ops.actions.length > 0);
   assert.ok(Object.values(workspace.bySector.realEstate).every(Number.isFinite));
+});
+
+test('workspace exports include the daily operating layer', () => {
+  const workspace = importWorkspace(JSON.stringify({ bySector: {}, plays: {}, intercompany: [], ops: { actions: [{ id: 'a1', title: 'Close review', due: '2026-11-25' }], initiatives: [], decisions: [], watchlist: [], reviews: [] } }));
+  assert.equal(workspace.version, 3);
+  assert.equal(workspace.ops.actions[0].title, 'Close review');
 });
 
 test('workspace imports reject invalid and oversized files', () => {

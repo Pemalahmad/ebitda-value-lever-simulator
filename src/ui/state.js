@@ -1,5 +1,6 @@
 // URL (shareable scenarios) and local progress persistence.
 import { PLAYS, SECTORS } from '../engine/index.js';
+import { normalizeOps } from './opsState.js';
 
 export function readHash() {
   const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
@@ -7,11 +8,11 @@ export function readHash() {
   const sector = SECTORS.find((x) => x.id === s) ? s : SECTORS[0].id;
   const levers = {};
   for (const [k, v] of params.entries()) if (k !== 's' && k !== 'tab' && Number.isFinite(Number(v))) levers[k] = Number(v);
-  return { sector, levers, tab: params.get('tab') || 'market' };
+  return { sector, levers, tab: params.get('tab') || 'ops' };
 }
 
 export function writeHash(sectorId, levers, base, tab) {
-  if (tab === 'market') {
+  if (tab === 'ops') {
     if (window.location.hash) window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
     return;
   }
@@ -74,7 +75,7 @@ function cleanWorkspace(input) {
     return [{ from: flow.from, to: flow.to, amount: Math.min(amount, 1e7), treatment: flow.treatment === 'capex' ? 'capex' : 'opex', margin: Math.min(100, Math.max(0, margin)) }];
   }).slice(0, 100) : [];
 
-  return { version: 2, bySector, plays, intercompany };
+  return { version: 3, bySector, plays, intercompany, ops: normalizeOps(input.ops) };
 }
 
 export function loadWorkspace() {

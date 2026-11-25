@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-const workspaces = ['Regional Intel', 'Live Market', 'Market Tracker', 'Market Entry', 'Value Plan', 'Portfolio Lab'];
+const workspaces = ['Daily Command', 'Regional Intel', 'Live Market', 'Market Tracker', 'Market Entry', 'Value Plan', 'Portfolio Lab'];
 
 test.beforeEach(async ({ page }) => {
   await page.goto('/');
@@ -61,6 +61,26 @@ test('theme and workspace state survive reload; export creates a portable file',
   expect((await download).suggestedFilename()).toMatch(/uae-decision-atlas-\d{4}-\d{2}-\d{2}\.json/);
 });
 
+test('daily command creates, escalates and persists owned actions', async ({ page }) => {
+  await expect(page.getByRole('heading', { name: 'Today’s operating picture' })).toBeVisible();
+  await page.getByRole('button', { name: 'Create action' }).click();
+  const form = page.locator('.action-form');
+  await form.getByRole('textbox', { name: 'Action', exact: true }).fill('Prepare the Monday operating pack');
+  await form.getByLabel('Owner').fill('Strategy office');
+  await form.getByLabel('Value, AEDm').fill('14');
+  await form.getByLabel('Workspace').selectOption('portfolio');
+  await form.getByLabel('Priority').selectOption('high');
+  await form.getByRole('button', { name: 'Save action' }).click();
+  const row = page.getByRole('row').filter({ hasText: 'Prepare the Monday operating pack' });
+  await expect(row).toContainText('Strategy office');
+  await row.getByRole('button', { name: 'Escalate' }).click();
+  await expect(page.getByText('Saved locally')).toBeVisible();
+  await page.reload();
+  await expect(page.getByRole('row').filter({ hasText: 'Prepare the Monday operating pack' })).toBeVisible();
+  await page.keyboard.press('/');
+  await expect(page.getByPlaceholder('Actions, decisions, markets…')).toBeFocused();
+});
+
 test('named decision cases persist and can be compared', async ({ page }) => {
   await page.getByRole('button', { name: /Cases/ }).click();
   const dialog = page.getByRole('dialog', { name: 'Saved cases' });
@@ -75,7 +95,7 @@ test('named decision cases persist and can be compared', async ({ page }) => {
 });
 
 test('core shell has no serious or critical accessibility violations', async ({ page }) => {
-  for (const name of ['Regional Intel', 'Value Plan', 'Market Entry']) {
+  for (const name of ['Daily Command', 'Regional Intel', 'Value Plan', 'Market Entry']) {
     await page.getByRole('tab', { name }).click();
     await page.locator('.doc').waitFor();
     const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa']).analyze();

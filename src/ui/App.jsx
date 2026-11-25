@@ -3,9 +3,11 @@ import { SECTORS, baseLevers, evaluate, fmt, getSector, investmentByLever } from
 import { ChecksButton, ChecksDrawer, useChecks } from './components/ChecksDrawer.jsx';
 import { Icon } from './components/Icons.jsx';
 import { LeverPanel } from './components/Levers.jsx';
+import { defaultOps } from './opsState.js';
 import { exportWorkspace, importWorkspace, loadWorkspace, readHash, saveWorkspace, writeHash } from './state.js';
 
 const PulseView = lazy(() => import('./components/PulseView.jsx').then((module) => ({ default: module.PulseView })));
+const OpsView = lazy(() => import('./components/OpsView.jsx').then((module) => ({ default: module.OpsView })));
 const RegionalView = lazy(() => import('./components/RegionalView.jsx').then((module) => ({ default: module.RegionalView })));
 const MarketView = lazy(() => import('./components/MarketView.jsx').then((module) => ({ default: module.MarketView })));
 const EntryView = lazy(() => import('./components/EntryView.jsx').then((module) => ({ default: module.EntryView })));
@@ -13,6 +15,7 @@ const ValuePlanView = lazy(() => import('./components/ValuePlanView.jsx').then((
 const PortfolioView = lazy(() => import('./components/PortfolioView.jsx').then((module) => ({ default: module.PortfolioView })));
 
 const TABS = [
+  { id: 'ops', label: 'Daily Command', group: 'Operate', description: 'Start with exceptions, owners, decisions and realised value that require attention today.' },
   { id: 'regional', label: 'Regional Intel', group: 'Intelligence', description: 'Satellite context for the GCC industries shaping demand, location and resilience.' },
   { id: 'pulse', label: 'Live Market', group: 'Intelligence', description: 'Market signals, source health and the events that could change an investment decision.' },
   { id: 'market', label: 'Market Tracker', group: 'Intelligence', description: 'Dubai transactions, investor activity and community performance with an evidence trail.' },
@@ -83,7 +86,7 @@ function LaunchFilm() {
 export default function App() {
   const initial = useMemo(readHash, []);
   const restored = useMemo(loadWorkspace, []);
-  const firstTab = LEGACY[initial.tab] ? 'value' : TABS.some((item) => item.id === initial.tab) ? initial.tab : 'pulse';
+  const firstTab = LEGACY[initial.tab] ? 'value' : TABS.some((item) => item.id === initial.tab) ? initial.tab : 'ops';
   const firstSector = getSector(initial.sector);
   const [sectorId, setSectorId] = useState(initial.sector);
   const [tab, setTab] = useState(firstTab);
@@ -93,6 +96,7 @@ export default function App() {
   }));
   const [plays, setPlays] = useState(restored?.plays ?? {});
   const [intercompany, setIntercompany] = useState(restored?.intercompany ?? []);
+  const [ops, setOps] = useState(() => restored?.ops ?? defaultOps());
   const [activeScenario, setActiveScenario] = useState(null);
   const [checksOpen, setChecksOpen] = useState(false);
   const [controlsOpen, setControlsOpen] = useState(false);
@@ -117,7 +121,7 @@ export default function App() {
   const cost = useMemo(() => investmentByLever(sector, levers), [sector, levers]);
   const checks = useChecks(bySector, plays, intercompany);
   const active = TABS.find((item) => item.id === tab) ?? TABS[1];
-  const workspace = useMemo(() => ({ bySector, plays, intercompany }), [bySector, plays, intercompany]);
+  const workspace = useMemo(() => ({ bySector, plays, intercompany, ops }), [bySector, plays, intercompany, ops]);
   const currentSummary = useMemo(() => caseSummary(bySector), [bySector]);
 
   useEffect(() => writeHash(sectorId, levers, baseLevers(sector), tab), [sectorId, levers, sector, tab]);
@@ -212,7 +216,7 @@ export default function App() {
     if (!file) return;
     try {
       const next = importWorkspace(await file.text());
-      setBySector(next.bySector); setPlays(next.plays); setIntercompany(next.intercompany);
+      setBySector(next.bySector); setPlays(next.plays); setIntercompany(next.intercompany); setOps(next.ops);
       setNotice('Workspace imported and saved locally.');
     } catch (error) { setNotice(error.message); }
   };
@@ -227,7 +231,7 @@ export default function App() {
   };
   const restoreCase = (item) => {
     const next = importWorkspace(JSON.stringify(item.workspace));
-    setBySector(next.bySector); setPlays(next.plays); setIntercompany(next.intercompany);
+    setBySector(next.bySector); setPlays(next.plays); setIntercompany(next.intercompany); setOps(next.ops);
     if (SECTORS.some((sectorItem) => sectorItem.id === item.sectorId)) setSectorId(item.sectorId);
     setNotice(`Restored “${item.name}”.`);
     setCasesOpen(false);
@@ -268,6 +272,7 @@ export default function App() {
     <main className="layout wide decision-layout">
       <div className="center" key={tab}>
         <Suspense fallback={<WorkspaceFallback />}>
+          {tab === 'ops' && <OpsView ops={ops} setOps={setOps} checks={checks} cases={cases} portfolioSummary={currentSummary} onNavigate={go} />}
           {tab === 'regional' && <RegionalView />}
           {tab === 'pulse' && <PulseView />}
           {tab === 'market' && <MarketView />}

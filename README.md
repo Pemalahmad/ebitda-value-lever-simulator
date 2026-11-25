@@ -1,9 +1,9 @@
 # UAE Decision Atlas
 
-**A regional decision platform for market intelligence, UAE entry and value creation: satellite context, live signals, official real-estate evidence, a regulatory roadmap, operating value plans and a portfolio lab in one stable workspace.**
+**A daily regional decision platform for market intelligence, UAE entry and value creation: owned actions, satellite context, live signals, official real-estate evidence, a regulatory roadmap, operating value plans and a portfolio lab in one stable workspace.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-78%20passing-1b9a59)
+![Tests](https://img.shields.io/badge/tests-82%20passing-1b9a59)
 ![Checks](https://img.shields.io/badge/workbook%20checks-75-121212)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Engine](https://img.shields.io/badge/engine-zero%20dependencies-f05a28)
@@ -18,7 +18,7 @@
 ## Contents
 
 1. [What it does](#what-it-does)
-2. [The six workspaces](#the-six-workspaces)
+2. [The seven workspaces](#the-seven-workspaces)
 3. [Analysis toolkit](#analysis-toolkit)
 4. [Data and sources](#data-and-sources)
 5. [Quick start](#quick-start)
@@ -30,10 +30,11 @@
 
 ## What it does
 
-An investment or strategy team needs answers across three connected jobs: understand the region, enter the market and create value. Six workspaces keep those decisions connected without changing the page geometry.
+An investment or strategy team needs answers across four connected jobs: understand the region, enter the market, create value and run the work every day. Seven workspaces keep those decisions connected without changing the page geometry.
 
 | Tab | The question it answers | Key tools |
 |---|---|---|
+| **Daily Command** | What requires attention today, who owns it and how much value has been realised? | Morning brief, action escalation, actual-versus-plan value, decision journal, watchlists, operating cadence, data health and global search |
 | **Regional Intel** | Which GCC industry corridors could change location, demand or resilience? | Monochrome regional map, energy, urban, advanced-industry, aviation, maritime and public resilience layers; observed/build-out/horizon evidence states |
 | **Live Market** | What moved, and does it matter for a Dubai portfolio? | Headline chart, KPIs to watch with triggers, signal register, markets, shipping chokepoints, local news by theme, decision journal |
 | **Market Tracker** | How is Dubai real estate actually performing? | Official DLD value, volume and investors, volume-vs-price variance bridge, community ledger, scenario deck, DLD import lab |
@@ -41,9 +42,23 @@ An investment or strategy team needs answers across three connected jobs: unders
 | **Value Plan** | What is a business worth if we pull these levers? | EBITDA variance bridge, KPIs to watch, rolling 12 months, assumption sensitivity, balanced scorecard, business case, board memo |
 | **Portfolio Lab** | What is the group worth, and what would a new company add? | Sum of the parts, intercompany eliminations, portfolio plays, new-company capex and opex case |
 
-A versioned workspace autosaves scenarios, portfolio plays and eliminations locally. Named **Cases** preserve decision points for comparison, JSON export/import makes a case portable, and the current decision view can be printed or saved as PDF. The **Integrity** button separates model failures from freshness warnings and missing data.
+A versioned workspace autosaves scenarios, portfolio plays, eliminations and the complete daily operating layer locally. Named **Cases** preserve decision points for comparison, JSON export/import makes a case portable, and the current decision view can be printed or saved as PDF. The **Integrity** button separates model failures from freshness warnings and missing data.
 
-## The six workspaces
+## The seven workspaces
+
+### Daily Command
+
+The default landing workspace turns evidence into an operating rhythm instead of another presentation dashboard.
+
+- **Morning brief:** unresolved overdue work, at-risk initiatives and data-health exceptions, with acknowledgement tracking.
+- **Action register:** create an owned action, assign its due date, priority, workspace and expected value, then move it through open, in-progress, review and complete stages. Escalation makes it critical and due today.
+- **Value delivery:** update realised value against the approved initiative target and mark each initiative on-track, watch, at-risk or complete.
+- **Decision journal:** retain the decision, owner, rationale, linked workspace and approval state.
+- **Watchlist and operating cadence:** keep decision-changing topics visible and complete daily, weekly and monthly review forums.
+- **Data health:** use integrity checks, freshness items, missing data and saved-case counts before relying on the analysis.
+- **Command search:** press `/` to search actions, decisions and watched topics, then jump directly to the connected workspace.
+
+Daily operations are local-first and included in workspace exports and saved cases. A future shared deployment can replace the storage adapter with authenticated database persistence without changing the operating workflow.
 
 ### Regional Intel
 

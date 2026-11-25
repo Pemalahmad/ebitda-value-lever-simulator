@@ -222,6 +222,12 @@ body.overlay-open { overflow: hidden; }
 
 tr[role='button']:focus-visible, .dot-row[role='button']:focus-visible { outline: 3px solid color-mix(in srgb, var(--gold) 38%, transparent); outline-offset: -3px; }
 
+@media (max-width: 1500px) {
+  .decision-top { grid-template-columns: auto minmax(0, 1fr); }
+  .decision-actions { grid-column: 2; grid-row: 1; justify-content: flex-end; }
+  .decision-tabs { grid-column: 1 / -1; grid-row: 2; }
+}
+
 @media (max-width: 1250px) {
   .decision-top { grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; }
   .decision-top .brand-sub { display: none; }
