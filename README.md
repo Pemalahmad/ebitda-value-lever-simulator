@@ -1,9 +1,9 @@
-# Value Lever — Dubai Market & Value Tracker
+# UAE Decision Atlas
 
-**A decision workspace for investing and creating value in Dubai: live market signals, official real-estate evidence, a UAE market-entry roadmap, operating value plans and a portfolio lab, all in one consistent design and every figure traceable to its source or its formula.**
+**A regional decision platform for market intelligence, UAE entry and value creation: satellite context, live signals, official real-estate evidence, a regulatory roadmap, operating value plans and a portfolio lab in one stable workspace.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-75%20passing-1b9a59)
+![Tests](https://img.shields.io/badge/tests-78%20passing-1b9a59)
 ![Checks](https://img.shields.io/badge/workbook%20checks-75-121212)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Engine](https://img.shields.io/badge/engine-zero%20dependencies-f05a28)
@@ -18,7 +18,7 @@
 ## Contents
 
 1. [What it does](#what-it-does)
-2. [The five tabs](#the-five-tabs)
+2. [The six workspaces](#the-six-workspaces)
 3. [Analysis toolkit](#analysis-toolkit)
 4. [Data and sources](#data-and-sources)
 5. [Quick start](#quick-start)
@@ -30,19 +30,24 @@
 
 ## What it does
 
-An investment or strategy team in Dubai needs answers to five questions. Each tab answers one of them.
+An investment or strategy team needs answers across three connected jobs: understand the region, enter the market and create value. Six workspaces keep those decisions connected without changing the page geometry.
 
 | Tab | The question it answers | Key tools |
 |---|---|---|
+| **Regional Intel** | Which GCC industry corridors could change location, demand or resilience? | Monochrome regional map, energy, urban, advanced-industry, aviation, maritime and public resilience layers; observed/build-out/horizon evidence states |
 | **Live Market** | What moved, and does it matter for a Dubai portfolio? | Headline chart, KPIs to watch with triggers, signal register, markets, shipping chokepoints, local news by theme, decision journal |
 | **Market Tracker** | How is Dubai real estate actually performing? | Official DLD value, volume and investors, volume-vs-price variance bridge, community ledger, scenario deck, DLD import lab |
 | **Market Entry** | What does it take to enter the UAE? | Regulator routing, company set-up procedure, VARA licensing stages, capital and fee calculator, cash-before-launch waterfall |
 | **Value Plan** | What is a business worth if we pull these levers? | EBITDA variance bridge, KPIs to watch, rolling 12 months, assumption sensitivity, balanced scorecard, business case, board memo |
 | **Portfolio Lab** | What is the group worth, and what would a new company add? | Sum of the parts, intercompany eliminations, portfolio plays, new-company capex and opex case |
 
-A **Checks** button in the top bar runs 75 consistency checks across all five tabs and lists the data that is still missing.
+A versioned workspace autosaves scenarios, portfolio plays and eliminations locally. Named **Cases** preserve decision points for comparison, JSON export/import makes a case portable, and the current decision view can be printed or saved as PDF. The **Integrity** button separates model failures from freshness warnings and missing data.
 
-## The five tabs
+## The six workspaces
+
+### Regional Intel
+
+A functional GCC context layer—not a decorative map and not a live operational tracker. Select an industry layer and a decision hub, then separate current evidence from committed build-out and published long-range ambitions. Every layer links to a public primary source and defence-related context is limited to aggregated public advisories and infrastructure resilience.
 
 ### Live Market
 
@@ -62,7 +67,7 @@ Official DLD and Dubai Media Office figures, each linked to its source.
 
 - **Headline figures:** annual value, transactions and investors, and the current reporting period.
 - **Variance bridge:** how much of each year's change came from more deals and how much from a higher average ticket. In 2025, 96% of the AED 156bn growth came from volume.
-- **History chart, community ledger, release calendar, scenario deck and before/after comparison.**
+- **History chart, interactive community footprint, release calendar, scenario deck and before/after comparison.** The community map is explicitly schematic; bubble size reflects published value and the source remains attached.
 - **DLD import lab:** validates and aggregates a Transactions CSV in the browser, without uploading it.
 
 ![Market Tracker](docs/screenshot-market.png)
@@ -88,7 +93,7 @@ Details: [docs/market-entry.md](docs/market-entry.md). A planning aid, not legal
 
 ### Value Plan
 
-Six illustrative operating models: real estate, hospitality, leisure, retail and asset management, community management, and integrated urban services. Move the levers on the left and a seven-section document recalculates.
+Six illustrative operating models: real estate, hospitality, leisure, retail and asset management, community management, and integrated urban services. Open the scenario drawer without narrowing the document; the seven-section value plan recalculates in place.
 
 1. **Value at stake:** five-year path of EBITDA, EV, value created or cash, with board confidence and the next best moves.
 2. **Variance bridge:** baseline-to-scenario EBITDA as a waterfall, by lever or by P&L line, beside the **KPIs to watch**.
@@ -184,7 +189,7 @@ Methods for every calculation: [docs/variance-and-controls.md](docs/variance-and
 | Local and maritime news | Gulf News, The National, Arabian Business, Khaleej Times, WAM, Zawya, gCaptain, Splash247, chokepoint search | Every 6 hours; headlines and links only |
 | Dubai real-estate aggregates | Dubai Land Department and Dubai Media Office releases | Curated in `data/market/dld-official.json`, each with its source |
 | Deal-level transactions (optional) | DLD Open Data Transactions CSV | Local: `scripts/ingest-dld.mjs` or the in-browser import lab |
-| UAE entry rules, VARA fees and capital | VARA rulebooks and adviser summaries, CBUAE, SCA, ADGM, DFSA, FTA, TDRA | As at 24 Nov 2026, cited in `src/engine/entry.js` |
+| UAE entry rules, VARA fees and capital | Primary VARA rulebooks, CBUAE, SCA, ADGM, DFSA, FTA and other authorities; adviser estimates are explicitly labelled | Verified 24 Nov 2026, with source type and jurisdiction in `src/engine/entry.js` |
 | Operating models and plays | Illustrative assumptions | Deterministic; documented in [docs/methodology.md](docs/methodology.md) |
 
 ## Quick start
@@ -199,13 +204,17 @@ npm run dev
 | Command | What it does |
 |---|---|
 | `npm run dev` | Development server |
-| `npm test` | 75 Node tests (engine, variance, checks, market, entry, pulse, API, security) |
+| `npm test` | 78 Node tests (engine, variance, checks, market, entry, workspace import, pulse, API, security) |
 | `npm run check` | Tests plus the production build in `dist/` |
 | `npm start` | Serves the build and the JSON API |
 | `npm run pulse` | Refreshes the Live Market snapshot |
 | `npm run memo` | Writes a board memo from the command line |
 | `node scripts/ingest-dld.mjs <csv>` | Builds the deal-level market aggregate from a DLD CSV |
 | `node scripts/capture.mjs --gif` | Regenerates the screenshots and demo GIF (needs Playwright) |
+
+### Optional cinematic launch film
+
+The shell is ready for a self-hosted first-session film without delaying the dashboard for everyone else. Place the compressed MP4 at `public/media/launch-film.mp4`, copy `.env.example` to `.env`, then build. The film is skipped for reduced-motion users, is muted and inline, appears once per browser session and always provides a skip action. If the environment variable is absent, no media request or overlay is created.
 
 ## Share links, CLI and API
 
@@ -218,6 +227,8 @@ The URL hash holds the tab, the business and any changed levers, so a link reope
 ```
 
 Older links to the former Simulator, Scorecard, Business Case and Memo tabs open the matching Value Plan section.
+
+The active tab and current sector remain shareable in the URL. Full portfolio state is autosaved in the browser and can be moved between devices with **Export** and **Import**. Imported files are schema-checked, size-limited and numeric inputs are clamped to supported ranges.
 
 ```bash
 npm run memo -- --sector hospitality --scenario "Peak season push"

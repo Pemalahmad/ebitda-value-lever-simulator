@@ -172,7 +172,9 @@ export function DotRows({ rows, valueWidth = 92, onRow }) {
   return (
     <div className="dot-rows" style={{ '--vw': `${valueWidth}px` }}>
       {rows.map((r) => (
-        <div key={r.id ?? r.label} className={`dot-row ${onRow ? 'clickable' : ''} ${r.dim ? 'dim' : ''}`} onClick={onRow ? () => onRow(r) : undefined} title={r.title ?? r.label}>
+        <div key={r.id ?? r.label} className={`dot-row ${onRow ? 'clickable' : ''} ${r.dim ? 'dim' : ''}`} onClick={onRow ? () => onRow(r) : undefined}
+          onKeyDown={onRow ? (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onRow(r); } } : undefined}
+          role={onRow ? 'button' : undefined} tabIndex={onRow ? 0 : undefined} title={r.title ?? r.label}>
           <span className="dr-label">{r.label}</span>
           <DotTrack from={r.from ?? 0} to={r.to} tone={r.tone} marker={r.marker} slots={r.slots} />
           <span className={`dr-value ${r.tone === 'pos' || r.tone === 'neg' ? r.tone : ''}`}>{r.value}</span>

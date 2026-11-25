@@ -1,9 +1,8 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { SECTORS, compare, PLAYS, runPlay, fmt, consolidate } from '../../engine/index.js';
 import { PageHead, Section, Contents, Card, CardHead, KpiStrip, DotRows, DotTrack, Pill, Waterfall, Status, Dot } from './Dots.jsx';
 import { NewcoCalc } from './NewcoCalc.jsx';
 import { SpotCard } from './Effects.jsx';
-import { SwarmCursor } from './SwarmCursor.jsx';
 
 const { money } = fmt;
 const signed = (x) => money(x, { sign: true });
@@ -24,7 +23,6 @@ export function portfolioSotp(bySector, plays) {
 }
 
 export function PortfolioView({ bySector, plays, setPlays, intercompany = [], setIntercompany = () => {}, onOpenSector }) {
-  const scope = useRef(null);
   const portfolio = useMemo(() => portfolioSotp(bySector, plays), [bySector, plays]);
   const [view, setView] = useState('mix');
   const [focus, setFocus] = useState(null);
@@ -45,8 +43,7 @@ export function PortfolioView({ bySector, plays, setPlays, intercompany = [], se
     ...steps.map((s) => { const r = { label: s.label, from: sc(cum), to: sc(cum + s.delta), tone: s.delta >= 0 ? 'pos' : 'neg', value: signed(s.delta) }; cum += s.delta; return r; }),
     { label: 'Scenario value', from: 0, to: sc(portfolio.total), tone: 'accent', value: money(portfolio.total) }];
 
-  return <div className="doc" ref={scope}>
-    <SwarmCursor scope={scope} />
+  return <div className="doc">
     <PageHead status={`Six illustrative operating models · ${portfolio.activePlays.length} of ${PLAYS.length} plays active`} title="Portfolio lab" muted="sum of the parts"
       sub="Combine the six operating models into one portfolio, then switch on financing and portfolio plays and watch the value move. A scenario workspace, not a valuation of any named company." />
 

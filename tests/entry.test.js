@@ -41,6 +41,20 @@ test('every activity has fees, every cited source exists, every step has a check
   for (const s of [...COMPANY_STEPS, ...PRODUCT_STEPS]) assert.ok(s.checks.length > 0, s.id);
 });
 
+test('legal rules identify primary authority sources and commercial estimates stay labelled', async () => {
+  assert.equal(SOURCES.varaSchedule2.type, 'primary');
+  assert.equal(new URL(SOURCES.varaSchedule2.url).hostname, 'rulebooks.vara.ae');
+  assert.equal(SOURCES.varaCapital.type, 'primary');
+  for (const source of Object.values(SOURCES)) {
+    assert.ok(['primary', 'secondary', 'estimate'].includes(source.type), source.title);
+    assert.match(source.verified, /^\d{4}-\d{2}-\d{2}$/);
+    assert.ok(source.jurisdiction);
+  }
+  const { GUIDE_SOURCES } = await import('../src/engine/entryGuide.js');
+  assert.ok(GUIDE_SOURCES.some((source) => source.type === 'estimate'));
+  assert.ok(GUIDE_SOURCES.every((source) => source.verified && source.jurisdiction));
+});
+
 test('set-up guide: every step names a platform, cost and time for each route it applies to', async () => {
   const { STEPS, ROUTES, LOCATIONS, BUSINESS_TYPES, schedule, MOA, TAX } = await import('../src/engine/entryGuide.js');
   for (const s of STEPS) for (const [rid, r] of Object.entries(s.by)) {

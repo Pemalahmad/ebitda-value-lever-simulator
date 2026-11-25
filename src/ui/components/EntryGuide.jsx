@@ -38,7 +38,9 @@ export function LocationAdvisor({ n, type, setType, onPickRoute }) {
         <CardHead title="All locations compared" sub={`Indicative, as at ${GUIDE_AS_OF}. Licence and a basic desk or office, before visas.`} />
         <div className="table-wrap"><table className="data loc-table">
           <thead><tr><th>Location</th><th>Emirate</th><th className="r">First year</th><th className="r">Set-up</th><th>Best for</th><th>Watch</th></tr></thead>
-          <tbody>{LOCATIONS.map((l) => <tr key={l.id} className="clickable" onClick={() => onPickRoute(l.route)}><td><b>{l.name}</b></td><td className="muted">{l.emirate}</td><td className="r">{aedRange(l.cost)}</td><td className="r">{range(l.setupWeeks)}</td><td className="sm">{l.best}</td><td className="sm muted">{l.watch}</td></tr>)}</tbody>
+          <tbody>{LOCATIONS.map((l) => <tr key={l.id} className="clickable" onClick={() => onPickRoute(l.route)} role="button" tabIndex={0}
+            onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onPickRoute(l.route); } }}>
+            <td><b>{l.name}</b></td><td className="muted">{l.emirate}</td><td className="r">{aedRange(l.cost)}</td><td className="r">{range(l.setupWeeks)}</td><td className="sm">{l.best}</td><td className="sm muted">{l.watch}</td></tr>)}</tbody>
         </table></div>
       </Card>
     </Section>

@@ -38,6 +38,12 @@ jobs:
         run: npm run pulse
       - run: npm test
       - run: npm run build
+      - name: Enforce initial bundle budgets
+        run: npm run bundle:check
+      - name: Install browser for UI verification
+        run: npx playwright install --with-deps chromium
+      - name: Verify navigation, geometry and accessibility
+        run: npm run test:e2e
       - name: Smoke-test CLI
         run: node bin/value-memo.js --sector hospitality --scenario "Margin discipline" --summary
       - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3

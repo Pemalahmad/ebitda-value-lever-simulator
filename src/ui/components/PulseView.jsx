@@ -148,7 +148,8 @@ export function PulseView() {
               <thead><tr><th>Level</th><th>Signal</th><th>Why it matters for a Dubai portfolio</th><th>Evidence</th><th /></tr></thead>
               <tbody>{sigs.map((x) => (
                 <React.Fragment key={x.id}>
-                  <tr className="clickable" onClick={() => setOpenSig(openSig === x.id ? null : x.id)} aria-expanded={openSig === x.id}>
+                  <tr className="clickable" onClick={() => setOpenSig(openSig === x.id ? null : x.id)} aria-expanded={openSig === x.id} role="button" tabIndex={0}
+                    onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setOpenSig(openSig === x.id ? null : x.id); } }}>
                     <td><span className={`chip sm ${LEVEL[x.level][1]}`}>{LEVEL[x.level][0]}</span></td>
                     <td><b>{x.title}</b></td>
                     <td className="muted reg-why">{x.why}</td>
@@ -172,7 +173,8 @@ export function PulseView() {
             <table className="data">
               <thead><tr><th>Market</th><th className="r">Last</th><th className="r">1D</th><th className="r">1W</th><th className="r">1M</th><th className="r">3M</th><th className="r">Trend</th></tr></thead>
               <tbody>{rows.filter((r) => r.group === group).map((r) => (
-                <tr key={r.id} className="clickable" onClick={() => { setFocus(r.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                <tr key={r.id} className="clickable" role="button" tabIndex={0} onClick={() => { setFocus(r.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                  onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setFocus(r.id); window.scrollTo({ top: 0, behavior: 'smooth' }); } }}>
                   <td>{r.label}
                     {Date.now() - Date.parse(r.s.asOf) > 4 * 864e5
                       ? <div className="neg" style={{ fontSize: 11 }}>Last updated {r.s.asOf}; source unavailable since then</div>
@@ -212,7 +214,8 @@ export function PulseView() {
           <table className="data">
             <thead><tr><th>Country</th><th className="r">Headlines</th><th className="r">Last 2 days</th><th>Main theme</th></tr></thead>
             <tbody>{countries.map((c) => (
-              <tr key={c.id} style={{ cursor: 'pointer' }} onClick={() => setCountry(country === c.id ? 'all' : c.id)}>
+              <tr key={c.id} className="clickable" role="button" tabIndex={0} onClick={() => setCountry(country === c.id ? 'all' : c.id)}
+                onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setCountry(country === c.id ? 'all' : c.id); } }}>
                 <td>{country === c.id ? <b>{c.label}</b> : c.label}</td><td className="r">{c.total}</td>
                 <td className={`r ${c.recent > c.prior ? 'neg' : ''}`}>{c.recent}{c.recent > c.prior ? ' · rising' : ''}</td><td>{c.dominant ?? '—'}</td>
               </tr>))}

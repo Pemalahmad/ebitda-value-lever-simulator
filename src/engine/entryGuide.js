@@ -272,12 +272,12 @@ export const BOTTLENECKS = [
 ];
 
 export const GUIDE_SOURCES = [
-  { title: 'DET: mainland licensing and the Instant Licence', url: 'https://investindubai.gov.ae/' },
-  { title: 'Dubai mainland costs and timeline, 2026 (adviser estimates)', url: 'https://uppersetup.com/en/blog/dubai-mainland-det-licences-visa-quotas-taxes-and-the-real' },
-  { title: 'Abu Dhabi mainland and Tajer licence costs, 2026 (adviser estimates)', url: 'https://taxadepts.com/abu-dhabi-mainland-company-setup-guide' },
-  { title: 'DMCC vs DIFC vs ADGM fintech and crypto costs, 2026 (adviser estimates)', url: 'https://uaefreezonefinder.com/uae-fintech-licence-2026-adgm-difc-dmcc-real-costs-timelines' },
-  { title: 'IFZA and Meydan costs, 2026 (adviser estimates)', url: 'https://aedbs.com/blogs/news/ifza-vs-meydan-free-zone-in-2026-real-costs-visa-quotas-and-who-should-pick-which' },
-  { title: 'VAT and corporate tax registration on EmaraTax, 2026 (adviser guide)', url: 'https://www.countify.ae/blog/fta-registration-emaratax-guide' },
-  { title: 'Memorandum of association drafting and translation (adviser guide)', url: 'https://arnifi.com/blog/memorandum-of-association-uae-meaning-requirements/' },
-  { title: 'Federal Tax Authority', url: 'https://tax.gov.ae/' },
+  { title: 'DET: mainland licensing and the Instant Licence', url: 'https://investindubai.gov.ae/', type: 'primary', verified: GUIDE_AS_OF, jurisdiction: 'Dubai' },
+  { title: 'Dubai mainland costs and timeline, 2026', url: 'https://uppersetup.com/en/blog/dubai-mainland-det-licences-visa-quotas-taxes-and-the-real', type: 'estimate', verified: GUIDE_AS_OF, jurisdiction: 'Dubai' },
+  { title: 'Abu Dhabi mainland and Tajer licence costs, 2026', url: 'https://taxadepts.com/abu-dhabi-mainland-company-setup-guide', type: 'estimate', verified: GUIDE_AS_OF, jurisdiction: 'Abu Dhabi' },
+  { title: 'DMCC vs DIFC vs ADGM fintech and crypto costs, 2026', url: 'https://uaefreezonefinder.com/uae-fintech-licence-2026-adgm-difc-dmcc-real-costs-timelines', type: 'estimate', verified: GUIDE_AS_OF, jurisdiction: 'UAE' },
+  { title: 'IFZA and Meydan costs, 2026', url: 'https://aedbs.com/blogs/news/ifza-vs-meydan-free-zone-in-2026-real-costs-visa-quotas-and-who-should-pick-which', type: 'estimate', verified: GUIDE_AS_OF, jurisdiction: 'Dubai' },
+  { title: 'VAT and corporate tax registration on EmaraTax, 2026', url: 'https://www.countify.ae/blog/fta-registration-emaratax-guide', type: 'secondary', verified: GUIDE_AS_OF, jurisdiction: 'Federal' },
+  { title: 'Memorandum of association drafting and translation', url: 'https://arnifi.com/blog/memorandum-of-association-uae-meaning-requirements/', type: 'secondary', verified: GUIDE_AS_OF, jurisdiction: 'UAE' },
+  { title: 'Federal Tax Authority', url: 'https://tax.gov.ae/', type: 'primary', verified: GUIDE_AS_OF, jurisdiction: 'Federal' },
 ];

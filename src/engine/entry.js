@@ -6,30 +6,30 @@
 export const AS_OF = '2026-11-24';
 
 export const SOURCES = {
-  varaRulebooks: { title: 'VARA Rulebooks (Company, Compliance & Risk, Technology, Market Conduct, activity rulebooks)', url: 'https://rulebooks.vara.ae/' },
-  varaSite: { title: 'VARA: licensing process and licence applications', url: 'https://www.vara.ae/' },
-  varaSchedule2: { title: 'VARA Regulations 2023, Schedule 2 fees (summarised by Neo Legal)', url: 'https://neolegal.ae/neolegal_vara_license', date: '2026' },
-  varaCapital: { title: 'VARA Company Rulebook, paid-up capital by activity (summarised by Medici)', url: 'https://medici.expert/insights/vara-licence-full-cost', date: '2026-09-15' },
-  varaMarketing: { title: 'VARA Regulations on the Marketing of Virtual Assets 2024 (analysis by Hoot)', url: 'https://hootlegal.com/position/must-follow-varas-marketing-rules-and-what-do-they-require', date: 'current as at 2026-07-01' },
-  varaEvents: { title: 'VARA Marketing Regulations: physical events exemption', url: 'https://rulebooks.vara.ae/entiresection/419' },
-  cbuaeLaw: { title: 'Federal Decree-Law No. 6 of 2025 (CBUAE law): transitional period ended 16 September 2026', url: 'https://mpelitesconsulting.com/updates/crypto-licensing-transition-16-september', date: '2026-08-31' },
-  cbuaeLegislation: { title: 'Central Bank of the UAE: legislation and regulations', url: 'https://centralbank.ae/en/legislation/' },
-  sca: { title: 'Securities and Commodities Authority (federal virtual-asset licensing outside the financial free zones)', url: 'https://www.sca.gov.ae/' },
-  adgm: { title: 'ADGM Financial Services Regulatory Authority: virtual assets', url: 'https://www.adgm.com/financial-services-regulatory-authority' },
-  dfsa: { title: 'DFSA: crypto token regime (DIFC)', url: 'https://www.dfsa.ae/' },
-  tax: { title: 'UAE Federal Tax Authority: corporate tax and VAT registration', url: 'https://tax.gov.ae/' },
-  pdpl: { title: 'UAE Personal Data Protection Law (Federal Decree-Law No. 45 of 2021)', url: 'https://u.ae/en/about-the-uae/digital-uae/data/data-protection-laws' },
-  tdra: { title: 'TDRA: type approval for telecom and wireless equipment', url: 'https://tdra.gov.ae/' },
-  moiat: { title: 'Ministry of Industry and Advanced Technology: conformity (ECAS) schemes', url: 'https://moiat.gov.ae/' },
-  mohre: { title: 'MoHRE: Emiratisation targets and the Wage Protection System', url: 'https://www.mohre.gov.ae/' },
-  goaml: { title: 'UAE Financial Intelligence Unit: goAML registration', url: 'https://www.uaefiu.gov.ae/' },
+  varaRulebooks: { title: 'VARA Rulebooks (Company, Compliance & Risk, Technology, Market Conduct, activity rulebooks)', url: 'https://rulebooks.vara.ae/rulebook/rulebooks', type: 'primary', verified: AS_OF, jurisdiction: 'Dubai' },
+  varaSite: { title: 'VARA: licensing process and licence applications', url: 'https://www.vara.ae/', type: 'primary', verified: AS_OF, jurisdiction: 'Dubai' },
+  varaSchedule2: { title: 'VARA Schedule 2: supervision and authorisation fees', url: 'https://rulebooks.vara.ae/rulebook/schedule-2-supervision-and-authorisation-fees', type: 'primary', verified: AS_OF, jurisdiction: 'Dubai' },
+  varaCapital: { title: 'VARA Company Rulebook: paid-up capital and prudential requirements', url: 'https://rulebooks.vara.ae/entiresection/16', type: 'primary', verified: AS_OF, jurisdiction: 'Dubai' },
+  varaMarketing: { title: 'VARA marketing regulations (professional analysis; verify in the current VARA rulebook)', url: 'https://hootlegal.com/position/must-follow-varas-marketing-rules-and-what-do-they-require', date: '2026-07-01', type: 'secondary', verified: AS_OF, jurisdiction: 'Dubai' },
+  varaEvents: { title: 'VARA Marketing Regulations: physical events exemption', url: 'https://rulebooks.vara.ae/entiresection/419', type: 'primary', verified: AS_OF, jurisdiction: 'Dubai' },
+  cbuaeLaw: { title: 'Federal Decree-Law No. 6 of 2025 transition (professional analysis; verify with CBUAE)', url: 'https://mpelitesconsulting.com/updates/crypto-licensing-transition-16-september', date: '2026-08-31', type: 'secondary', verified: AS_OF, jurisdiction: 'Federal' },
+  cbuaeLegislation: { title: 'Central Bank of the UAE: legislation and regulations', url: 'https://centralbank.ae/en/legislation/', type: 'primary', verified: AS_OF, jurisdiction: 'Federal' },
+  sca: { title: 'Securities and Commodities Authority', url: 'https://www.sca.gov.ae/', type: 'primary', verified: AS_OF, jurisdiction: 'Federal' },
+  adgm: { title: 'ADGM Financial Services Regulatory Authority', url: 'https://www.adgm.com/financial-services-regulatory-authority', type: 'primary', verified: AS_OF, jurisdiction: 'ADGM' },
+  dfsa: { title: 'Dubai Financial Services Authority', url: 'https://www.dfsa.ae/', type: 'primary', verified: AS_OF, jurisdiction: 'DIFC' },
+  tax: { title: 'UAE Federal Tax Authority: corporate tax and VAT registration', url: 'https://tax.gov.ae/', type: 'primary', verified: AS_OF, jurisdiction: 'Federal' },
+  pdpl: { title: 'UAE Personal Data Protection Law', url: 'https://u.ae/en/about-the-uae/digital-uae/data/data-protection-laws', type: 'primary', verified: AS_OF, jurisdiction: 'Federal' },
+  tdra: { title: 'TDRA: type approval for telecom and wireless equipment', url: 'https://tdra.gov.ae/', type: 'primary', verified: AS_OF, jurisdiction: 'Federal' },
+  moiat: { title: 'Ministry of Industry and Advanced Technology: conformity schemes', url: 'https://moiat.gov.ae/', type: 'primary', verified: AS_OF, jurisdiction: 'Federal' },
+  mohre: { title: 'MoHRE: Emiratisation and the Wage Protection System', url: 'https://www.mohre.gov.ae/', type: 'primary', verified: AS_OF, jurisdiction: 'Federal' },
+  goaml: { title: 'UAE Financial Intelligence Unit: goAML registration', url: 'https://www.uaefiu.gov.ae/', type: 'primary', verified: AS_OF, jurisdiction: 'Federal' },
 };
 
 // Where the business sits decides who regulates it. Virtual-asset activity is licensed by the authority of the zone.
 export const JURISDICTIONS = [
-  { id: 'dubai', label: 'Dubai mainland or a Dubai free zone (not DIFC)', vaRegulator: 'VARA', note: 'VARA licenses virtual-asset activity in and from Dubai, including the free zones (DMCC, DWTC and others), with the DIFC carved out.', src: 'varaCapital' },
-  { id: 'difc', label: 'DIFC (Dubai International Financial Centre)', vaRegulator: 'DFSA', note: 'The DFSA authorises crypto-token firms under its own regime, in force in its current form since 12 January 2026. Common-law courts; suits institutional business.', src: 'varaCapital' },
-  { id: 'adgm', label: 'ADGM (Abu Dhabi Global Market)', vaRegulator: 'FSRA', note: 'The FSRA grants a Financial Services Permission for virtual-asset activity, with its own capital and fee schedule. Suits institutional and fund business.', src: 'varaCapital' },
+  { id: 'dubai', label: 'Dubai mainland or a Dubai free zone (not DIFC)', vaRegulator: 'VARA', note: 'VARA licenses virtual-asset activity in and from Dubai, including the free zones (DMCC, DWTC and others), with the DIFC carved out.', src: 'varaSite' },
+  { id: 'difc', label: 'DIFC (Dubai International Financial Centre)', vaRegulator: 'DFSA', note: 'The DFSA authorises crypto-token firms under its own regime. Common-law courts; suits institutional business.', src: 'dfsa' },
+  { id: 'adgm', label: 'ADGM (Abu Dhabi Global Market)', vaRegulator: 'FSRA', note: 'The FSRA grants a Financial Services Permission for virtual-asset activity, with its own capital and fee schedule. Suits institutional and fund business.', src: 'adgm' },
   { id: 'other', label: 'Another emirate, mainland or non-financial free zone', vaRegulator: 'SCA', note: 'Federal virtual-asset licensing by the Securities and Commodities Authority (Cabinet Decision 111 of 2022), unless a local authority licenses the activity.', src: 'sca' },
 ];
 

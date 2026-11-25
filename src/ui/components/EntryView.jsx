@@ -11,6 +11,7 @@ const aedShort = (v) => (v >= 1e6 ? `AED ${(v / 1e6).toLocaleString('en-US', { m
 const SHORT_MODEL = { general: 'Company', product: 'Product', selfcustody: 'Self-custody', vasp: 'Crypto service' };
 const SHORT_ACT = { advisory: 'Advisory', broker: 'Broker-dealer', custody: 'Custody', exchange: 'Exchange', lending: 'Lending', management: 'Management', transfer: 'Transfer', issuance: 'Issuance' };
 const SHORT_ZONE = { dubai: 'Dubai', difc: 'DIFC', adgm: 'ADGM', other: 'Other emirates' };
+const SOURCE_LABEL = { primary: 'Primary authority', secondary: 'Professional analysis', estimate: 'Commercial estimate' };
 
 function load() { try { return JSON.parse(localStorage.getItem(KEY) ?? '{}'); } catch { return {}; } }
 
@@ -54,11 +55,13 @@ export function EntryView() {
   const toggleAct = (id) => setActs((xs) => (xs.includes(id) ? xs.filter((x) => x !== id) : [...xs, id]));
 
   return <div className="market-board entry-board doc">
-    <PageHead status={`Rules as at ${AS_OF}`} title="Market entry" muted="UAE"
-      sub="What it takes to enter the UAE, in the order it falls due. A planning aid, not legal advice." />
-    <section className="entry-overview">
-      <article className="w-card ov-profile">
-        <span className="w-eyebrow">Your entry</span>
+    <PageHead status={`Rules verified ${AS_OF}`} title="Market entry" muted="UAE"
+      sub="What it takes to enter the UAE, in the order it falls due. Authority rules are separated from adviser estimates; verify again before commitment." />
+    <section className="market-opening">
+      <div className="market-intro">
+        <div className="market-status"><span aria-hidden="true" />Rules as at <b>{AS_OF}</b></div>
+        <h2>Enter the UAE,<br />licensed and in order.</h2>
+        <p>The structure, licences, tax, people and product rules in the order they fall due, with a full track for virtual-asset businesses benchmarked on Dubai's VARA.</p>
         <div className="entry-profile">
           <Segments label="Business" value={model} onChange={setModel} options={MODELS.map((x) => [x.id, SHORT_MODEL[x.id]])} />
           <Segments label="Zone" value={zone} onChange={setZone} options={JURISDICTIONS.map((x) => [x.id, SHORT_ZONE[x.id]])} />
@@ -68,12 +71,28 @@ export function EntryView() {
           {a.needs.map((n) => <li key={n}>{n}</li>)}
           {a.flags.map((f) => <li key={f} className="flag">{f}</li>)}
         </ul>
+      </div>
+      <article className="instrument">
+        <header><span>Entry readiness</span></header>
+        <div className="investor-body">
+          <div className="investor-ring" style={{ '--share': `${(ticked / total) * 100}%` }}><span>{Math.round((ticked / total) * 100)}%</span></div>
+          <div><div className="instrument-value">{ticked}/{total}</div><p>checklist items done</p></div>
+        </div>
+        <footer><b>{gsteps.filter((x) => x.docs.every((d) => done[`${route}:${x.id}:${d}`])).length}</b> of {gsteps.length} steps ready · documents ticked</footer>
       </article>
-      <div className="ov-stats">
-        <article className="w-card ov-stat"><span className="w-eyebrow">Who regulates you <Source s={SOURCES[a.jurisdiction.src]} /></span><b className="ov-big">{m.va ? a.jurisdiction.vaRegulator : 'Licensing authority'}</b><p>{m.va ? a.jurisdiction.label : 'DET, ADDED or the free-zone authority; no financial regulator unless the activity is regulated'}</p></article>
-        <article className="w-card ov-stat ov-ring"><DotRing value={total ? ticked / total : 0} label={`${Math.round((total ? ticked / total : 0) * 100)}%`} sub="ready" size={92} n={30} /><div><span className="w-eyebrow">Entry readiness</span><b className="ov-big">{ticked}/{total}</b><p>documents ticked for {ROUTES.find((x) => x.id === route).label}</p></div></article>
-        <article className="w-card ov-stat"><span className="w-eyebrow">Typical timeline</span><b className="ov-big">{Math.ceil(schedule(route, { regulated, use: 0.5 }).total)} weeks</b><p>{regulated ? 'regulated activity; the regulator sets the pace' : 'banking is usually the longest step'}</p></article>
-        <article className="w-card ov-stat"><span className="w-eyebrow">{m.va ? 'Regulatory fees, year one' : 'Financial licence'}</span><b className="ov-big">{m.va ? (acts.length ? aedShort(costs.firstYear) : '—') : 'None needed'}</b><p>{m.va ? `${acts.length} VARA ${acts.length === 1 ? 'activity' : 'activities'}; capital at least ${costs.capitalFloor != null ? aedShort(costs.capitalFloor) : '—'}` : 'trade licence, tax registration and visas only'}</p></article>
+      <article className="instrument period-widget">
+        <header><span>{m.va === true ? 'Licence timeline' : 'Steps by phase'}</span>{m.va === true && <Source s={SOURCES.varaSchedule2} />}</header>
+        <div className="period-head"><div className="instrument-value">{m.va === true ? '4–12 mo' : `${steps.length} steps`}</div><span>{m.va === true ? 'IDQ to full licence, typical range' : 'in the order they fall due'}</span></div>
+        <div className="period-track" role="img" aria-label="Typical licence timeline in months">{Array.from({ length: 12 }, (_, i) => <i key={i} className={m.va === true ? (i < 4 ? 'on' : i < 12 ? 'maybe' : '') : (i < steps.length ? 'on' : '')} />)}</div>
+        <footer>{m.va === true ? <><b>Months 1–4</b> well-prepared · <b>to 12</b> with questions</> : <>Company setup first, then {m.product ? 'product compliance' : 'launch'}</>}</footer>
+      </article>
+    </section>
+
+    <section className="signal-ledger">
+      <header><div><h3>What this entry needs</h3><p>Routed from the business model and zone above.</p></div><span>{a.needs.length} requirements{a.flags.length ? ` · ${a.flags.length} flagged` : ''}</span></header>
+      <div>
+        {a.needs.map((n) => <article key={n}><i aria-hidden="true" /><p>{n}</p><span /></article>)}
+        {a.flags.map((f) => <article key={f} className="flag"><i aria-hidden="true" /><p>{f}</p><Source s={SOURCES.varaMarketing} /></article>)}
       </div>
     </section>
 
@@ -129,9 +148,9 @@ export function EntryView() {
       <div>{COMPLIANCE.filter((c) => m.va || ['aml', 'governance'].includes(c.id)).map((c) => <article key={c.id}><i aria-hidden="true" /><div><b>{c.title}</b><ul>{c.points.map((p) => <li key={p}>{p}</li>)}</ul></div><Source s={SOURCES[c.src]} /></article>)}</div>
     </section>
 
-    <section className="signal-ledger">
-      <header><div><h3>Sources</h3><p>Set-up costs are adviser estimates and VARA fees come from adviser summaries of its rulebooks; confirm every figure on the authority’s own fee page before relying on it.</p></div><span>{Object.keys(SOURCES).length + GUIDE_SOURCES.length} sources</span></header>
-      <div>{[...GUIDE_SOURCES, ...Object.values(SOURCES)].map((s) => <article key={s.url + s.title}><i aria-hidden="true" /><p><a href={s.url} target="_blank" rel="noreferrer">{s.title}</a>{s.date ? ` · ${s.date}` : ''}</p><span /></article>)}</div>
+    <section className="signal-ledger source-register">
+      <header><div><h3>Source register</h3><p>Primary authority material governs legal requirements. Professional analysis adds interpretation; commercial estimates are used only for cost and timing ranges.</p></div><span>{Object.keys(SOURCES).length + GUIDE_SOURCES.length} traceable sources</span></header>
+      <div>{[...GUIDE_SOURCES, ...Object.values(SOURCES)].map((s) => <article key={s.url + s.title} className={`source-row ${s.type ?? 'secondary'}`}><i aria-hidden="true" /><div><p><a href={s.url} target="_blank" rel="noreferrer">{s.title}</a>{s.date ? ` · ${s.date}` : ''}</p><small>{s.jurisdiction ?? 'UAE'} · verified {s.verified ?? AS_OF}</small></div><span className="source-kind">{SOURCE_LABEL[s.type] ?? SOURCE_LABEL.secondary}</span></article>)}</div>
     </section>
   </div>;
 }

@@ -160,12 +160,23 @@ function HistoryWidget({ years }) {
 }
 
 function CommunityLedger() {
+  const [selected, setSelected] = useState(OFFICIAL.topAreas[0]?.area);
+  const positions = {
+    'Business Bay': [61, 38], 'Marsa Dubai': [34, 53], 'Madinat Al Mataar': [20, 78],
+    'Dubai Investment Park Second': [21, 66], 'Al Barsha South Fourth': [43, 55], 'Palm Jumeirah': [34, 42],
+    'Wadi Al Safa 5': [52, 66], 'Wadi Al Safa 3': [58, 70], 'Hadaeq Sheikh MBR': [56, 49], 'Burj Khalifa': [63, 34],
+  };
+  const max = Math.max(...OFFICIAL.topAreas.map((area) => area.valueAedBn));
   return <article className="community-widget">
-    <header><div><h3>Community ledger</h3><p>{OFFICIAL.topAreasNote}</p></div><Source s={OFFICIAL.topAreasSource} /></header>
-    <div className="table-wrap"><table className="market-table">
+    <header><div><h3>Community footprint</h3><p>{OFFICIAL.topAreasNote}</p></div><Source s={OFFICIAL.topAreasSource} /></header>
+    <div className="community-layout"><div className="community-map" role="region" aria-label="Schematic Dubai community activity map; bubble size represents published transaction value">
+      <div className="coastline" aria-hidden="true" />
+      {OFFICIAL.topAreas.map((area) => { const [x, y] = positions[area.area] ?? [50, 50]; const size = 12 + (area.valueAedBn / max) * 26; return <button type="button" key={area.area} className={selected === area.area ? 'on' : ''} style={{ left: `${x}%`, top: `${y}%`, width: size, height: size }} onClick={() => setSelected(area.area)} aria-label={`${area.area}: ${bn(area.valueAedBn)}`} title={`${area.area}: ${bn(area.valueAedBn)}`}><span>{area.rank}</span></button>; })}
+      <p>Schematic geography · bubble size = published value</p>
+    </div><div className="table-wrap"><table className="market-table">
       <thead><tr><th>Community</th><th>Investors</th><th>Value</th></tr></thead>
-      <tbody>{OFFICIAL.topAreas.map((area) => <tr key={`${area.rank}-${area.area}`}><td><span>{area.rank}</span>{area.area}</td><td>{area.transactions ? n0(area.transactions) : '—'}</td><td>{bn(area.valueAedBn)}</td></tr>)}</tbody>
-    </table></div>
+      <tbody>{OFFICIAL.topAreas.map((area) => <tr key={`${area.rank}-${area.area}`} className={selected === area.area ? 'on' : ''} onClick={() => setSelected(area.area)} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); setSelected(area.area); } }}><td><span>{area.rank}</span>{area.area}</td><td>{area.transactions ? n0(area.transactions) : '—'}</td><td>{bn(area.valueAedBn)}</td></tr>)}</tbody>
+    </table></div></div>
   </article>;
 }
 
