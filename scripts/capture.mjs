@@ -43,6 +43,7 @@ for (const [name, id] of [['screenshot-scorecard', '#vp-scorecard'], ['screensho
 }
 await shot('screenshot-variance', { hash: scenario, selector: '#vp-drivers', height: 1300 });
 await shot('screenshot-sensitivity', { hash: scenario, selector: '#vp-sens', height: 1300 });
+await shot('screenshot-tracker', { hash: scenario.replace('tab=value', 'tab=tracker'), selector: '#vp-tracker', height: 1300, action: (page) => page.addStyleTag({ content: '.top,.contents{position:static!important}' }) });
 await shot('screenshot-consolidation', { hash: '#tab=portfolio', selector: '#pl-ic', height: 1400, action: async (page) => { await page.getByRole('button', { name: 'Load typical flows' }).click(); await page.waitForTimeout(300); } });
 await shot('screenshot-newco', { hash: '#tab=portfolio', selector: '#pl-newco', height: 1500 });
 await shot('screenshot-checks', { height: 1000, action: async (page) => { await page.locator('.checks-btn').click(); await page.getByRole('tab', { name: /Missing data/ }).click(); await page.waitForTimeout(300); } });
@@ -104,7 +105,7 @@ if (process.argv.includes('--gif')) {
   await page.getByRole('button', { name: 'Play' }).first().click();
   await page.waitForTimeout(250);
   await frame(4);
-  for (const id of ['vp-drivers', 'vp-scorecard', 'vp-case', 'vp-memo']) {
+  for (const id of ['vp-drivers', 'vp-scorecard', 'vp-case', 'vp-memo', 'vp-tracker']) {
     await page.evaluate((x) => { const el = document.getElementById(x); window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 120); }, id);
     await page.waitForTimeout(250);
     await frame(6);

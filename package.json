@@ -1,6 +1,6 @@
 {
   "name": "ebitda-value-lever-simulator",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "description": "Dubai real-estate market tracker with official-data signals, deal-level momentum and illustrative value-scenario tools.",
   "type": "module",
   "license": "MIT",

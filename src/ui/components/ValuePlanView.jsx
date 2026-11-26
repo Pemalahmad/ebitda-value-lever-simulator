@@ -5,6 +5,7 @@ import { SECTORS, fmt, bridge, tornado, leverage, grid, buildMemo, renderMarkdow
 import { Heatmap } from './Charts.jsx';
 import { Icon } from './Icons.jsx';
 import { SpotCard } from './Effects.jsx';
+import { ValueTracker } from './ValueTracker.jsx';
 import { PageHead, Section, Contents, Card, CardHead, KpiStrip, DotLine, DotRows, DotRing, DotColumns, DotTrack, FolderTabs, Pill, Dot, Segmented, Waterfall, Status } from './Dots.jsx';
 
 const { money, pct, months, unitValue } = fmt;
@@ -19,6 +20,7 @@ const CONTENTS = [
   { id: 'vp-scorecard', label: 'Balanced scorecard' },
   { id: 'vp-case', label: 'Business case' },
   { id: 'vp-memo', label: 'Board memo' },
+  { id: 'vp-tracker', label: '100-day tracker' },
 ];
 const OBJECTIVES = {
   Financial: 'Grow EBITDA and enterprise value while protecting cash.',
@@ -27,7 +29,7 @@ const OBJECTIVES = {
   'Learning & Growth': 'Build the digital and commercial capabilities that compound.',
 };
 
-export function ValuePlanView({ sector, levers, e, onNudge, onPickSector }) {
+export function ValuePlanView({ sector, levers, e, onNudge, onPickSector, tracker }) {
   const c = e.cmp, bc = e.bc;
   return (
     <div className="doc">
@@ -49,6 +51,7 @@ export function ValuePlanView({ sector, levers, e, onNudge, onPickSector }) {
       <Scorecard e={e} />
       <Case sector={sector} e={e} />
       <Memo sector={sector} levers={levers} e={e} />
+      {tracker && <ValueTracker sector={sector} levers={levers} {...tracker} />}
     </div>
   );
 }

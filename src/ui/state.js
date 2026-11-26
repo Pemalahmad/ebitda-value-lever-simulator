@@ -1,5 +1,5 @@
 // URL (shareable scenarios) and local progress persistence.
-import { SECTORS } from '../engine/index.js';
+import { SECTORS, normalisePlan, examplePlan } from '../engine/index.js';
 
 export function readHash() {
   const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
@@ -37,5 +37,28 @@ export function saveProgress(p) {
     window.localStorage.setItem(KEY, JSON.stringify(p));
   } catch {
     /* private mode: progress lives for this session only */
+  }
+}
+
+// 100-day tracker plans, one per business. First visit seeds the labelled example plan.
+const TRACKER_KEY = 'evls.tracker.v1';
+export function loadTrackers() {
+  try {
+    const raw = JSON.parse(window.localStorage.getItem(TRACKER_KEY) || 'null');
+    if (raw && typeof raw === 'object' && raw.plans && typeof raw.plans === 'object') {
+      const out = {};
+      for (const p of Object.values(raw.plans)) { const n = normalisePlan(p); if (n) out[n.sectorId] = n; }
+      return out;
+    }
+  } catch {
+    /* unreadable or blocked storage: fall back to the example */
+  }
+  return { urbanServices: examplePlan() };
+}
+export function saveTrackers(plans) {
+  try {
+    window.localStorage.setItem(TRACKER_KEY, JSON.stringify({ version: 1, plans }));
+  } catch {
+    /* private mode: the plan lives for this session only */
   }
 }

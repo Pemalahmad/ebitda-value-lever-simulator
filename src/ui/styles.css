@@ -1378,3 +1378,51 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 @media (prefers-reduced-motion: reduce) { .live-dot { animation: none; } }
 @media (max-width: 700px) { .page-grid { left: -16px; right: -16px; } }
 html, body { overflow-x: clip; }
+
+/* 100-day value-creation tracker: built from the document's cards, gantt and status chips */
+.tr-note { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 10px 14px; margin-bottom: 12px; border: 1px dashed var(--line-2); border-radius: 12px; background: var(--panel); font-size: 12.5px; }
+.tr-note p { margin: 0; flex: 1 1 320px; color: var(--muted); line-height: 1.45; }
+.tr-note-actions { display: inline-flex; gap: 8px; flex-wrap: wrap; }
+.tr-msg { margin: 0 0 12px; padding: 8px 14px 8px 30px; border-radius: 10px; font-size: 12.5px; background: var(--panel); border: 1px solid var(--line); }
+.tr-msg.neg { color: var(--neg); border-color: color-mix(in srgb, var(--neg) 35%, transparent); }
+.tr-msg.pos { color: var(--pos); }
+.tr-import { cursor: pointer; }
+.tr-empty p { margin: 0; }
+.tr-empty .row-actions { justify-content: center; }
+.tr-settings { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px 18px; margin-bottom: 14px; }
+.tr-settings label { display: flex; flex-direction: column; gap: 4px; color: var(--muted); font-size: 12px; }
+.tr-settings input, .tr-ms-row input, .tr-note-field textarea { padding: 6px 9px; border: 1px solid var(--line-2); border-radius: 8px; background: var(--panel); color: var(--text); font: inherit; font-size: 13px; }
+.tr-thr { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; margin-left: auto; }
+.tr-table td { vertical-align: top; }
+.tr-table b { font-weight: 600; }
+.tr-lever, .tr-th, .tr-plan { display: block; color: var(--muted); font-size: 11px; font-weight: 400; margin-top: 2px; font-family: inherit; }
+.tr-th { text-transform: none; letter-spacing: 0; }
+.tr-table tr.tr-open td { border-bottom-color: transparent; }
+.tr-table tr.tr-edit td { background: var(--panel-2); border-radius: 10px; padding: 14px; }
+.tr-acts { text-align: right; white-space: nowrap; }
+.tr-flag { display: block; margin-top: 3px; font-size: 10.5px; color: var(--muted); font-family: inherit; }
+.tr-flag.bad { color: var(--neg); font-weight: 600; }
+.tr-num { width: 84px; padding: 5px 7px; border: 1px solid var(--line-2); border-radius: 7px; background: var(--panel); color: var(--text); font-family: var(--mono); font-size: 12px; text-align: right; }
+.tr-num:disabled { background: var(--panel-2); color: var(--muted); border-style: dashed; }
+.tr-form .journal-form { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.tr-sub { margin: 14px 0 6px; }
+.tr-ms-form { display: grid; gap: 6px; }
+.tr-ms-row { display: grid; grid-template-columns: minmax(0, 1fr) 160px auto; gap: 8px; align-items: center; max-width: 560px; }
+.tr-check { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); }
+.tr-note-field { display: flex; flex-direction: column; gap: 4px; margin-top: 12px; color: var(--muted); font-size: 12px; }
+.tr-gantt .g-track { overflow: visible; }
+.tr-ms { position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--panel); border: 2px solid var(--text); z-index: 1; }
+.tr-ms.done { background: var(--text); }
+.tr-ms.late { border-color: var(--neg); background: var(--neg); }
+.tr-now { position: absolute; top: -5px; bottom: -5px; width: 0; border-left: 2px solid var(--touch); z-index: 2; }
+.g-row.tr-done .g-track i { opacity: .45; }
+.tr-legend { margin: 14px 0 0; }
+.tr-legend .tr-ms { position: static; display: inline-block; margin: 0 2px 0 8px; vertical-align: -1px; }
+.tr-now-key { display: inline-block; width: 0; height: 12px; margin: 0 2px 0 8px; border-left: 2px solid var(--touch); vertical-align: -2px; }
+@media (max-width: 700px) {
+  .tr-thr { margin-left: 0; flex-wrap: wrap; width: 100%; }
+  .tr-thr .seg { flex: none; }
+  .tr-ms-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .tr-ms-row input[type='date'] { grid-column: 1; }
+}
+@media print { .tr-num { border: 0; } .tr-acts, .tr-import { display: none; } }

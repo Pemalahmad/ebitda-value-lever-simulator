@@ -16,6 +16,17 @@ logic checker tests this for every business on every change.
 | Value Plan | EBITDA, baseline to scenario | By lever (with the interaction effect shown separately), or by P&L line. |
 | Portfolio Lab | Portfolio value; consolidated revenue | Baseline EV to scenario value by business and play; sum of revenues to consolidated revenue by intercompany flow. |
 | New company case | Year-1 EBITDA to free cash flow | EBITDA − tax − capex − change in working capital. |
+| 100-day tracker | Planned to realised EBITDA, to date | Planned EBITDA to date + one variance per initiative (realised − planned, closed months only) = realised EBITDA to date. |
+
+## 100-day value-creation tracker
+
+Code: `src/engine/tracker.js`, tests: `tests/tracker.test.js`.
+
+- **Planned run rate per initiative:** the lever's run-rate EBITDA in the business case, at the lever targets the plan was built on. It includes the lever's share of the interaction effect. When several initiatives link to one lever, they share its value equally, so the plan total always equals the model.
+- **Planned EBITDA by month:** run rate ÷ 365 per day, ramping linearly from the initiative's start date over the lever's ramp months. It is summed over four reporting months (days 1–30, 31–60, 61–90 and a 91–100 close-out).
+- **To date:** only months closed at the report date count. Actuals entered for an open month are flagged and kept out of the bridge.
+- **Risks to the plan:** past-due initiatives, milestones not done by their due date (high after 14 days), initiatives below the chosen threshold of plan (high below half of it), realised above plan without an explanation, and an "On track" status on a plan that is behind.
+- **CSV:** one row per initiative, with plan-level columns repeated on each row. Text cells that start with `=`, `+`, `-` or `@` are prefixed with `'` so a spreadsheet cannot run them, and the prefix is removed on import. An import is validated in full (business, levers, statuses, dates, numbers, at most 40 rows and 200 KB) and nothing is loaded if any row fails.
 
 ## Rolling twelve months
 

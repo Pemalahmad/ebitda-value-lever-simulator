@@ -44,6 +44,13 @@ The app has five tabs that share one layout: a page header, numbered sections an
    headroom.
 6. **Scorecard, business case and board memo:** click a perspective ring to filter KPIs; read the verdict
    and decisions requested; copy or download the full memo.
+7. **100-day tracker:** press **Start a plan from these levers** (or open the example plan). Each moved
+   lever becomes an initiative with Day 30, 60 and 100 milestones. Click **Edit** on a row to set the
+   owner, dates, status and milestones. Planned impact comes from the model, so it cannot be edited.
+   Set **Report as of**, then enter realised EBITDA for each closed month under **Actuals by month**. Read
+   the planned-vs-realised bridge and the risks to the plan. If realised beats plan, record why in the
+   initiative, or the checks flag it. **Export CSV** to keep a copy, and **Import CSV** to restore it or
+   load a plan built in a spreadsheet. Plans stay in this browser.
 
 ## 5. Portfolio Lab: what the group is worth
 

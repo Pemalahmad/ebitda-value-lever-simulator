@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { getSector, baseLevers, evaluate, investmentByLever } from '../engine/index.js';
+import { getSector, baseLevers, evaluate, investmentByLever, examplePlan } from '../engine/index.js';
 import { LeverPanel } from './components/Levers.jsx';
 import { ValuePlanView } from './components/ValuePlanView.jsx';
 import { PortfolioView } from './components/PortfolioView.jsx';
@@ -9,7 +9,7 @@ import { EntryView } from './components/EntryView.jsx';
 import { Icon } from './components/Icons.jsx';
 import { ChecksButton, ChecksDrawer, useChecks } from './components/ChecksDrawer.jsx';
 import { Sparks } from './components/Effects.jsx';
-import { readHash, writeHash } from './state.js';
+import { readHash, writeHash, loadTrackers, saveTrackers } from './state.js';
 
 const TABS = [
   { id: 'pulse', label: 'Live Market' },
@@ -19,7 +19,7 @@ const TABS = [
   { id: 'portfolio', label: 'Portfolio Lab' },
 ];
 // Old links (#tab=simulator, scorecard, case, memo) open the matching section of the Value Plan.
-const LEGACY = { simulator: 'vp-value', scorecard: 'vp-scorecard', case: 'vp-case', memo: 'vp-memo' };
+const LEGACY = { simulator: 'vp-value', scorecard: 'vp-scorecard', case: 'vp-case', memo: 'vp-memo', tracker: 'vp-tracker' };
 const WIDE = ['pulse', 'market', 'entry', 'portfolio'];
 const THEME_KEY = 'market-tracker-theme';
 
@@ -45,12 +45,13 @@ export default function App() {
   const [intercompany, setIntercompany] = useState([]);
   const [checksOpen, setChecksOpen] = useState(false);
   const [theme, setTheme] = useState(initialTheme);
+  const [trackers, setTrackers] = useState(loadTrackers);
 
   const sector = getSector(sectorId);
   const levers = bySector[sectorId] ?? baseLevers(sector);
   const e = useMemo(() => evaluate(sector, levers), [sector, levers]);
   const cost = useMemo(() => investmentByLever(sector, levers), [sector, levers]);
-  const checks = useChecks(bySector, plays, intercompany);
+  const checks = useChecks(bySector, plays, intercompany, trackers);
 
   useEffect(() => writeHash(sectorId, levers, baseLevers(sector), tab), [sectorId, levers, sector, tab]);
   useEffect(() => { const id = LEGACY[initial.tab]; if (id) setTimeout(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }), 60); }, [initial.tab]);
@@ -59,6 +60,26 @@ export default function App() {
     document.documentElement.dataset.theme = theme;
     try { window.localStorage.setItem(THEME_KEY, theme); } catch { /* Keep the in-session preference. */ }
   }, [theme]);
+
+  useEffect(() => saveTrackers(trackers), [trackers]);
+  const setPlan = (plan) => setTrackers((t) => ({ ...t, [plan.sectorId]: plan }));
+  const loadLevers = (targets) => {
+    setActiveScenario(null);
+    setBySector((s) => ({ ...s, [sectorId]: { ...baseLevers(sector), ...targets } }));
+  };
+  const importPlan = (plan) => {
+    setPlan(plan);
+    if (plan.sectorId !== sectorId) pickSector(plan.sectorId);
+  };
+  const deletePlan = () => setTrackers((t) => Object.fromEntries(Object.entries(t).filter(([k]) => k !== sectorId)));
+  const openExample = () => {
+    const plan = trackers.urbanServices ?? examplePlan();
+    setPlan(plan);
+    setActiveScenario(null);
+    setSectorId('urbanServices');
+    setBySector((s) => ({ ...s, urbanServices: { ...baseLevers(getSector('urbanServices')), ...plan.targets } }));
+    setTimeout(() => document.getElementById('vp-tracker')?.scrollIntoView({ block: 'start' }), 60);
+  };
 
   const setLever = (id, value) => {
     setActiveScenario(null);
@@ -128,7 +149,7 @@ export default function App() {
           {tab === 'pulse' && <PulseView />}
           {tab === 'market' && <MarketView />}
           {tab === 'entry' && <EntryView />}
-          {tab === 'value' && <ValuePlanView sector={sector} levers={levers} e={e} onNudge={nudge} onPickSector={pickSector} />}
+          {tab === 'value' && <ValuePlanView sector={sector} levers={levers} e={e} onNudge={nudge} onPickSector={pickSector} tracker={{ plan: trackers[sectorId] ?? null, onChange: setPlan, onImport: importPlan, onLoadLevers: loadLevers, onOpenExample: openExample, onDelete: deletePlan }} />}
         </div>
       </main>
       </Sparks>

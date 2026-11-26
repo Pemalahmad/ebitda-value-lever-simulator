@@ -3,8 +3,8 @@
 **A decision workspace for investing and creating value in Dubai: live market signals, official real-estate evidence, a UAE market-entry roadmap, operating value plans and a portfolio lab, all in one consistent design and every figure traceable to its source or its formula.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-75%20passing-1b9a59)
-![Checks](https://img.shields.io/badge/workbook%20checks-75-121212)
+![Tests](https://img.shields.io/badge/tests-87%20passing-1b9a59)
+![Checks](https://img.shields.io/badge/workbook%20checks-85-121212)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Engine](https://img.shields.io/badge/engine-zero%20dependencies-f05a28)
 ![License](https://img.shields.io/badge/license-MIT-blue)
@@ -37,10 +37,10 @@ An investment or strategy team in Dubai needs answers to five questions. Each ta
 | **Live Market** | What moved, and does it matter for a Dubai portfolio? | Headline chart, KPIs to watch with triggers, signal register, markets, shipping chokepoints, local news by theme, decision journal |
 | **Market Tracker** | How is Dubai real estate actually performing? | Official DLD value, volume and investors, volume-vs-price variance bridge, community ledger, scenario deck, DLD import lab |
 | **Market Entry** | What does it take to enter the UAE? | Regulator routing, company set-up procedure, VARA licensing stages, capital and fee calculator, cash-before-launch waterfall |
-| **Value Plan** | What is a business worth if we pull these levers? | EBITDA variance bridge, KPIs to watch, rolling 12 months, assumption sensitivity, balanced scorecard, business case, board memo |
+| **Value Plan** | What is a business worth if we pull these levers? | EBITDA variance bridge, KPIs to watch, rolling 12 months, assumption sensitivity, balanced scorecard, business case, board memo, 100-day value-creation tracker |
 | **Portfolio Lab** | What is the group worth, and what would a new company add? | Sum of the parts, intercompany eliminations, portfolio plays, new-company capex and opex case |
 
-A **Checks** button in the top bar runs 75 consistency checks across all five tabs and lists the data that is still missing.
+A **Checks** button in the top bar runs 85 consistency checks across all five tabs and lists the data that is still missing.
 
 ## The five tabs
 
@@ -88,7 +88,7 @@ Details: [docs/market-entry.md](docs/market-entry.md). A planning aid, not legal
 
 ### Value Plan
 
-Six illustrative operating models: real estate, hospitality, leisure, retail and asset management, community management, and integrated urban services. Move the levers on the left and a seven-section document recalculates.
+Six illustrative operating models: real estate, hospitality, leisure, retail and asset management, community management, and integrated urban services. Move the levers on the left and an eight-section document recalculates.
 
 1. **Value at stake:** five-year path of EBITDA, EV, value created or cash, with board confidence and the next best moves.
 2. **Variance bridge:** baseline-to-scenario EBITDA as a waterfall, by lever or by P&L line, beside the **KPIs to watch**.
@@ -97,10 +97,18 @@ Six illustrative operating models: real estate, hospitality, leisure, retail and
 5. **Balanced scorecard:** a ring per perspective and each KPI against its target.
 6. **Business case:** NPV, IRR and payback after 9% UAE corporate tax, yearly benefits and cumulative cash.
 7. **Board memo:** the decision on one page (verdict, value by initiative, risks, decisions requested). The full written memo is one click away.
+8. **100-day value-creation tracker:** the selected levers become an execution plan. Each initiative has a linked lever, an owner, start and due dates, Day 30/60/100 milestones and a status (Not started, On track, At risk, Late, Done).
+   - **Planned impact is never typed in.** It is the lever's run-rate EBITDA from the business case at the plan's lever targets, phased day by day along the lever's ramp from each initiative's start date.
+   - **Realised impact** is entered as actuals for each closed month.
+   - **Views:** an initiative register, a 100-day timeline, a planned-vs-realised EBITDA bridge (the same waterfall as the variance bridge) and a short list of risks to the plan: late milestones, past-due work and initiatives below 70%, 80% or 90% of plan.
+   - **Storage:** plans stay in this browser (localStorage), one per business, with CSV export and import.
+   - **Example plan:** a first visit opens a clearly labelled example built on the illustrative integrated urban services model. Its owners are model roles and its actuals are sample numbers.
 
 ![Value Plan](docs/screenshot-value.png)
 
 ![Variance bridge and KPIs to watch](docs/screenshot-variance.png)
+
+![100-day value-creation tracker](docs/screenshot-tracker.png)
 
 ### Portfolio Lab
 
@@ -159,13 +167,19 @@ Five editable templates: logistics hub, specialist clinic, F&B group, B2B softwa
 
 ### Workbook checks and missing data
 
-The **Checks** button runs 75 checks.
+The **Checks** button runs 85 checks.
 
 - **Operating models:**
   - lever ranges and scenario presets;
   - P&L lines adding up to EBITDA, and valuation;
   - both bridges reconciling and NPV recomputing;
   - rolling 12 months converging, margins and budget.
+- **100-day tracker (per saved plan):**
+  - every initiative is linked to a lever, and every planned lever has an initiative;
+  - start, due and milestone dates in order;
+  - planned impact equals the modelled lever value, and the planned-vs-realised bridge reconciles;
+  - realised never exceeds plan without a recorded explanation;
+  - actuals only for closed months, an owner for every initiative, status consistent with dates, and plan targets matching the Value Plan levers.
 - **Portfolio plays:** each play's value equals its lines.
 - **Market data:** years in order, every figure sourced, plausible tickets, unofficial periods flagged.
 - **Live snapshot:** series order, missing prices, freshness and source fallbacks.
@@ -199,7 +213,7 @@ npm run dev
 | Command | What it does |
 |---|---|
 | `npm run dev` | Development server |
-| `npm test` | 75 Node tests (engine, variance, checks, market, entry, pulse, API, security) |
+| `npm test` | 87 Node tests (engine, variance, checks, 100-day tracker, market, entry, pulse, API, security) |
 | `npm run check` | Tests plus the production build in `dist/` |
 | `npm start` | Serves the build and the JSON API |
 | `npm run pulse` | Refreshes the Live Market snapshot |
@@ -215,6 +229,7 @@ The URL hash holds the tab, the business and any changed levers, so a link reope
 #tab=pulse
 #s=realEstate&tab=value&units=2200&price=1900&cycle=26
 #s=hospitality&tab=value&occupancy=80&adr=1220
+#s=urbanServices&tab=tracker
 ```
 
 Older links to the former Simulator, Scorecard, Business Case and Memo tabs open the matching Value Plan section.
@@ -242,6 +257,7 @@ src/engine/              calculation engine (no dependencies)
   sectors/               six illustrative operating models
   variance.js            bridges, rolling 12 months, eliminations, sensitivity
   checks.js              logic checker and missing-data finder
+  tracker.js             100-day value-creation tracker, its checks and CSV
   newco.js               new-company capex and opex case
   entry.js               UAE market-entry rules, VARA fees and capital
   pulse.js               market signals, news themes, decision journal rules
@@ -251,7 +267,7 @@ data/market/             cited DLD aggregates (+ optional deal-level aggregate)
 data/pulse/              live market snapshot written by CI
 scripts/                 market refresh, DLD ingest, screenshot capture
 server/  bin/            static server and API; board-memo CLI
-tests/                   75 tests, including security
+tests/                   87 tests, including security
 docs/                    methods, user guide, screenshots
 ```
 

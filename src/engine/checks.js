@@ -6,10 +6,11 @@ import { bridge } from './analysis.js';
 import { businessCase, npv } from './businessCase.js';
 import { PLAYS, runPlay } from './plays.js';
 import { reconciles, lineBridge, rolling12 } from './variance.js';
+import { trackerChecks } from './tracker.js';
 
 const close = (a, b, tol = 1e-6) => Math.abs(a - b) <= tol * Math.max(1, Math.abs(a), Math.abs(b));
 
-export function logicChecks({ bySector = {}, plays = {}, official, pulse, now = Date.now() } = {}) {
+export function logicChecks({ bySector = {}, plays = {}, official, pulse, trackers = {}, now = Date.now() } = {}) {
   const out = [];
   const add = (area, title, ok, detail, level = 'fail') => out.push({ area, title, status: ok ? 'pass' : level, detail });
 
@@ -37,6 +38,13 @@ export function logicChecks({ bySector = {}, plays = {}, official, pulse, now = 
   for (const p of PLAYS) {
     const r = runPlay(p, plays[p.id]?.params);
     add('Portfolio plays', `${p.title}: value equals its bridge lines`, close(r.value, r.lines.reduce((a, l) => a + l.value, 0)), `${r.lines.length} lines.`);
+  }
+
+  // 100-day value-creation tracker: one block of checks per saved plan.
+  for (const plan of Object.values(trackers)) {
+    const s = SECTORS.find((x) => x.id === plan?.sectorId);
+    if (!s) continue;
+    for (const c of trackerChecks(s, plan, bySector[s.id])) add(`100-day tracker · ${s.name}`, c.title, c.ok, c.detail, c.level);
   }
 
   if (official) {

@@ -12,3 +12,4 @@ export * as fmt from './format.js';
 export { priceVolumeBridge, lineBridge, rolling12, consolidate, assumptionSummary, reconciles } from './variance.js';
 export { newcoPlan, newcoChecks, NEWCO_PRESETS, NEWCO_FIELDS } from './newco.js';
 export { logicChecks, dataGaps } from './checks.js';
+export { STATUSES, PLAN_MONTHS, WINDOW_DAYS, DEFAULT_THRESHOLD, trackPlan, trackerChecks, plannedByMonth, leverRunRates, planTargets, newPlan, rebasePlan, addInitiative, removeInitiative, updateInitiative, setActual, setMilestone, normalisePlan, planToCsv, planFromCsv, csvCell, examplePlan, EXAMPLE_TARGETS, dayNo, addDays, isIso } from './tracker.js';

@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.10.0 (2026-11-26): 100-day value-creation tracker
+
+- **Value Plan, section 8:** a 100-day tracker turns the selected levers into an execution plan.
+  - **Initiatives:** each one has a linked lever, an owner, start and due dates, Day 30/60/100 milestones and a status (Not started, On track, At risk, Late, Done).
+  - **Planned EBITDA** comes from the lever's run rate in the business case at the plan's targets, ramped from each start date. It is never retyped.
+  - **Realised EBITDA** is entered as actuals for each closed month.
+- **Views:**
+  - an initiative register;
+  - a 100-day timeline with milestones and the report date;
+  - a planned-vs-realised EBITDA bridge on the shared waterfall;
+  - risks to the plan: late milestones, past-due work, and initiatives below a 70%, 80% or 90% threshold.
+- **Storage:**
+  - plans are saved in the browser, one per business;
+  - CSV export and import, with formula-safe cells and full validation;
+  - a clearly labelled example plan built on the illustrative integrated urban services model.
+- **Workbook checks:** 10 new checks per plan, plus one that compares the plan's targets with the Value Plan levers when they are on screen.
+  - Hard checks: every initiative is linked to a lever, dates and milestones are in order, planned impact equals the model, realised never exceeds plan without a recorded explanation, and the bridge reconciles.
+  - Watch items: actuals only for closed months, an owner for every initiative, every planned lever covered, and a status that agrees with the dates.
+- `#tab=tracker` opens the tracker section.
+- 87 tests (new: planned-impact derivation, ramp phasing, risks, checks, CSV round trip and injection safety, stored-plan validation).
+
 ## 1.9.0 (2026-11-24): One palette, merged widgets, live plays
 
 - **One palette** in light and dark mode:

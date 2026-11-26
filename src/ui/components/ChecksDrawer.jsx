@@ -8,12 +8,12 @@ import PULSE from '../../../data/pulse/pulse.json';
 const optional = import.meta.glob('../../../data/market/dld-aggregate.json', { eager: true, import: 'default' });
 const AGG = Object.values(optional)[0] ?? null;
 
-export function useChecks(bySector, plays, intercompany) {
+export function useChecks(bySector, plays, intercompany, trackers) {
   return useMemo(() => {
-    const checks = logicChecks({ bySector, plays, official: OFFICIAL, pulse: PULSE });
+    const checks = logicChecks({ bySector, plays, official: OFFICIAL, pulse: PULSE, trackers });
     const gaps = dataGaps({ official: OFFICIAL, pulse: PULSE, aggregate: AGG, bySector, intercompany });
     return { checks, gaps, fails: checks.filter((c) => c.status === 'fail').length, warns: checks.filter((c) => c.status === 'warn').length };
-  }, [bySector, plays, intercompany]);
+  }, [bySector, plays, intercompany, trackers]);
 }
 
 export function ChecksButton({ result, onOpen }) {
