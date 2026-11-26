@@ -24,7 +24,7 @@
     "papercut": "node scripts/log-papercut.mjs"
   },
   "dependencies": {
-    "motion": "^12.43.0",
+    "motion": "^14.14.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
