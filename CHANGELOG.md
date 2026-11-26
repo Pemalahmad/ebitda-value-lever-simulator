@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.10.1 (2026-11-26): Agent guide, skills, ship-check and papercuts
+
+- **AGENTS.md:** a short guide for any contributor or coding agent: stack, commands, the release rule, security constraints and the one-palette design rule, plus two always-on rules (run ship-check before pushing; log papercuts).
+- **Skills** in `.agents/skills/`, each with a `spec.md` and a `SKILL.md`:
+  - `release`: version bump, changelog, README counts, screenshots and GIF, ship-check, commit, push, CI and the live-site check;
+  - `add-tab-feature`: engine module, golden tests, workbook checks, Dots view, share link, screenshot and docs.
+- **`npm run ship-check`:** one pass/fail line each for tests, dependency audit, build with its CSP tag, package and lock versions, the changelog entry, the README test count against the runner, every README image, the skill lint and commit hygiene on unpushed commits. `--fast` skips the audit and the build.
+- **`npm run lint:skills`:** ten pass/fail rules for skill folders, run in CI.
+- **`npm run papercut`:** logs friction (tried, expected, happened, suggested fix) to a local, uncommitted file; `--summary` groups it by area.
+- 111 tests (new: golden cases for the ship-check functions, a passing fixture and a failing fixture for every linter rule, the papercut log).
+
 ## 1.10.0 (2026-11-26): 100-day value-creation tracker
 
 - **Value Plan, section 8:** a 100-day tracker turns the selected levers into an execution plan.

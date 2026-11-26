@@ -3,7 +3,7 @@
 **A decision workspace for investing and creating value in Dubai: live market signals, official real-estate evidence, a UAE market-entry roadmap, operating value plans and a portfolio lab, all in one consistent design and every figure traceable to its source or its formula.**
 
 [![CI](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml/badge.svg)](https://github.com/Pemalahmad/ebitda-value-lever-simulator/actions/workflows/ci.yml)
-![Tests](https://img.shields.io/badge/tests-87%20passing-1b9a59)
+![Tests](https://img.shields.io/badge/tests-111%20passing-1b9a59)
 ![Checks](https://img.shields.io/badge/workbook%20checks-85-121212)
 ![Node](https://img.shields.io/badge/node-%E2%89%A520-339933)
 ![Engine](https://img.shields.io/badge/engine-zero%20dependencies-f05a28)
@@ -213,13 +213,28 @@ npm run dev
 | Command | What it does |
 |---|---|
 | `npm run dev` | Development server |
-| `npm test` | 87 Node tests (engine, variance, checks, 100-day tracker, market, entry, pulse, API, security) |
+| `npm test` | 111 Node tests (engine, variance, checks, 100-day tracker, market, entry, pulse, API, security, tooling) |
 | `npm run check` | Tests plus the production build in `dist/` |
 | `npm start` | Serves the build and the JSON API |
 | `npm run pulse` | Refreshes the Live Market snapshot |
 | `npm run memo` | Writes a board memo from the command line |
 | `node scripts/ingest-dld.mjs <csv>` | Builds the deal-level market aggregate from a DLD CSV |
 | `node scripts/capture.mjs --gif` | Regenerates the screenshots and demo GIF (needs Playwright) |
+| `npm run ship-check` | Pass/fail list before a push: tests, audit, build, versions, changelog, README counts and images, commit hygiene (`-- --fast` skips audit and build) |
+| `npm run lint:skills` | Lints the agent skills in `.agents/skills/` |
+| `npm run papercut -- --summary` | Shows logged developer friction, grouped by area |
+
+### Contributing and agent tooling
+
+[AGENTS.md](AGENTS.md) is the short guide for any contributor or coding agent: stack, commands, the release rule, security constraints and the design rule.
+
+- **Skills** in `.agents/skills/` are small folders in a tool-neutral format. Each has a `spec.md` (goal, outputs, required and forbidden actions) and a `SKILL.md` of numbered steps, each with one command and one check, plus an error-recovery table.
+  - `release`: version bump, changelog, README counts, screenshots, ship-check, push, CI, live-site check.
+  - `add-tab-feature`: engine function, golden tests, workbook checks, Dots view, share link, docs.
+- **Skill linter** (`scripts/lint-skills.mjs`, run in CI): fails a skill without a short "Use when" description, a body of 500 lines or fewer, numbered single-objective steps that each carry a command and a `Verify:` line, a specific error-recovery table, a complete `spec.md` and working links.
+- **Ship check** (`scripts/ship-check.mjs`): the deterministic release checks as one command with a one-line result per check.
+- **Papercuts** (`scripts/log-papercut.mjs`): one line records what was tried, expected, what happened and the suggested fix in `.papercuts/log.jsonl` (not committed).
+- Golden tests cover the ship-check functions, every linter rule (one passing fixture and one failing fixture per rule) and the papercut log.
 
 ## Share links, CLI and API
 
@@ -250,7 +265,7 @@ After `npm run build && npm start`: `GET /api/health`, `GET /api/sectors`, `POST
   - dot-matrix line charts with hover read-outs, and waterfalls;
   - dot rings, folder tabs and status chips.
 - **Palette:** one set of tokens drives every widget in light and dark mode: **Cloudy White** `#F0F0F0` canvas, **Galactic Violet** `#105BFF` accent, **Bubblegum** `#FE8500` touches (status dots, section index, critical path, live highlights), with green and red kept for gains and losses.
-- **CI** (`.github/workflows/ci.yml`): tests, refreshes market data on a 6-hour schedule, builds and deploys to GitHub Pages.
+- **CI** (`.github/workflows/ci.yml`): tests, lints the agent skills, refreshes market data on a 6-hour schedule, builds and deploys to GitHub Pages.
 
 ```text
 src/engine/              calculation engine (no dependencies)
@@ -265,9 +280,10 @@ src/engine/              calculation engine (no dependencies)
 src/ui/components/       tabs and the shared design components
 data/market/             cited DLD aggregates (+ optional deal-level aggregate)
 data/pulse/              live market snapshot written by CI
-scripts/                 market refresh, DLD ingest, screenshot capture
+scripts/                 market refresh, DLD ingest, screenshot capture, ship-check, skill linter, papercuts
+.agents/skills/          agent skills: release, add-tab-feature
 server/  bin/            static server and API; board-memo CLI
-tests/                   87 tests, including security
+tests/                   111 tests, including security and tooling
 docs/                    methods, user guide, screenshots
 ```
 
